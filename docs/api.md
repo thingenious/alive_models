@@ -63,7 +63,7 @@ print(response.json())
 #             "name": "segments",
 #             "datatype": "BYTES",
 #             "shape": [1],
-#             "data": ["[{\"id\": 1, \"seek\": 10, \"start\": 0.0, \"end\": 1.0, \"text\": \"hello\", \"tokens\": [1, 2, 3, 4, 5], \"temperature\": 0.0, \"avg_logprob\": -0.1140624976158142, \"compression_ratio\": 1.0, \"no_speech_prob\": 0.0011053085327148438, \"words\": [[0.0, 0.5, \"hello\", 0.98095703125], [0.5, 1.0, \"world\", 0.99951171875]]}]"]
+#             "data": ["[{\"id\": 1, \"seek\": 10, \"start\": 0.0, \"end\": 1.0, \"text\": \"hello\", \"tokens\": [1, 2, 3, 4, 5], \"temperature\": 0.0, \"avg_logprob\": -0.1140624976158142, \"compression_ratio\": 1.0, \"no_speech_prob\": 0.0011053085327148438, \"words\": [{\"start\": 0.0, \"end\": 0.6, \"word\": \"Hello\", \"probability\": 0.96728515625}, {\"start\": 0.7, \"end\": 1.2, \"word\": \"World\", \"probability\": 0.99755859375]"]
 #         }
 #     ]
 # }
