@@ -11,9 +11,7 @@ One or more of the models can be used to analyze audio, text, and images.
 You can find examples of each case in the [./examples](examples) directory.
 A short capture of an example that uses all the models can be seen below:
 
-<video controls>
-  <source src="docs/demo.mp4" type="video/mp4">
-</video>
+<video src="https://github.com/thingenious/alive_models/assets/4764837/d20516d5-6afe-415b-93f5-b4e264d5f0e8" type="video/mp4"></video>
 
 ## Models
 
