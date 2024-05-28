@@ -10,6 +10,7 @@ from typing import Any, Dict, List, Tuple
 import numpy as np
 import torch
 from faster_whisper import WhisperModel
+from faster_whisper.transcribe import Segment
 from numpy.typing import NDArray
 
 # pylint: disable=import-error,broad-except,too-many-try-statements
@@ -64,6 +65,16 @@ def _to_string(thing: Any) -> str:
 # prefix: Optional[Union[str, List[int]]] = None  # to prefix the current context
 
 
+def _segments_to_dicts(segments: List[Segment]) -> List[Dict[str, Any]]:
+    """Convert segments to dictionaries."""
+    dicts = []
+    for segment in segments:
+        segment_dict = segment._asdict()
+        segment_dict["words"] = [word._asdict() for word in segment.words]
+        dicts.append(segment_dict)
+    return dicts
+
+
 def get_transcription(audio_data: NDArray[Any], initial_prompt: str) -> Tuple[str, str]:
     """Transcribe audio data."""
     _initial_prompt: str | None = None
@@ -87,7 +98,7 @@ def get_transcription(audio_data: NDArray[Any], initial_prompt: str) -> Tuple[st
         )
         segments = list(segments_iter)
         text = "".join([segment.text for segment in segments])
-        segment_dicts = [segment._asdict() for segment in segments]
+        segment_dicts = _segments_to_dicts(segments)
         segments_dump = json.dumps(segment_dicts, ensure_ascii=False).encode("utf-8").decode("utf-8")
     return text, segments_dump
 
