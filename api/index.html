@@ -1,0 +1,1343 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="ALIVE Models deployment using pytriton">
+      
+      
+      
+        <link rel="canonical" href="https://thingenious.github.io/alive_models/api/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../models/">
+      
+      
+      <link rel="icon" href="../static/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
+    
+    
+      
+        <title>API - ALIVE Models</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        
+        <link rel="stylesheet" href="../assets/external/fonts.googleapis.com/css.49ea35f2.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../static/css/termynal.css">
+    
+      <link rel="stylesheet" href="../static/css/custom.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="ALIVE Models" class="md-header__button md-logo" aria-label="ALIVE Models" data-md-component="logo">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="4096"
+   height="4096"
+   viewBox="0 0 4096 4096"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <g
+     id="layer1">
+    <g
+       id="layer1-36"
+       style="display:inline"
+       transform="matrix(7.5552384,0,0,6.9177431,-0.88335251,-1647.0769)">
+      <g
+         id="layer5"
+         style="display:inline"
+         transform="matrix(0.13229167,0,0,0.13229167,7.0577405e-6,466.46042)">
+        <rect
+           style="display:inline;fill:#233c6a;fill-opacity:1;stroke:#233c6a;stroke-width:0.95994;stroke-opacity:1"
+           id="rect3088"
+           width="2456.8203"
+           height="2474.9897"
+           x="1229.1344"
+           y="-1261.5872"
+           transform="matrix(0.82516427,0.56489285,-0.83520581,0.54993749,0,0)" />
+        <ellipse
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1740"
+           cx="2029.1056"
+           cy="3128.3176"
+           rx="190.5025"
+           ry="203.11325"
+           transform="translate(0,-826)" />
+        <ellipse
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1742"
+           cx="3313.1924"
+           cy="2201.2678"
+           rx="190.5025"
+           ry="203.11325"
+           transform="translate(0,-826)" />
+        <ellipse
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1744"
+           cx="2703.0237"
+           cy="2688.6858"
+           rx="190.5025"
+           ry="203.11325"
+           transform="translate(0,-826)" />
+        <ellipse
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1746"
+           cx="2053.3911"
+           cy="1357.0466"
+           rx="190.5025"
+           ry="203.11325"
+           transform="translate(0,-826)" />
+        <ellipse
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1748"
+           cx="802.69641"
+           cy="2204.4531"
+           rx="190.5025"
+           ry="203.11325"
+           transform="translate(0,-826)" />
+        <ellipse
+           id="ellipse1750"
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:2.14608;stroke-opacity:1"
+           cx="807.43146"
+           cy="2226.6682"
+           rx="24.071495"
+           ry="25.261515"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 807.43172,2204.3679 2027.769,3137.7895"
+           id="path1752"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 819.57433,2217.1108 c 1891.21937,465.118 1891.21937,465.118 1891.21937,465.118"
+           id="path1754"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 810.46733,2197.9964 c 2507.45937,-6.3716 2507.45937,-6.3716 2507.45937,-6.3716"
+           id="path1756"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 819.57433,2194.8106 C 2058.1256,1337.847 2058.1256,1337.847 2058.1256,1337.847"
+           id="path1758"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 2061.1613,1350.5898 c 1247.6585,831.4779 1247.6585,831.4779 1247.6585,831.4779"
+           id="path1760"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 2055.0901,1344.2183 C 2704.7224,2666.3 2704.7224,2666.3 2704.7224,2666.3"
+           id="path1762"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 2036.8759,3121.8607 c 12.1429,-1742.5992 12.1429,-1742.5992 12.1429,-1742.5992"
+           id="path1764"
+           transform="translate(0,-826)" />
+      </g>
+      <g
+         id="layer4"
+         transform="matrix(0.13229167,0,0,0.13229167,7.0577405e-6,357.18749)"
+         style="display:inline">
+        <rect
+           style="display:inline;fill:#4877cd;fill-opacity:1;stroke:#4877cd;stroke-width:0.95994;stroke-opacity:1"
+           id="rect3049"
+           width="2456.8203"
+           height="2474.9897"
+           x="1229.1344"
+           y="-1261.5872"
+           transform="matrix(0.82516427,0.56489285,-0.83520581,0.54993749,0,0)" />
+        <ellipse
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1544"
+           cx="2020.9084"
+           cy="2226.6365"
+           rx="190.5025"
+           ry="203.11325" />
+        <ellipse
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1546"
+           cx="3304.9954"
+           cy="1299.5865"
+           rx="190.5025"
+           ry="203.11325" />
+        <ellipse
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1548"
+           cx="2694.8267"
+           cy="1787.0045"
+           rx="190.5025"
+           ry="203.11325" />
+        <ellipse
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1550"
+           cx="2045.1941"
+           cy="455.36539"
+           rx="190.5025"
+           ry="203.11325" />
+        <ellipse
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1552"
+           cx="794.49933"
+           cy="1302.772"
+           rx="190.5025"
+           ry="203.11325" />
+        <ellipse
+           id="circle1554"
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:2.14608;stroke-opacity:1"
+           cx="799.23438"
+           cy="1324.9871"
+           rx="24.071495"
+           ry="25.261515" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 799.23462,1302.6867 2019.5719,2236.1083"
+           id="path1556" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 811.37723,1315.4296 c 1891.21937,465.118 1891.21937,465.118 1891.21937,465.118"
+           id="path1558" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 802.27023,1296.3152 c 2507.45937,-6.3716 2507.45937,-6.3716 2507.45937,-6.3716"
+           id="path1560" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 811.37723,1293.1294 C 2049.9285,436.16577 2049.9285,436.16577 2049.9285,436.16577"
+           id="path1562" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 2052.9642,448.9086 c 1247.6585,831.4779 1247.6585,831.4779 1247.6585,831.4779"
+           id="path1564" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 2046.893,442.53714 C 2696.5253,1764.6188 2696.5253,1764.6188 2696.5253,1764.6188"
+           id="path1566" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 2028.6788,2220.1795 C 2040.8217,477.58027 2040.8217,477.58027 2040.8217,477.58027"
+           id="path1568" />
+      </g>
+      <g
+         id="layer1-3"
+         style="display:inline"
+         transform="matrix(0.13229167,0,0,0.13229167,7.0577405e-6,238.12494)">
+        <rect
+           style="display:inline;fill:#bcd0f1;fill-opacity:1;stroke:#bdd1f2;stroke-width:0.95994;stroke-opacity:1"
+           id="rect111"
+           width="2456.8203"
+           height="2474.9897"
+           x="1229.1344"
+           y="-1261.5872"
+           transform="matrix(0.82516427,0.56489285,-0.83520581,0.54993749,0,0)" />
+        <ellipse
+           style="display:inline;fill:#495970;fill-opacity:1;stroke:#495970;stroke-width:1.83605;stroke-opacity:1"
+           id="circle1736"
+           cx="2047.3435"
+           cy="2200.7117"
+           rx="181.87047"
+           ry="184.77509" />
+        <ellipse
+           style="display:inline;fill:#495970;fill-opacity:1;stroke:#495970;stroke-width:1.83605;stroke-opacity:1"
+           id="ellipse577"
+           cx="3273.2454"
+           cy="1357.3607"
+           rx="181.87047"
+           ry="184.77509" />
+        <ellipse
+           style="display:inline;fill:#495970;fill-opacity:1;stroke:#495970;stroke-width:1.83605;stroke-opacity:1"
+           id="ellipse579"
+           cx="2690.7246"
+           cy="1800.772"
+           rx="181.87047"
+           ry="184.77509" />
+        <ellipse
+           style="display:inline;fill:#495970;fill-opacity:1;stroke:#495970;stroke-width:1.83605;stroke-opacity:1"
+           id="ellipse581"
+           cx="2070.5283"
+           cy="589.36066"
+           rx="181.87047"
+           ry="184.77509" />
+        <ellipse
+           style="display:inline;fill:#495970;fill-opacity:1;stroke:#495970;stroke-width:1.83605;stroke-opacity:1"
+           id="ellipse583"
+           cx="876.50574"
+           cy="1360.2588"
+           rx="181.87047"
+           ry="184.77509" />
+        <circle
+           id="path712"
+           style="fill:#495970;stroke:#495970;stroke-width:2"
+           cx="881.02631"
+           cy="1380.468"
+           r="22.980768" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 881.02632,1360.1812 2046.0678,2209.3284"
+           id="path779" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 892.61876,1371.7736 C 2698.1432,1794.8982 2698.1432,1794.8982 2698.1432,1794.8982"
+           id="path1401" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 883.92442,1354.385 c 2393.84138,-5.7964 2393.84138,-5.7964 2393.84138,-5.7964"
+           id="path1403" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 892.61876,1351.4868 C 2075.0488,571.89447 2075.0488,571.89447 2075.0488,571.89447"
+           id="path1405" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 2077.947,583.48687 C 3269.0716,1339.8944 3269.0716,1339.8944 3269.0716,1339.8944"
+           id="path1407" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 2072.1508,577.69067 C 2692.347,1780.4076 2692.347,1780.4076 2692.347,1780.4076"
+           id="path1409" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 2054.762,2194.8378 C 2066.3546,609.56987 2066.3546,609.56987 2066.3546,609.56987"
+           id="path1411" />
+      </g>
+    </g>
+  </g>
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ALIVE Models
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/thingenious/alive_models.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2.6 10.59 8.38 4.8l1.69 1.7c-.24.85.15 1.78.93 2.23v5.54c-.6.34-1 .99-1 1.73a2 2 0 0 0 2 2 2 2 0 0 0 2-2c0-.74-.4-1.39-1-1.73V9.41l2.07 2.09c-.07.15-.07.32-.07.5a2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2c-.18 0-.35 0-.5.07L13.93 7.5a1.98 1.98 0 0 0-1.15-2.34c-.43-.16-.88-.2-1.28-.09L9.8 3.38l.79-.78c.78-.79 2.04-.79 2.82 0l7.99 7.99c.79.78.79 2.04 0 2.82l-7.99 7.99c-.78.79-2.04.79-2.82 0L2.6 13.41c-.79-.78-.79-2.04 0-2.82Z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    thingenious/alive-models
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="ALIVE Models" class="md-nav__button md-logo" aria-label="ALIVE Models" data-md-component="logo">
+      
+  
+  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="4096"
+   height="4096"
+   viewBox="0 0 4096 4096"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <g
+     id="layer1">
+    <g
+       id="layer1-36"
+       style="display:inline"
+       transform="matrix(7.5552384,0,0,6.9177431,-0.88335251,-1647.0769)">
+      <g
+         id="layer5"
+         style="display:inline"
+         transform="matrix(0.13229167,0,0,0.13229167,7.0577405e-6,466.46042)">
+        <rect
+           style="display:inline;fill:#233c6a;fill-opacity:1;stroke:#233c6a;stroke-width:0.95994;stroke-opacity:1"
+           id="rect3088"
+           width="2456.8203"
+           height="2474.9897"
+           x="1229.1344"
+           y="-1261.5872"
+           transform="matrix(0.82516427,0.56489285,-0.83520581,0.54993749,0,0)" />
+        <ellipse
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1740"
+           cx="2029.1056"
+           cy="3128.3176"
+           rx="190.5025"
+           ry="203.11325"
+           transform="translate(0,-826)" />
+        <ellipse
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1742"
+           cx="3313.1924"
+           cy="2201.2678"
+           rx="190.5025"
+           ry="203.11325"
+           transform="translate(0,-826)" />
+        <ellipse
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1744"
+           cx="2703.0237"
+           cy="2688.6858"
+           rx="190.5025"
+           ry="203.11325"
+           transform="translate(0,-826)" />
+        <ellipse
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1746"
+           cx="2053.3911"
+           cy="1357.0466"
+           rx="190.5025"
+           ry="203.11325"
+           transform="translate(0,-826)" />
+        <ellipse
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1748"
+           cx="802.69641"
+           cy="2204.4531"
+           rx="190.5025"
+           ry="203.11325"
+           transform="translate(0,-826)" />
+        <ellipse
+           id="ellipse1750"
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:2.14608;stroke-opacity:1"
+           cx="807.43146"
+           cy="2226.6682"
+           rx="24.071495"
+           ry="25.261515"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 807.43172,2204.3679 2027.769,3137.7895"
+           id="path1752"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 819.57433,2217.1108 c 1891.21937,465.118 1891.21937,465.118 1891.21937,465.118"
+           id="path1754"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 810.46733,2197.9964 c 2507.45937,-6.3716 2507.45937,-6.3716 2507.45937,-6.3716"
+           id="path1756"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 819.57433,2194.8106 C 2058.1256,1337.847 2058.1256,1337.847 2058.1256,1337.847"
+           id="path1758"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 2061.1613,1350.5898 c 1247.6585,831.4779 1247.6585,831.4779 1247.6585,831.4779"
+           id="path1760"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 2055.0901,1344.2183 C 2704.7224,2666.3 2704.7224,2666.3 2704.7224,2666.3"
+           id="path1762"
+           transform="translate(0,-826)" />
+        <path
+           style="display:inline;fill:#ecf1f8;fill-opacity:1;stroke:#ecf1f8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 2036.8759,3121.8607 c 12.1429,-1742.5992 12.1429,-1742.5992 12.1429,-1742.5992"
+           id="path1764"
+           transform="translate(0,-826)" />
+      </g>
+      <g
+         id="layer4"
+         transform="matrix(0.13229167,0,0,0.13229167,7.0577405e-6,357.18749)"
+         style="display:inline">
+        <rect
+           style="display:inline;fill:#4877cd;fill-opacity:1;stroke:#4877cd;stroke-width:0.95994;stroke-opacity:1"
+           id="rect3049"
+           width="2456.8203"
+           height="2474.9897"
+           x="1229.1344"
+           y="-1261.5872"
+           transform="matrix(0.82516427,0.56489285,-0.83520581,0.54993749,0,0)" />
+        <ellipse
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1544"
+           cx="2020.9084"
+           cy="2226.6365"
+           rx="190.5025"
+           ry="203.11325" />
+        <ellipse
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1546"
+           cx="3304.9954"
+           cy="1299.5865"
+           rx="190.5025"
+           ry="203.11325" />
+        <ellipse
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1548"
+           cx="2694.8267"
+           cy="1787.0045"
+           rx="190.5025"
+           ry="203.11325" />
+        <ellipse
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1550"
+           cx="2045.1941"
+           cy="455.36539"
+           rx="190.5025"
+           ry="203.11325" />
+        <ellipse
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:1.97016;stroke-opacity:1"
+           id="ellipse1552"
+           cx="794.49933"
+           cy="1302.772"
+           rx="190.5025"
+           ry="203.11325" />
+        <ellipse
+           id="circle1554"
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:2.14608;stroke-opacity:1"
+           cx="799.23438"
+           cy="1324.9871"
+           rx="24.071495"
+           ry="25.261515" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 799.23462,1302.6867 2019.5719,2236.1083"
+           id="path1556" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 811.37723,1315.4296 c 1891.21937,465.118 1891.21937,465.118 1891.21937,465.118"
+           id="path1558" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 802.27023,1296.3152 c 2507.45937,-6.3716 2507.45937,-6.3716 2507.45937,-6.3716"
+           id="path1560" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 811.37723,1293.1294 C 2049.9285,436.16577 2049.9285,436.16577 2049.9285,436.16577"
+           id="path1562" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 2052.9642,448.9086 c 1247.6585,831.4779 1247.6585,831.4779 1247.6585,831.4779"
+           id="path1564" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 2046.893,442.53714 C 2696.5253,1764.6188 2696.5253,1764.6188 2696.5253,1764.6188"
+           id="path1566" />
+        <path
+           style="display:inline;fill:#c9c8c8;fill-opacity:1;stroke:#c9c8c8;stroke-width:128.765;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 2028.6788,2220.1795 C 2040.8217,477.58027 2040.8217,477.58027 2040.8217,477.58027"
+           id="path1568" />
+      </g>
+      <g
+         id="layer1-3"
+         style="display:inline"
+         transform="matrix(0.13229167,0,0,0.13229167,7.0577405e-6,238.12494)">
+        <rect
+           style="display:inline;fill:#bcd0f1;fill-opacity:1;stroke:#bdd1f2;stroke-width:0.95994;stroke-opacity:1"
+           id="rect111"
+           width="2456.8203"
+           height="2474.9897"
+           x="1229.1344"
+           y="-1261.5872"
+           transform="matrix(0.82516427,0.56489285,-0.83520581,0.54993749,0,0)" />
+        <ellipse
+           style="display:inline;fill:#495970;fill-opacity:1;stroke:#495970;stroke-width:1.83605;stroke-opacity:1"
+           id="circle1736"
+           cx="2047.3435"
+           cy="2200.7117"
+           rx="181.87047"
+           ry="184.77509" />
+        <ellipse
+           style="display:inline;fill:#495970;fill-opacity:1;stroke:#495970;stroke-width:1.83605;stroke-opacity:1"
+           id="ellipse577"
+           cx="3273.2454"
+           cy="1357.3607"
+           rx="181.87047"
+           ry="184.77509" />
+        <ellipse
+           style="display:inline;fill:#495970;fill-opacity:1;stroke:#495970;stroke-width:1.83605;stroke-opacity:1"
+           id="ellipse579"
+           cx="2690.7246"
+           cy="1800.772"
+           rx="181.87047"
+           ry="184.77509" />
+        <ellipse
+           style="display:inline;fill:#495970;fill-opacity:1;stroke:#495970;stroke-width:1.83605;stroke-opacity:1"
+           id="ellipse581"
+           cx="2070.5283"
+           cy="589.36066"
+           rx="181.87047"
+           ry="184.77509" />
+        <ellipse
+           style="display:inline;fill:#495970;fill-opacity:1;stroke:#495970;stroke-width:1.83605;stroke-opacity:1"
+           id="ellipse583"
+           cx="876.50574"
+           cy="1360.2588"
+           rx="181.87047"
+           ry="184.77509" />
+        <circle
+           id="path712"
+           style="fill:#495970;stroke:#495970;stroke-width:2"
+           cx="881.02631"
+           cy="1380.468"
+           r="22.980768" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 881.02632,1360.1812 2046.0678,2209.3284"
+           id="path779" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 892.61876,1371.7736 C 2698.1432,1794.8982 2698.1432,1794.8982 2698.1432,1794.8982"
+           id="path1401" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="m 883.92442,1354.385 c 2393.84138,-5.7964 2393.84138,-5.7964 2393.84138,-5.7964"
+           id="path1403" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 892.61876,1351.4868 C 2075.0488,571.89447 2075.0488,571.89447 2075.0488,571.89447"
+           id="path1405" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 2077.947,583.48687 C 3269.0716,1339.8944 3269.0716,1339.8944 3269.0716,1339.8944"
+           id="path1407" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 2072.1508,577.69067 C 2692.347,1780.4076 2692.347,1780.4076 2692.347,1780.4076"
+           id="path1409" />
+        <path
+           style="fill:none;stroke:#495970;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+           d="M 2054.762,2194.8378 C 2066.3546,609.56987 2066.3546,609.56987 2066.3546,609.56987"
+           id="path1411" />
+      </g>
+    </g>
+  </g>
+</svg>
+
+    </a>
+    ALIVE Models
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/thingenious/alive_models.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2.6 10.59 8.38 4.8l1.69 1.7c-.24.85.15 1.78.93 2.23v5.54c-.6.34-1 .99-1 1.73a2 2 0 0 0 2 2 2 2 0 0 0 2-2c0-.74-.4-1.39-1-1.73V9.41l2.07 2.09c-.07.15-.07.32-.07.5a2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2c-.18 0-.35 0-.5.07L13.93 7.5a1.98 1.98 0 0 0-1.15-2.34c-.43-.16-.88-.2-1.28-.09L9.8 3.38l.79-.78c.78-.79 2.04-.79 2.82 0l7.99 7.99c.79.78.79 2.04 0 2.82l-7.99 7.99c-.78.79-2.04.79-2.82 0L2.6 13.41c-.79-.78-.79-2.04 0-2.82Z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    thingenious/alive-models
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ALIVE Models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    API
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rest-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      REST Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="REST Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#asr-automatic-speech-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      ASR (Automatic Speech Recognition)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ser-speech-emotion-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      SER (Speech Emotion Recognition)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fer-facial-emotion-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      FER (Facial Emotion Recognition)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nlp-natural-language-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      NLP (Natural Language Processing)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Models
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rest-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      REST Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="REST Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#asr-automatic-speech-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      ASR (Automatic Speech Recognition)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ser-speech-emotion-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      SER (Speech Emotion Recognition)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fer-facial-emotion-recognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      FER (Facial Emotion Recognition)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nlp-natural-language-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      NLP (Natural Language Processing)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="api">API</h1>
+<p>For details on all the available endpoints, you can refer to the <a href="https://github.com/kserve/kserve/blob/master/docs/predict-api/v2/required_api.md">standard inference protocols</a> and the <a href="https://triton-inference-server.github.io/pytriton/latest/">PyTriton</a> docs.</p>
+<h2 id="rest-examples">REST Examples</h2>
+<p>Some examples of how to use the REST API are shown below.</p>
+<h3 id="asr-automatic-speech-recognition">ASR (Automatic Speech Recognition)</h3>
+<p>URL: <code>/v2/models/asr/versions/1/infer</code><br />
+Input Names:</p>
+<ul>
+<li><code>data</code>: Base64 encoded audio data (of wav in 16-bit PCM format)</li>
+<li><code>initial_prompt</code>: Initial prompt for the ASR model (can be an empty string)</li>
+</ul>
+<p>Output Names:</p>
+<ul>
+<li><code>text</code>: Transcription of the audio</li>
+<li><code>segments</code>: Segments of the audio with timestamps and words</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">httpx</span>
+
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">}</span>
+<span class="n">initial_prompt</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="n">audio_data</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;path/to/audio.wav&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">b64_audio_data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">audio_data</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<span class="n">request_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;datatype&quot;</span><span class="p">:</span> <span class="s2">&quot;BYTES&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">b64_audio_data</span><span class="p">]},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;initial_prompt&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;datatype&quot;</span><span class="p">:</span> <span class="s2">&quot;BYTES&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">initial_prompt</span><span class="p">]},</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000/v2/models/asr/versions/1/infer&quot;</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+    <span class="n">url</span><span class="p">,</span>
+    <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+    <span class="n">content</span><span class="o">=</span><span class="n">request_data</span><span class="p">,</span>
+    <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+<span class="c1"># Example Output:</span>
+<span class="c1"># {</span>
+<span class="c1">#     &quot;id&quot;: &quot;1&quot;,</span>
+<span class="c1">#     &quot;model_name&quot;: &quot;asr&quot;,</span>
+<span class="c1">#     &quot;model_version&quot;: &quot;1&quot;,</span>
+<span class="c1">#     &quot;outputs&quot;: [</span>
+<span class="c1">#         {</span>
+<span class="c1">#             &quot;name&quot;: &quot;text&quot;,</span>
+<span class="c1">#             &quot;datatype&quot;: &quot;BYTES&quot;,</span>
+<span class="c1">#             &quot;shape&quot;: [1],</span>
+<span class="c1">#             &quot;data&quot;: [&quot;hello world&quot;]</span>
+<span class="c1">#         },</span>
+<span class="c1">#         {</span>
+<span class="c1">#             &quot;name&quot;: &quot;segments&quot;,</span>
+<span class="c1">#             &quot;datatype&quot;: &quot;BYTES&quot;,</span>
+<span class="c1">#             &quot;shape&quot;: [1],</span>
+<span class="c1">#             &quot;data&quot;: [&quot;[{\&quot;id\&quot;: 1, \&quot;seek\&quot;: 10, \&quot;start\&quot;: 0.0, \&quot;end\&quot;: 1.0, \&quot;text\&quot;: \&quot;hello\&quot;, \&quot;tokens\&quot;: [1, 2, 3, 4, 5], \&quot;temperature\&quot;: 0.0, \&quot;avg_logprob\&quot;: -0.1140624976158142, \&quot;compression_ratio\&quot;: 1.0, \&quot;no_speech_prob\&quot;: 0.0011053085327148438, \&quot;words\&quot;: [[0.0, 0.5, \&quot;hello\&quot;, 0.98095703125], [0.5, 1.0, \&quot;world\&quot;, 0.99951171875]]}]&quot;]</span>
+<span class="c1">#         }</span>
+<span class="c1">#     ]</span>
+<span class="c1"># }</span>
+</code></pre></div>
+<h3 id="ser-speech-emotion-recognition">SER (Speech Emotion Recognition)</h3>
+<p>URL: <code>/v2/models/ser/versions/1/infer</code></p>
+<p>Input Names:</p>
+<ul>
+<li><code>data</code>: Base64 encoded audio data (of wav in 16-bit PCM format)</li>
+</ul>
+<p>Output Names:</p>
+<ul>
+<li><code>label</code>: Emotion label</li>
+<li><code>score</code>: Confidence score</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># ...</span>
+<span class="n">request_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;16&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;datatype&quot;</span><span class="p">:</span> <span class="s2">&quot;BYTES&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">b64_audio_data</span><span class="p">]},</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000/v2/models/ser/versions/1/infer&quot;</span>
+<span class="c1"># ...</span>
+<span class="c1"># Example Output:</span>
+<span class="c1">#</span>
+<span class="c1"># {</span>
+<span class="c1">#     &quot;id&quot;: &quot;16&quot;</span>
+<span class="c1">#     &quot;model_name&quot;: &quot;ser&quot;,</span>
+<span class="c1">#     &quot;model_version&quot;: &quot;1&quot;,</span>
+<span class="c1">#     &quot;outputs&quot;: [</span>
+<span class="c1">#         {</span>
+<span class="c1">#             &quot;name&quot;: &quot;label&quot;,</span>
+<span class="c1">#             &quot;datatype&quot;: &quot;BYTES&quot;,</span>
+<span class="c1">#             &quot;shape&quot;: [1],</span>
+<span class="c1">#             &quot;data&quot;: [&quot;happy&quot;]</span>
+<span class="c1">#         },</span>
+<span class="c1">#         {</span>
+<span class="c1">#             &quot;name&quot;: &quot;score&quot;,</span>
+<span class="c1">#             &quot;datatype&quot;: &quot;FP32&quot;,</span>
+<span class="c1">#             &quot;shape&quot;: [],</span>
+<span class="c1">#             &quot;data&quot;: [0.8824779987335205]</span>
+<span class="c1">#         }</span>
+<span class="c1">#     ]</span>
+<span class="c1"># }</span>
+</code></pre></div>
+<h3 id="fer-facial-emotion-recognition">FER (Facial Emotion Recognition)</h3>
+<p>URL: <code>/v2/models/fer/versions/1/infer</code></p>
+<p>Input Names:</p>
+<ul>
+<li><code>data</code>: Base64 encoded image data (of jpg/png format)</li>
+</ul>
+<p>Output Names:</p>
+<ul>
+<li><code>label</code>: Emotion label</li>
+<li><code>score</code>: Confidence score</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># ...</span>
+<span class="n">image_data</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;path/to/image.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">b64_image_data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">image_data</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<span class="n">request_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">],</span> <span class="s2">&quot;datatype&quot;</span><span class="p">:</span> <span class="s2">&quot;BYTES&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">b64_image_data</span><span class="p">]},</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000/v2/models/fer/versions/1/infer&quot;</span>
+<span class="c1"># ...</span>
+<span class="c1"># Same output format as above (label and score)</span>
+</code></pre></div>
+<h3 id="nlp-natural-language-processing">NLP (Natural Language Processing)</h3>
+<p>URL: <code>/v2/models/nlp/versions/1/infer</code></p>
+<p>Input Names:</p>
+<ul>
+<li><code>text</code>: Text data</li>
+</ul>
+<p>Output Names:</p>
+<ul>
+<li><code>label</code>: Emotion label</li>
+<li><code>score</code>: Confidence score</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># ...</span>
+<span class="n">text_data</span> <span class="o">=</span> <span class="s2">&quot;I am very happy today!&quot;</span>
+<span class="n">request_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;datatype&quot;</span><span class="p">:</span> <span class="s2">&quot;BYTES&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">text_data</span><span class="p">]},</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000/v2/models/nlp/versions/1/infer&quot;</span>
+<span class="c1"># ...</span>
+<span class="c1"># Same output format as above (label and score)</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Thingenious
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.indexes"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.081f42fc.min.js"></script>
+      
+        <script src="../static/js/termynal.js"></script>
+      
+        <script src="../static/js/custom.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>
