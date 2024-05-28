@@ -1,0 +1,101 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ template "selector.name" . }}
+    release: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "selector.name" . }}
+  replicas: {{ .Values.deployment.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "selector.name" . }}
+    spec:
+      restartPolicy: {{ .Values.deployment.restartPolicy }}{{ if .Values.deployment.image.pullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.deployment.image.pullSecret }}{{ end }}
+      containers:
+        - name: {{ .Release.Name }}-container
+          image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
+          imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
+          ports:{{ if .Values.env.ALIVE_MODELS_ALLOW_HTTP }}
+            - name: http
+              containerPort: {{ .Values.env.ALIVE_MODELS_HTTP_PORT }}{{ end }}{{ if .Values.env.ALIVE_MODELS_ALLOW_GRPC }}
+            - name: grpc
+              containerPort: {{ .Values.env.ALIVE_MODELS_GRPC_PORT }}{{ end }}{{ if .Values.env.ALIVE_MODELS_ALLOW_METRICS }}
+            - name: metrics
+              containerPort: {{ .Values.env.ALIVE_MODELS_METRICS_PORT }}{{ end }}{{ if .Values.env.ALIVE_MODELS_ALLOW_SAGEMAKER }}
+            - name: sagemaker
+              containerPort: {{ .Values.env.ALIVE_MODELS_SAGEMAKER_PORT }}{{ end }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-configmap
+          resources:
+            requests:
+              memory: "{{ .Values.deployment.resources.requests.memory }}"
+              cpu: "{{ .Values.deployment.resources.requests.cpu }}"{{ if .Values.deployment.resources.useGPU }}{{ if .Values.deployment.resources.useMIG }}
+              nvidia.com/{{ .Values.deployment.resources.migConfig.profile }}: "{{ .Values.deployment.resources.numGPUs }}"{{ else }}
+              nvidia.com/gpu: "{{ .Values.deployment.resources.numGPUs }}"{{ end }}{{ end }}
+            limits:
+              memory: "{{ .Values.deployment.resources.limits.memory }}"
+              cpu: "{{ .Values.deployment.resources.limits.cpu }}"{{ if .Values.deployment.resources.useGPU }}{{ if .Values.deployment.resources.useMIG }}
+              nvidia.com/{{ .Values.deployment.resources.migConfig.profile }}: "{{ .Values.deployment.resources.numGPUs }}"{{ else }}
+              nvidia.com/gpu: "{{ .Values.deployment.resources.numGPUs }}"{{ end }}{{ end }}
+          readinessProbe:
+            httpGet:
+              path: /v2/health/ready
+              port: http
+            initialDelaySeconds: {{ .Values.deployment.initialDelaySeconds }}
+            periodSeconds: {{ .Values.deployment.periodSeconds }}
+            timeoutSeconds: {{ .Values.deployment.timeoutSeconds }}
+            failureThreshold: {{ .Values.deployment.failureThreshold }}
+          livenessProbe:
+            httpGet:
+              path: /v2/health/live
+              port: http
+            initialDelaySeconds: {{ .Values.deployment.initialDelaySeconds }}
+            periodSeconds: {{ .Values.deployment.periodSeconds }}
+            timeoutSeconds: {{ .Values.deployment.timeoutSeconds }}
+            failureThreshold: {{ .Values.deployment.failureThreshold }}
+          volumeMounts:
+            - name: shared-memory
+              mountPath: /dev/shm{{ if .Values.pvc.enabled }}
+            - name: {{ .Release.Name }}-data
+              mountPath: /opt/ml/data{{ end }}
+      initContainers:
+        - name: {{ .Release.Name }}-init-container
+          image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
+          imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
+          args: ["/opt/ml/init.sh"]
+          resources:
+            requests:
+              memory: "{{ .Values.deployment.resources.requests.memory }}"
+              cpu: "{{ .Values.deployment.resources.requests.cpu }}"{{ if .Values.deployment.resources.useGPU }}{{ if .Values.deployment.resources.useMIG }}
+              nvidia.com/{{ .Values.deployment.resources.migConfig.profile }}: "{{ .Values.deployment.resources.numGPUs }}"{{ else }}
+              nvidia.com/gpu: "{{ .Values.deployment.resources.numGPUs }}"{{ end }}{{ end }}
+            limits:
+              memory: "{{ .Values.deployment.resources.limits.memory }}"
+              cpu: "{{ .Values.deployment.resources.limits.cpu }}"{{ if .Values.deployment.resources.useGPU }}{{ if .Values.deployment.resources.useMIG }}
+              nvidia.com/{{ .Values.deployment.resources.migConfig.profile }}: "{{ .Values.deployment.resources.numGPUs }}"{{ else }}
+              nvidia.com/gpu: "{{ .Values.deployment.resources.numGPUs }}"{{ end }}{{ end }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-configmap
+          volumeMounts:
+            - name: shared-memory
+              mountPath: /dev/shm{{ if .Values.pvc.enabled }}
+            - name: {{ .Release.Name }}-data
+              mountPath: /opt/ml/data{{ end }}
+      volumes:
+        - name: shared-memory
+          emptyDir:
+            medium: Memory{{ if .Values.pvc.enabled }}
+        - name: {{ .Release.Name }}-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-pvc{{ end }}

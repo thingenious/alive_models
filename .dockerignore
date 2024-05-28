@@ -1,0 +1,9 @@
+# ignore everything
+**/*
+# but not these files...
+!requirements/main.txt
+!app/
+**/__pycache__/
+app/**/*.py[cod]
+!scripts/start.sh
+!scripts/init.sh

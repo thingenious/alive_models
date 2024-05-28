@@ -1,0 +1,169 @@
+---
+# Source: alive-models/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alive
+  namespace: alive
+  labels:
+    app: alive-models
+    release: alive
+spec:
+  selector:
+    matchLabels:
+      app: alive-models
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: alive-models
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: alive-container
+          image: localhost:5000/alive_models:latest-cuda-12.4.1
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8000
+            - name: grpc
+              containerPort: 8001
+            - name: metrics
+              containerPort: 8002
+          envFrom:
+            - configMapRef:
+                name: alive-configmap
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1"
+              nvidia.com/gpu: "1"
+            limits:
+              memory: "4Gi"
+              cpu: "2"
+              nvidia.com/gpu: "1"
+          readinessProbe:
+            httpGet:
+              path: /v2/health/ready
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: /v2/health/live
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 10
+          volumeMounts:
+            - name: shared-memory
+              mountPath: /dev/shm
+            - name: alive-data
+              mountPath: /opt/ml/data
+      initContainers:
+        - name: alive-init-container
+          image: localhost:5000/alive_models:latest-cuda-12.4.1
+          imagePullPolicy: Always
+          args: ["/opt/ml/init.sh"]
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1"
+              nvidia.com/gpu: "1"
+            limits:
+              memory: "4Gi"
+              cpu: "2"
+              nvidia.com/gpu: "1"
+          envFrom:
+            - configMapRef:
+                name: alive-configmap
+          volumeMounts:
+            - name: shared-memory
+              mountPath: /dev/shm
+            - name: alive-data
+              mountPath: /opt/ml/data
+      volumes:
+        - name: shared-memory
+          emptyDir:
+            medium: Memory
+        - name: alive-data
+          persistentVolumeClaim:
+            claimName: alive-pvc
+---
+# Source: alive-models/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alive-configmap
+  namespace: alive
+data:
+  ALIVE_MODELS: "asr,fer,ser,nlp"
+  ALIVE_MODELS_ALLOW_GRPC: "true"
+  ALIVE_MODELS_ALLOW_HTTP: "true"
+  ALIVE_MODELS_ALLOW_METRICS: "true"
+  ALIVE_MODELS_ALLOW_SAGEMAKER: "false"
+  ALIVE_MODELS_ASR_MODEL_NAME: "asr"
+  ALIVE_MODELS_ASR_MODEL_SIZE: "distil-large-v3"
+  ALIVE_MODELS_ASR_MODEL_VERSION: "1"
+  ALIVE_MODELS_FER_MODEL_DETECTOR_BACKEND: "yolov8"
+  ALIVE_MODELS_FER_MODEL_FACE_MIN_CONFIDENCE: "0.7"
+  ALIVE_MODELS_FER_MODEL_NAME: "fer"
+  ALIVE_MODELS_FER_MODEL_VERSION: "1"
+  ALIVE_MODELS_GRPC_PORT: "8001"
+  ALIVE_MODELS_GRPC_ROOT_CERT: ""
+  ALIVE_MODELS_GRPC_SERVER_CERT: ""
+  ALIVE_MODELS_GRPC_SERVER_KEY: ""
+  ALIVE_MODELS_GRPC_USE_SSL: "false"
+  ALIVE_MODELS_GRPC_USE_SSL_MUTUAL: "false"
+  ALIVE_MODELS_HTTP_PORT: "8000"
+  ALIVE_MODELS_METRICS_PORT: "8002"
+  ALIVE_MODELS_NLP_MODEL_FILE: "onnx/model_quantized.onnx"
+  ALIVE_MODELS_NLP_MODEL_NAME: "nlp"
+  ALIVE_MODELS_NLP_MODEL_REPO: "SamLowe/roberta-base-go_emotions-onnx"
+  ALIVE_MODELS_NLP_MODEL_VERSION: "1"
+  ALIVE_MODELS_SAGEMAKER_PORT: "8080"
+  ALIVE_MODELS_SER_MODEL_NAME: "ser"
+  ALIVE_MODELS_SER_MODEL_REPO: "hughlan1214/Speech_Emotion_Recognition_wav2vec2-large-xlsr-53_240304_SER_fine-tuned2.0"
+  ALIVE_MODELS_SER_MODEL_VERSION: "1"
+  NVIDIA_VISIBLE_DEVICES: "nvidia.com/gpu=all"
+---
+# Source: alive-models/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: alive
+  name: alive-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 30Gi
+---
+# Source: alive-models/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: alive
+  name: alive
+spec:
+  selector:
+    app: alive-models
+    # NodePort | LoadBalancer | ClusterIP
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000  # Port accessible outside cluster
+      nodePort: 30111
+    - name: grpc
+      port: 8001
+      targetPort: 8001  # Port accessible outside cluster
+      nodePort: 30112
+    - name: metrics
+      port: 8002
+      targetPort: 8002  # Port accessible outside cluster
+      nodePort: 30113

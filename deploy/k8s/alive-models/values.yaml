@@ -1,0 +1,78 @@
+---
+namespace: alive
+deployment:
+  replicaCount: 1
+  image:
+    repository: localhost:5000/alive_models
+    tag: latest-cuda-12.4.1
+    pullSecret: null
+    pullPolicy: Always
+  restartPolicy: Always
+  failureThreshold: 10
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  resources:
+    useGPU: true
+    useMIG: false
+    numGPUs: 1
+    # used only when useMIG is true
+    migConfig:
+      profile: mig-7g.40gb
+    # modify if needed in helm arguments (e.g. --set deployment.resources.requests.memory=4G1)
+    requests:
+      memory: 2Gi
+      cpu: 1
+    limits:
+      memory: 4Gi
+      cpu: 2
+service:
+  type: LoadBalancer
+  http:
+    enabled: true
+    nodePort: 30111
+  grpc:
+    enabled: true
+    # if null, the Kubernetes control plane
+    # will allocate a port from a range (default: 30000-32767)
+    nodePort: null
+  metrics:
+    enabled: true
+    nodePort: null
+  sagemaker:
+    enabled: false
+    nodePort: null
+pvc:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 30Gi
+env:
+  ALIVE_MODELS: "asr,fer,ser,nlp"
+  ALIVE_MODELS_HTTP_PORT: 8000
+  ALIVE_MODELS_GRPC_PORT: 8001
+  ALIVE_MODELS_METRICS_PORT: 8002
+  ALIVE_MODELS_SAGEMAKER_PORT: 8080
+  ALIVE_MODELS_ASR_MODEL_SIZE: distil-large-v3
+  ALIVE_MODELS_FER_MODEL_DETECTOR_BACKEND: yolov8
+  ALIVE_MODELS_FER_MODEL_FACE_MIN_CONFIDENCE: 0.7
+  ALIVE_MODELS_SER_MODEL_REPO: hughlan1214/Speech_Emotion_Recognition_wav2vec2-large-xlsr-53_240304_SER_fine-tuned2.0
+  ALIVE_MODELS_NLP_MODEL_REPO: SamLowe/roberta-base-go_emotions-onnx
+  ALIVE_MODELS_NLP_MODEL_FILE: onnx/model_quantized.onnx
+  ALIVE_MODELS_ASR_MODEL_NAME: asr
+  ALIVE_MODELS_ASR_MODEL_VERSION: 1
+  ALIVE_MODELS_FER_MODEL_NAME: fer
+  ALIVE_MODELS_FER_MODEL_VERSION: 1
+  ALIVE_MODELS_SER_MODEL_NAME: ser
+  ALIVE_MODELS_SER_MODEL_VERSION: 1
+  ALIVE_MODELS_NLP_MODEL_NAME: nlp
+  ALIVE_MODELS_NLP_MODEL_VERSION: 1
+  ALIVE_MODELS_ALLOW_HTTP: true
+  ALIVE_MODELS_ALLOW_GRPC: true
+  ALIVE_MODELS_ALLOW_METRICS: true
+  ALIVE_MODELS_ALLOW_SAGEMAKER: false
+  ALIVE_MODELS_GRPC_USE_SSL: false
+  ALIVE_MODELS_GRPC_USE_SSL_MUTUAL: false
+  ALIVE_MODELS_GRPC_ROOT_CERT: ""
+  ALIVE_MODELS_GRPC_SERVER_CERT: ""
+  ALIVE_MODELS_GRPC_SERVER_KEY: ""
+  NVIDIA_VISIBLE_DEVICES: nvidia.com/gpu=all

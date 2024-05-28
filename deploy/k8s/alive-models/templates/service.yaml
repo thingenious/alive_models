@@ -1,0 +1,29 @@
+{{ if or .Values.service.http.enabled .Values.service.grpc.enabled .Values.service.metrics.enabled .Values.service.sagemaker.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: {{ .Release.Name }}
+spec:
+  selector:
+    app: {{ template "selector.name" . }}
+    # NodePort | LoadBalancer | ClusterIP
+  type: {{ .Values.service.type }}
+  ports:{{ if and .Values.service.http.enabled .Values.env.ALIVE_MODELS_ALLOW_HTTP }}
+    - name: http
+      port: {{ .Values.env.ALIVE_MODELS_HTTP_PORT }}
+      targetPort: {{ .Values.env.ALIVE_MODELS_HTTP_PORT }}{{ if and (ne .Values.service.type "ClusterIP") .Values.service.http.nodePort }}  # Port accessible outside cluster
+      nodePort: {{ .Values.service.http.nodePort }}{{ end }}{{ end }}{{ if and .Values.service.grpc.enabled .Values.env.ALIVE_MODELS_ALLOW_GRPC }}
+    - name: grpc
+      port: {{ .Values.env.ALIVE_MODELS_GRPC_PORT }}
+      targetPort: {{ .Values.env.ALIVE_MODELS_GRPC_PORT }}{{ if and (ne .Values.service.type "ClusterIP") .Values.service.grpc.nodePort }}  # Port accessible outside cluster
+      nodePort: {{ .Values.service.grpc.nodePort }}{{ end }}{{ end }}{{ if and .Values.service.metrics.enabled .Values.env.ALIVE_MODELS_ALLOW_METRICS }}
+    - name: metrics
+      port: {{ .Values.env.ALIVE_MODELS_METRICS_PORT }}
+      targetPort: {{ .Values.env.ALIVE_MODELS_METRICS_PORT }}{{ if and (ne .Values.service.type "ClusterIP") .Values.service.metrics.nodePort }}  # Port accessible outside cluster
+      nodePort: {{ .Values.service.metrics.nodePort }}{{ end }}{{ end }}{{ if and .Values.service.sagemaker.enabled .Values.env.ALIVE_MODELS_ALLOW_SAGEMAKER }}
+    - name: sagemaker
+      port: {{ .Values.env.ALIVE_MODELS_SAGEMAKER_PORT }}
+      targetPort: {{ .Values.env.ALIVE_MODELS_SAGEMAKER_PORT }}{{ if and (ne .Values.service.type "ClusterIP") .Values.service.sagemaker.nodePort }}  # Port accessible outside cluster
+      nodePort: {{ .Values.service.sagemaker.nodePort }}{{ end }}{{ end }}{{ end }}

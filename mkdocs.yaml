@@ -1,0 +1,101 @@
+---
+site_name: "ALIVE Models"
+site_description: "ALIVE Models deployment using pytriton"
+site_url: "https://thingenious.github.io/alive_models"
+repo_name: thingenious/alive-models
+repo_url: "https://github.com/thingenious/alive_models.git"
+edit_uri_template: 'blob/main/docs/{path}'
+copyright: "Copyright &copy; 2024 Thingenious"
+theme:
+  name: material
+  custom_dir: docs/assets
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      primary: white
+      accent: blue
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      primary: black
+      accent: blue
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  icon:
+    repo: material/git
+    logo: tg_logo
+  favicon: static/favicon.ico
+  include_sidebar: false
+  features:
+    # - header.autohide
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.indexes
+    # - navigation.sections
+    # - navigation.expand
+# extra:
+#   version:
+#     provider: mike
+markdown_extensions:
+  - toc:
+      permalink: false
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - admonition
+  - codehilite
+  - extra
+  - mdx_truly_sane_lists
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          # yamllint disable
+          format: !!python/name:pymdownx.superfences.fence_code_format ''
+          # yamllint enable
+  - pymdownx.tabbed:
+      alternate_style: true
+#   - mdx_include:
+#       base_path: docs
+
+extra_css:
+  - static/css/termynal.css
+  - static/css/custom.css
+
+extra_javascript:
+  - static/js/termynal.js
+  - static/js/custom.js
+
+plugins:
+  - search
+  - open-in-new-tab
+  - autorefs
+  - privacy
+  - include-markdown
+  # - mike
+  - mkdocstrings:
+      enabled: true
+      enable_inventory: true
+      default_handler: python
+      handlers:
+        python:
+          paths: [.]
+          options:
+            filters:
+              - "!__str__"
+              - "!__repr__"
+            ignore_init_summary: true
+            merge_init_into_class: false
+            docstring_style: numpy
+            show_submodules: true
+            show_root_heading: false
+            show_signature_annotations: true
+            signature_crossrefs: true
+            show_source: true
+nav:
+  - ALIVE Models: index.md
+  - Reference:
+      - "API": api.md
+      - "Models": models.md

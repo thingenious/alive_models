@@ -1,0 +1,40 @@
+.termynal-comment {
+    color: #4a968f;
+    font-style: italic;
+    display: block;
+}
+
+.termy [data-termynal] {
+    white-space: pre-wrap;
+}
+.md-main__inner {
+    max-width: 65rem;
+}
+a.external-link::after {
+    /* \00A0 is a non-breaking space
+        to make the mark be on the same line as the link
+    */
+    content: "\00A0[↪]";
+}
+
+a.internal-link::after {
+    /* \00A0 is a non-breaking space
+        to make the mark be on the same line as the link
+    */
+    content: "\00A0↪";
+}
+/*.logo-light{*/
+/*    filter: invert(1);*/
+/*}*/
+/*.logo-dark{*/
+/*    filter: invert(0);*/
+/*}*/
+.md-nav__title{
+    display: none;
+}
+code {
+    display: inline-block;
+}
+td.code {
+    width: 100%;
+}
