@@ -570,12 +570,10 @@ def main() -> None:
     container_cmd = args.container_command or get_container_cmd()
     # stop if already started
     stop_container(container_cmd, args.container_name)
-    command = [container_cmd, "run"]
-    cmd_args = get_command_args(container_cmd, args)
-    command.extend(cmd_args)
+    command = get_command_args(container_cmd, args)
     image_tag = get_tag(args.base_image, args.image_tag)
     image = f"{args.image_name}:{image_tag}"
-    cmd_args.append(image)
+    command.append(image)
     run_command(command)
     print(f"Use (with -f to follow): \n{container_cmd} logs {args.container_name}")
     print("To view the container's logs.")
