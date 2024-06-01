@@ -12,8 +12,13 @@ ROOT_DIR = Path(__file__).parent.parent.resolve()
 _have_cuda = torch.cuda.is_available()
 DEVICE = "cuda" if _have_cuda else "cpu"
 COMPUTE_TYPE = "float16" if _have_cuda else "float32"
+USE_FLASH_ATTENTION = _have_cuda
 
 __all__ = [
+    "DEBUG",
+    "DEVICE",
+    "ROOT_DIR",
+    "COMPUTE_TYPE",
     "FER_MODEL_NAME",
     "FER_MODEL_VERSION",
     "ASR_MODEL_NAME",
@@ -27,10 +32,7 @@ __all__ = [
     "NLP_MODEL_VERSION",
     "NLP_MODEL_REPO",
     "NLP_MODEL_FILE",
-    "ROOT_DIR",
-    "DEBUG",
-    "DEVICE",
-    "COMPUTE_TYPE",
+    "USE_FLASH_ATTENTION",
 ]
 
 logging.basicConfig(stream=sys.stdout, level=logging.WARNING if not DEBUG else logging.DEBUG)

@@ -17,7 +17,7 @@ from numpy.typing import NDArray
 from pytriton.model_config import Tensor  # type: ignore
 from pytriton.proxy.types import Request  # type: ignore
 
-from app.config import ASR_MODEL_SIZE, COMPUTE_TYPE, DEVICE
+from app.config import ASR_MODEL_SIZE, COMPUTE_TYPE, DEVICE, USE_FLASH_ATTENTION
 from app.models._common import to_string
 from app.models.asr_checker import correct_transcript
 
@@ -33,8 +33,6 @@ ASR_OUTPUTS = [
     Tensor(name="segments", dtype=bytes, shape=(1,)),
 ]
 
-
-USE_FLASH_ATTENTION = DEVICE == "cuda"
 model = WhisperModel(
     ASR_MODEL_SIZE,
     device=DEVICE,
