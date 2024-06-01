@@ -7,24 +7,10 @@ from pathlib import Path
 from typing import List
 
 try:
-    from scripts.dev._common import (
-        DEFAULT_CONTAINER_NAME,
-        KEY_PREFIX,
-        add_common_args,
-        get_container_cmd,
-        get_tag,
-        run_command,
-    )
+    from dev._common import DEFAULT_CONTAINER_NAME, KEY_PREFIX, add_common_args, get_container_cmd, get_tag, run_command
 except ImportError:
-    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-    from scripts.dev._common import (
-        DEFAULT_CONTAINER_NAME,
-        KEY_PREFIX,
-        add_common_args,
-        get_container_cmd,
-        get_tag,
-        run_command,
-    )
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from dev._common import DEFAULT_CONTAINER_NAME, KEY_PREFIX, add_common_args, get_container_cmd, get_tag, run_command
 
 
 _DEFAULT_HTTP_PORT = int(os.environ.get(f"{KEY_PREFIX}_HTTP_PORT", "8000"))
@@ -52,6 +38,7 @@ _DEFAULT_NLP_MODEL_NAME = os.environ.get(f"{KEY_PREFIX}_NLP_MODEL_NAME", "nlp")
 _DEFAULT_NLP_MODEL_VERSION = int(os.environ.get(f"{KEY_PREFIX}_NLP_MODEL_VERSION", "1"))
 _DEFAULT_NLP_MODEL_REPO = os.environ.get(f"{KEY_PREFIX}_NLP_MODEL_REPO", "SamLowe/roberta-base-go_emotions-onnx")
 _DEFAULT_NLP_MODEL_FILE = os.environ.get(f"{KEY_PREFIX}_NLP_MODEL_FILE", "onnx/model_quantized.onnx")
+_DEFAULT_ASR_CORRECTION_MODEL = os.environ.get(f"{KEY_PREFIX}_ASR_CORRECTION_MODEL", "grammarly/coedit-large")
 
 
 def add_asr_cli_args(parser: argparse.ArgumentParser) -> None:
@@ -68,6 +55,7 @@ def add_asr_cli_args(parser: argparse.ArgumentParser) -> None:
     - `--asr-model-name`: ASR model name.
     - `--asr-model-version`: ASR model version.
     - `--asr-model-size`: ASR model size.
+    - `--asr-correction-model`: ASR correction model.
     """
     asr_group = parser.add_argument_group("ASR model configuration")
     asr_group.add_argument(
@@ -87,6 +75,12 @@ def add_asr_cli_args(parser: argparse.ArgumentParser) -> None:
         type=str,
         default=_DEFAULT_ASR_MODEL_SIZE,
         help=f"ASR model size, (default: {_DEFAULT_ASR_MODEL_SIZE}).",
+    )
+    asr_group.add_argument(
+        "--asr-correction-model",
+        type=str,
+        default=_DEFAULT_ASR_CORRECTION_MODEL,
+        help=f"ASR correction model, (default: {_DEFAULT_ASR_CORRECTION_MODEL}, use 'none' to skip).",
     )
 
 
@@ -377,6 +371,7 @@ def get_asr_env_args(args: argparse.Namespace) -> List[str]:
     asr_model_name = args.asr_model_name
     asr_model_version = args.asr_model_version
     asr_model_size = args.asr_model_size
+    asr_correction_model = args.asr_correction_model
     env_args = [
         "-e",
         f"{KEY_PREFIX}_ASR_MODEL_NAME={asr_model_name}",
@@ -384,6 +379,8 @@ def get_asr_env_args(args: argparse.Namespace) -> List[str]:
         f"{KEY_PREFIX}_ASR_MODEL_VERSION={asr_model_version}",
         "-e",
         f"{KEY_PREFIX}_ASR_MODEL_SIZE={asr_model_size}",
+        "-e",
+        f"{KEY_PREFIX}_ASR_CORRECTION_MODEL={asr_correction_model}",
     ]
     return env_args
 
@@ -570,12 +567,10 @@ def main() -> None:
     container_cmd = args.container_command or get_container_cmd()
     # stop if already started
     stop_container(container_cmd, args.container_name)
-    command = [container_cmd, "run"]
-    cmd_args = get_command_args(container_cmd, args)
-    command.extend(cmd_args)
+    command = get_command_args(container_cmd, args)
     image_tag = get_tag(args.base_image, args.image_tag)
     image = f"{args.image_name}:{image_tag}"
-    cmd_args.append(image)
+    command.append(image)
     run_command(command)
     print(f"Use (with -f to follow): \n{container_cmd} logs {args.container_name}")
     print("To view the container's logs.")

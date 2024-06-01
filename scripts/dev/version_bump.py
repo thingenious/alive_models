@@ -14,10 +14,10 @@ from pathlib import Path
 from typing import Tuple
 
 try:
-    from scripts.dev._common import ROOT_DIR, get_version, run_command
+    from dev._common import ROOT_DIR, get_version, run_command
 except ImportError:
-    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-    from scripts.dev._common import ROOT_DIR, get_version, run_command
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from dev._common import ROOT_DIR, get_version, run_command
 
 
 FILES_TO_UPDATE = [

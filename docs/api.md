@@ -12,7 +12,7 @@ URL: `/v2/models/asr/versions/1/infer`
 Input Names:
 
 - `data`: Base64 encoded audio data (of wav in 16-bit PCM format)
-- `initial_prompt`: Initial prompt for the ASR model (can be an empty string)
+- `previous_transcript`: Previous transcription (can be an empty string)
 
 Output Names:
 
@@ -25,7 +25,7 @@ import json
 import httpx
 
 headers = {"Content-Type": "application/json"}
-initial_prompt = ""
+previous_transcript = ""
 audio_data = open("path/to/audio.wav", "rb").read()
 b64_audio_data = base64.b64encode(audio_data).decode("utf-8")
 request_data = json.dumps(
@@ -33,7 +33,7 @@ request_data = json.dumps(
         "id": "1",
         "inputs": [
             {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [b64_audio_data]},
-            {"name": "initial_prompt", "shape": [1, 1], "datatype": "BYTES", "data": [initial_prompt]},
+            {"name": "previous_transcript", "shape": [1, 1], "datatype": "BYTES", "data": [previous_transcript]},
         ],
     }
 )

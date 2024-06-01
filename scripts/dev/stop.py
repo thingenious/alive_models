@@ -5,10 +5,10 @@ import sys
 from pathlib import Path
 
 try:
-    from scripts.dev._common import DEFAULT_CONTAINER_NAME, get_container_cmd, run_command
+    from dev._common import DEFAULT_CONTAINER_NAME, get_container_cmd, run_command
 except ImportError:
-    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-    from scripts.dev._common import DEFAULT_CONTAINER_NAME, get_container_cmd, run_command
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from dev._common import DEFAULT_CONTAINER_NAME, get_container_cmd, run_command
 
 
 def main() -> None:

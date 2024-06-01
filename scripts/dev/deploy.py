@@ -12,26 +12,10 @@ from pathlib import Path
 from typing import List
 
 try:
-    from scripts.dev._common import (
-        DOT_ENV_PATH,
-        ROOT_DIR,
-        add_common_args,
-        get_container_cmd,
-        get_tag,
-        run_command,
-        set_tag,
-    )
+    from dev._common import DOT_ENV_PATH, ROOT_DIR, add_common_args, get_container_cmd, get_tag, run_command, set_tag
 except ImportError:
-    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-    from scripts.dev._common import (
-        DOT_ENV_PATH,
-        ROOT_DIR,
-        add_common_args,
-        get_container_cmd,
-        get_tag,
-        run_command,
-        set_tag,
-    )
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from dev._common import DOT_ENV_PATH, ROOT_DIR, add_common_args, get_container_cmd, get_tag, run_command, set_tag
 
 
 def get_container_compose_command() -> List[str]:

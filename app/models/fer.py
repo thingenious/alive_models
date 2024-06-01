@@ -43,7 +43,18 @@ _ensure_model()
 
 # pylint: disable=broad-except,too-many-try-statements
 def get_image_analysis(data_string: NDArray[Any]) -> Tuple[str, float]:
-    """Analyze an image."""
+    """Analyze an image.
+
+    Parameters
+    ----------
+    data_string : NDArray[Any]
+        The image data as a string.
+
+    Returns
+    -------
+    Tuple[str, float]
+        The label and score.
+    """
     label = "unknown"
     score = 0.0
     try:
@@ -71,7 +82,18 @@ def get_image_analysis(data_string: NDArray[Any]) -> Tuple[str, float]:
 
 
 def fer_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.int_] | NDArray[np.float_]]]:
-    """Inference function for FER model."""
+    """Inference function for FER model.
+
+    Parameters
+    ----------
+    requests : List[Request]
+        The requests.
+
+    Returns
+    -------
+    List[Dict[str, NDArray[np.int_] | NDArray[np.float_]]]
+        The inference results.
+    """
     infer_inputs = [request.data["data"] for request in requests]
     total = len(infer_inputs)
     results = []
