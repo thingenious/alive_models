@@ -40,10 +40,8 @@ _DEFAULT_NLP_MODEL_REPO = os.environ.get(f"{KEY_PREFIX}_NLP_MODEL_REPO", "SamLow
 _DEFAULT_NLP_MODEL_FILE = os.environ.get(f"{KEY_PREFIX}_NLP_MODEL_FILE", "onnx/model_quantized.onnx")
 _ASR_CORRECTION_MODEL_CHOICES = [
     "none",
-    "scrnn-probwordnoise",
-    "subwordbert-probwordnoise",
 ]
-_DEFAULT_ASR_CORRECTION_MODEL = os.environ.get(f"{KEY_PREFIX}_ASR_CORRECTION_MODEL", "bertscrnn-probwordnoise")
+_DEFAULT_ASR_CORRECTION_MODEL = os.environ.get(f"{KEY_PREFIX}_ASR_CORRECTION_MODEL", "none")
 
 
 def add_asr_cli_args(parser: argparse.ArgumentParser) -> None:
