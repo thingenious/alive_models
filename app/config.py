@@ -12,6 +12,7 @@ ROOT_DIR = Path(__file__).parent.parent.resolve()
 _have_cuda = torch.cuda.is_available()
 DEVICE = "cuda" if _have_cuda else "cpu"
 COMPUTE_TYPE = "float16" if _have_cuda else "float32"
+TORCH_DTYPE = torch.float16 if _have_cuda else torch.float32
 USE_FLASH_ATTENTION = _have_cuda
 
 __all__ = [
@@ -19,6 +20,7 @@ __all__ = [
     "DEVICE",
     "ROOT_DIR",
     "COMPUTE_TYPE",
+    "TORCH_DTYPE",
     "FER_MODEL_NAME",
     "FER_MODEL_VERSION",
     "ASR_MODEL_NAME",

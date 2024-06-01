@@ -4,20 +4,20 @@ import logging
 import re
 
 from transformers import pipeline
-from transformers.pipelines.base import Pipeline
+from transformers.pipelines.text_generation import TextGenerationPipeline
 
-from app.config import ASR_CORRECTION_MODEL
+from app.config import ASR_CORRECTION_MODEL, DEVICE, TORCH_DTYPE
 
 # from transformers import AutoTokenizer, T5ForConditionalGeneration
 
 
-corrector: Pipeline | None = None
+corrector: TextGenerationPipeline | None = None
 
 # maybe one from:
 # https://huggingface.co/models?dataset=dataset:jfleg
 # https://huggingface.co/models?other=punctuation
 if ASR_CORRECTION_MODEL and len(ASR_CORRECTION_MODEL.split("/")) == 2:
-    corrector = pipeline("text2text-generation", model=ASR_CORRECTION_MODEL)
+    corrector = pipeline("text2text-generation", model=ASR_CORRECTION_MODEL, device=DEVICE, torch_dtype=TORCH_DTYPE)
 
 
 LOG = logging.getLogger(__name__)
@@ -33,7 +33,7 @@ def correct_transcript(transcript: str, previous_transcript: str) -> str:
     previous_transcript : str
         The previous ASR output transcript
     """
-    if not corrector or not transcript:
+    if not corrector or not transcript or not previous_transcript:
         return transcript
     LOG.debug("Transcript: #%s#", transcript)
     LOG.debug("Previous transcript: #%s#", previous_transcript)

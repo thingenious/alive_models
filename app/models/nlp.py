@@ -32,7 +32,6 @@ classifier = pipeline(
     "text-classification",
     model=model,  # type: ignore
     tokenizer=tokenizer,
-    # device=DEVICE,
     top_k=None,
     function_to_apply="sigmoid",
 )

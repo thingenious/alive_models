@@ -13,7 +13,7 @@ from numpy.typing import NDArray
 from pytriton.model_config import Tensor  # type: ignore
 from pytriton.proxy.types import Request  # type: ignore
 
-from app.config import SER_MODEL_REPO
+from app.config import DEVICE, SER_MODEL_REPO, TORCH_DTYPE
 
 LOG = logging.getLogger(__name__)
 SER_INPUTS = [Tensor(name="data", dtype=bytes, shape=(1,))]
@@ -25,7 +25,12 @@ SER_OUTPUTS = [
 # pylint: disable=wrong-import-position,wrong-import-order
 from transformers import pipeline  # noqa
 
-classifier = pipeline("audio-classification", model=SER_MODEL_REPO)
+classifier = pipeline(
+    "audio-classification",
+    model=SER_MODEL_REPO,
+    device=DEVICE,
+    torch_dtype=TORCH_DTYPE,
+)
 
 
 def get_audio_analysis(audio_data: bytes) -> Tuple[str, float]:
