@@ -32,7 +32,7 @@ def to_string(thing: Any, sep: str = "") -> str:
         return sep.join([to_string(item, sep=sep) for item in thing])
     if isinstance(thing, np.ndarray):
         try:
-            sep.join([to_string(item, sep=sep) for item in thing.tolist()])
+            return sep.join([to_string(item, sep=sep) for item in thing.tolist()])
         except BaseException:
             return ""
     return str(thing)
