@@ -82,7 +82,7 @@ def get_asr_prediction(base_url: str, audio_data: str) -> str:
     """Get the ASR prediction from the server."""
     input_data = [
         {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [audio_data]},
-        {"name": "initial_prompt", "shape": [1, 1], "datatype": "BYTES", "data": [""]},
+        {"name": "previous_transcript", "shape": [1, 1], "datatype": "BYTES", "data": [""]},
     ]
     response_data = make_request(base_url, "asr", 1, input_data)
     prediction_dicts = []
