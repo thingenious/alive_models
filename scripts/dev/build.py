@@ -6,10 +6,10 @@ import sys
 from pathlib import Path
 
 try:
-    from scripts.dev._common import ROOT_DIR, add_common_args, get_container_cmd, get_tag, run_command
+    from dev._common import ROOT_DIR, add_common_args, get_container_cmd, get_tag, run_command
 except ImportError:
-    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-    from scripts.dev._common import ROOT_DIR, add_common_args, get_container_cmd, get_tag, run_command
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from dev._common import ROOT_DIR, add_common_args, get_container_cmd, get_tag, run_command
 
 
 _DEFAULT_SQUASH = os.environ.get("ALIVE_MODELS_BUILD_SQUASH", "false").lower() == "true"

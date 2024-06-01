@@ -7,24 +7,10 @@ from pathlib import Path
 from typing import List
 
 try:
-    from scripts.dev._common import (
-        DEFAULT_CONTAINER_NAME,
-        KEY_PREFIX,
-        add_common_args,
-        get_container_cmd,
-        get_tag,
-        run_command,
-    )
+    from dev._common import DEFAULT_CONTAINER_NAME, KEY_PREFIX, add_common_args, get_container_cmd, get_tag, run_command
 except ImportError:
-    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-    from scripts.dev._common import (
-        DEFAULT_CONTAINER_NAME,
-        KEY_PREFIX,
-        add_common_args,
-        get_container_cmd,
-        get_tag,
-        run_command,
-    )
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from dev._common import DEFAULT_CONTAINER_NAME, KEY_PREFIX, add_common_args, get_container_cmd, get_tag, run_command
 
 
 _DEFAULT_HTTP_PORT = int(os.environ.get(f"{KEY_PREFIX}_HTTP_PORT", "8000"))
