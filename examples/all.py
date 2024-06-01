@@ -14,6 +14,7 @@ from typing import Any, Dict, List
 import av
 import httpx
 from PIL import Image
+from playsound import playsound
 
 
 def cli() -> argparse.ArgumentParser:
@@ -240,7 +241,7 @@ def get_nlp_prediction(base_url: str, transcription: str) -> Dict[str, Any]:
     return response_data
 
 
-def open_video(video_file: str) -> None:
+def _open_native(video_file: str) -> None:
     """Open the video file on the default video player.
 
     Parameters
@@ -248,7 +249,6 @@ def open_video(video_file: str) -> None:
     video_file : str
         Path to the video file.
     """
-    print("Opening video file for preview...")
     if platform.system() == "Darwin":
         subprocess.call(("open", video_file))  # nosemgrep # nosec
     elif platform.system() == "Windows":
@@ -256,6 +256,23 @@ def open_video(video_file: str) -> None:
         os.startfile(video_file)  # type:ignore # nosemgrep # nosec
     else:
         subprocess.call(("xdg-open", video_file), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
+def open_video(video_file: str) -> None:
+    """Open the video file for preview.
+
+    Parameters
+    ----------
+    video_file : str
+        Path to the video file.
+    """
+    print("Opening video file for preview...")
+    try:
+        # playsound could also work with video files
+        # it uses gstreamer's playbin on linux
+        playsound(video_file)
+    except BaseException:  # pylint: disable=broad-except
+        _open_native(video_file)
 
 
 def main() -> None:
