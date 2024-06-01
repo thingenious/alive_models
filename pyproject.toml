@@ -27,6 +27,7 @@ dependencies = [
     'deepface==0.0.91',
     'faster-whisper==1.0.2',
     'librosa==0.10.2.post1',
+    'neuspell==1.0.0',
     'numpy',
     'nltk==3.8.1',
     'nvidia-pytriton==0.5.5; platform_system == "Linux" and platform_machine == "x86_64"',

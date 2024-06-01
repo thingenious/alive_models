@@ -17,7 +17,21 @@ from PIL import Image
 
 
 def cli() -> argparse.ArgumentParser:
-    """Get the command line interface for the ASR model."""
+    """Get the command line interface for the ASR model.
+
+    Returns
+    -------
+    argparse.ArgumentParser
+        The CLI parser.
+
+    Notes
+    -----
+    The following arguments are used:
+    - `video`: Path to the video file to analyze.
+    - `--host`: Host of the server.
+    - `--port`: Port of the server.
+    - `--scheme`: Scheme of the server.
+    """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("video", type=argparse.FileType("rb"), help="Video file to analyze")
     parser.add_argument("--host", default="localhost", help="Host of the server")
@@ -27,7 +41,18 @@ def cli() -> argparse.ArgumentParser:
 
 
 def to_mono_16k_pcm(video_file: str) -> bytes:
-    """Convert the video file to mono 16k PCM."""
+    """Convert the video file to mono 16k PCM.
+
+    Parameters
+    ----------
+    video_file : str
+        Path to the video file.
+
+    Returns
+    -------
+    bytes
+        The audio data.
+    """
     with tempfile.NamedTemporaryFile() as temp_file:
         with av.open(video_file) as in_container:
             in_stream = in_container.streams.audio[0]
@@ -44,7 +69,18 @@ def to_mono_16k_pcm(video_file: str) -> bytes:
 
 
 def get_video_image_snapshot(video_file: str) -> Image:
-    """Get the image snapshot from the video file."""
+    """Get the image snapshot from the video file.
+
+    Parameters
+    ----------
+    video_file : str
+        Path to the video file.
+
+    Returns
+    -------
+    Image
+        The image snapshot.
+    """
     with av.open(video_file) as container:
         for frame in container.decode(video=0):
             return frame.to_image()  # type:ignore
@@ -56,7 +92,24 @@ def make_request(
     model_version: int,
     input_data: List[Dict[str, Any]],
 ) -> Dict[str, Any]:
-    """Make a request to the server."""
+    """Make a request to the server.
+
+    Parameters
+    ----------
+    base_url : str
+        The base URL of the server.
+    model_name : str
+        The model name.
+    model_version : int
+        The model version.
+    input_data : List[Dict[str, Any]]
+        The input data.
+
+    Returns
+    -------
+    Dict[str, Any]
+        The response data.
+    """
     headers = {"Content-Type": "application/json"}
     request_id = secrets.randbits(8)
     url = f"{base_url}/v2/models/{model_name}/versions/{model_version}/infer"
@@ -79,7 +132,20 @@ def make_request(
 
 
 def get_asr_prediction(base_url: str, audio_data: str) -> str:
-    """Get the ASR prediction from the server."""
+    """Get the ASR prediction from the server.
+
+    Parameters
+    ----------
+    base_url : str
+        The base URL of the server.
+    audio_data : str
+        The audio data (base64 encoded).
+
+    Returns
+    -------
+    str
+        The transcription.
+    """
     input_data = [
         {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [audio_data]},
         {"name": "previous_transcript", "shape": [1, 1], "datatype": "BYTES", "data": [""]},
@@ -105,17 +171,43 @@ def get_asr_prediction(base_url: str, audio_data: str) -> str:
     return transcription
 
 
-def get_ser_prediction(base_url: str, audio_data: str) -> None:
-    """Get the SER prediction from the server."""
+def get_ser_prediction(base_url: str, audio_data: str) -> Dict[str, Any]:
+    """Get the SER prediction from the server.
+
+    Parameters
+    ----------
+    base_url : str
+        The base URL of the server.
+    audio_data : str
+        The audio data (base64 encoded).
+
+    Returns
+    -------
+    Dict[str, Any]
+        The SER prediction.
+    """
     input_data = [
         {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [audio_data]},
     ]
     response_data = make_request(base_url, "ser", 1, input_data)
-    print(f"SER prediction:\n{json.dumps(response_data)}\n")
+    return response_data
 
 
-def get_fer_prediction(base_url: str, image: Image) -> None:
-    """Get the FER prediction from the server."""
+def get_fer_prediction(base_url: str, image: Image) -> Dict[str, Any]:
+    """Get the FER prediction from the server.
+
+    Parameters
+    ----------
+    base_url : str
+        The base URL of the server.
+    image : Image
+        The image snapshot.
+
+    Returns
+    -------
+    Dict[str, Any]
+        The FER prediction.
+    """
     buff = BytesIO()
     image.save(buff, format="JPEG")
     image_data = base64.b64encode(buff.getvalue()).decode("utf-8")
@@ -123,20 +215,40 @@ def get_fer_prediction(base_url: str, image: Image) -> None:
         {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [image_data]},
     ]
     response_data = make_request(base_url, "fer", 1, input_data)
-    print(f"FER prediction:\n{json.dumps(response_data)}\n")
+    return response_data
 
 
-def get_nlp_prediction(base_url: str, transcription: str) -> None:
-    """Get the NLP prediction from the server."""
+def get_nlp_prediction(base_url: str, transcription: str) -> Dict[str, Any]:
+    """Get the NLP prediction from the server.
+
+    Parameters
+    ----------
+    base_url : str
+        The base URL of the server.
+    transcription : str
+        The transcription.
+
+    Returns
+    -------
+    Dict[str, Any]
+        The NLP prediction.
+    """
     input_data = [
         {"name": "text", "shape": [1, 1], "datatype": "BYTES", "data": [transcription]},
     ]
     response_data = make_request(base_url, "nlp", 1, input_data)
-    print(f"NLP prediction:\n{json.dumps(response_data)}\n")
+    return response_data
 
 
 def open_video(video_file: str) -> None:
-    """Open the video file on the default video player."""
+    """Open the video file on the default video player.
+
+    Parameters
+    ----------
+    video_file : str
+        Path to the video file.
+    """
+    print("Opening video file for preview...")
     if platform.system() == "Darwin":
         subprocess.call(("open", video_file))  # nosemgrep # nosec
     elif platform.system() == "Windows":
@@ -149,16 +261,18 @@ def open_video(video_file: str) -> None:
 def main() -> None:
     """Run the main function."""
     args = cli().parse_args()
-    print("Opening video file for preview...")
     open_video(args.video.name)
     audio_data = base64.b64encode(to_mono_16k_pcm(args.video.name)).decode("utf-8")
     _port = f":{args.port}" if args.port not in {80, 443} else ""
     base_url = f"{args.scheme}://{args.host}{_port}"
     transcript = get_asr_prediction(base_url, audio_data)
     image = get_video_image_snapshot(args.video.name)
-    get_fer_prediction(base_url, image)
-    get_nlp_prediction(base_url, transcript)
-    get_ser_prediction(base_url, audio_data)
+    fer_prediction = get_fer_prediction(base_url, image)
+    print(f"FER prediction:\n{json.dumps(fer_prediction)}\n")
+    nlp_prediction = get_nlp_prediction(base_url, transcript)
+    print(f"NLP prediction:\n{json.dumps(nlp_prediction)}\n")
+    ser_prediction = get_ser_prediction(base_url, audio_data)
+    print(f"SER prediction:\n{json.dumps(ser_prediction)}\n")
 
 
 if __name__ == "__main__":

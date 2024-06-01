@@ -5,8 +5,13 @@ import os
 import sys
 from pathlib import Path
 
+import torch
+
 DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 ROOT_DIR = Path(__file__).parent.parent.resolve()
+_have_cuda = torch.cuda.is_available()
+DEVICE = "cuda" if _have_cuda else "cpu"
+COMPUTE_TYPE = "float16" if _have_cuda else "float32"
 
 __all__ = [
     "FER_MODEL_NAME",
@@ -14,6 +19,7 @@ __all__ = [
     "ASR_MODEL_NAME",
     "ASR_MODEL_VERSION",
     "ASR_MODEL_SIZE",
+    "ASR_CORRECTION_MODEL",
     "SER_MODEL_NAME",
     "SER_MODEL_VERSION",
     "SER_MODEL_REPO",
@@ -23,6 +29,8 @@ __all__ = [
     "NLP_MODEL_FILE",
     "ROOT_DIR",
     "DEBUG",
+    "DEVICE",
+    "COMPUTE_TYPE",
 ]
 
 logging.basicConfig(stream=sys.stdout, level=logging.WARNING if not DEBUG else logging.DEBUG)
@@ -84,6 +92,8 @@ _ASR_MODEL_SIZE = "large-v3"
 ASR_MODEL_SIZE = os.getenv(f"{ENV_PREFIX}_ASR_MODEL_SIZE", "")
 if not ASR_MODEL_SIZE:
     ASR_MODEL_SIZE = _ASR_MODEL_SIZE
+# ASR post proc with neuspell
+ASR_CORRECTION_MODEL = os.getenv(f"{ENV_PREFIX}_ASR_CORRECTION_MODEL", "bertscrnn-probwordnoise")
 
 # FER
 FER_MODEL_DETECTOR_BACKEND = os.getenv(f"{ENV_PREFIX}_FER_MODEL_DETECTOR_BACKEND", "yolov8")

@@ -28,10 +28,21 @@ from transformers import pipeline  # noqa
 classifier = pipeline("audio-classification", model=SER_MODEL_REPO)
 
 
-def get_audio_analysis(data: bytes) -> Tuple[str, float]:
-    """Get the prediction from the model."""
+def get_audio_analysis(audio_data: bytes) -> Tuple[str, float]:
+    """Get the prediction from the model.
+
+    Parameters
+    ----------
+    data : bytes
+        The wav audio data.
+
+    Returns
+    -------
+    Tuple[str, float]
+        The label and score.
+    """
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=True) as temp_file:
-        temp_file.write(data)
+        temp_file.write(audio_data)
         temp_file.flush()
         outputs = classifier(temp_file.name)  # type: ignore
     highest_score = max(outputs, key=lambda x: x["score"])
@@ -42,7 +53,18 @@ def get_audio_analysis(data: bytes) -> Tuple[str, float]:
 
 # pylint: disable=broad-except,too-many-try-statements
 def ser_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.int_] | NDArray[np.float_]]]:
-    """Inference function for SER model."""
+    """Inference function for SER model.
+
+    Parameters
+    ----------
+    requests : List[Request]
+        The requests.
+
+    Returns
+    -------
+    List[Dict[str, NDArray[np.int_] | NDArray[np.float_]]]
+        The inference results.
+    """
     infer_inputs = [request.data["data"] for request in requests]
     total = len(infer_inputs)
     results = []
