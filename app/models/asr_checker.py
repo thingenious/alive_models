@@ -33,16 +33,18 @@ def correct_transcript(transcript: str, previous_transcript: str) -> str:
     previous_transcript : str
         The previous ASR output transcript
     """
-    if not corrector:
-        return transcript
-    if not transcript or not previous_transcript:
+    if not corrector or not transcript:
         return transcript
     LOG.debug("Transcript: #%s#", transcript)
     LOG.debug("Previous transcript: #%s#", previous_transcript)
     input_text = previous_transcript + transcript
     instruction = "Fix grammatical errors in this text: "
     prompt = f"{instruction}{input_text}"
-    updated_text = corrector(prompt)[0]["generated_text"]
+    try:
+        updated_text: str = corrector(prompt)[0]["generated_text"]
+    except BaseException as error:  # pylint: disable=broad-except
+        LOG.error("Error while correcting the transcript: %s", error)
+        return transcript
     LOG.debug("Updated text: #%s#", updated_text)
     if updated_text.startswith(instruction):
         updated_text = updated_text[len(instruction) :]
@@ -53,4 +55,4 @@ def correct_transcript(transcript: str, previous_transcript: str) -> str:
     if previous_transcript and previous_transcript[-1] in [".", ",", "?", "!"] and with_spaces[0] != " ":
         # add a space after the punctuation coming from the previous transcript
         with_spaces = " " + with_spaces
-    return with_spaces
+    return with_spaces.replace("  ", " ")
