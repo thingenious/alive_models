@@ -95,7 +95,7 @@ ASR_MODEL_SIZE = os.getenv(f"{ENV_PREFIX}_ASR_MODEL_SIZE", "")
 if not ASR_MODEL_SIZE:
     ASR_MODEL_SIZE = _ASR_MODEL_SIZE
 # ASR post proc to try correcting the transcript
-ASR_CORRECTION_MODEL = os.getenv(f"{ENV_PREFIX}_ASR_CORRECTION_MODEL", "none")
+ASR_CORRECTION_MODEL = os.getenv(f"{ENV_PREFIX}_ASR_CORRECTION_MODEL", "grammarly/coedit-large")
 
 # FER
 FER_MODEL_DETECTOR_BACKEND = os.getenv(f"{ENV_PREFIX}_FER_MODEL_DETECTOR_BACKEND", "yolov8")
