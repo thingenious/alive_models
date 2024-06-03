@@ -103,7 +103,7 @@ def main() -> None:
         is_debug = True
     logging.basicConfig(
         stream=sys.stdout,
-        level=logging.WARNING if not is_debug else logging.DEBUG,
+        level=logging.INFO if not is_debug else logging.DEBUG,
         format="[%(asctime)s] %(levelname)s [%(filename)s.%(funcName)s:%(lineno)d] %(message)s",
         datefmt="%a, %d %b %Y %H:%M:%S",
     )

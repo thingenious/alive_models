@@ -45,7 +45,6 @@ def get_prediction(url: str, b64_data: str) -> None:
     headers = {"Content-Type": "application/json"}
     inputs = [
         {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [b64_data]},
-        {"name": "previous_data", "shape": [1, 1], "datatype": "BYTES", "data": [""]},
     ]
     request_data = json.dumps(
         {

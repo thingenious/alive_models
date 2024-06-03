@@ -12,7 +12,6 @@ URL: `/v2/models/asr/versions/1/infer`
 Input Names:
 
 - `data`: Base64 encoded audio data (of wav in 16-bit PCM format)
-- `previous_data`: Base64 encoded audio data of the previous audio chunk
 
 Output Names:
 
@@ -25,16 +24,13 @@ import json
 import httpx
 
 headers = {"Content-Type": "application/json"}
-audio_data = open("path/to/chunk3.wav", "rb").read()
-previous_audio_data = open("/optional/path/to/chunk2.wav", "rb").read()
+audio_data = open("path/to/chunk.wav", "rb").read()
 b64_audio_data = base64.b64encode(audio_data).decode("utf-8")
-b64_previous_audio_data = base64.b64encode(previous_audio_data).decode("utf-8")
 request_data = json.dumps(
     {
         "id": "1",
         "inputs": [
             {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [b64_audio_data]},
-            {"name": "previous_data", "shape": [1, 1], "datatype": "BYTES", "data": [b64_previous_audio_data]},
         ],
     }
 )
