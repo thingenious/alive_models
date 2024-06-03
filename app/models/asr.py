@@ -20,7 +20,6 @@ from pytriton.proxy.types import Request  # type: ignore
 
 from app.config import ASR_MODEL_SIZE, COMPUTE_TYPE, DEVICE, USE_FLASH_ATTENTION
 from app.models._common import concat_wav_data, to_string
-from app.models.asr_checker import correct_transcript
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -104,8 +103,7 @@ def get_transcription(
             hallucination_silence_threshold=0.3,
         )
         segments = list(segments_iter)
-        transcript = "".join([segment.text for segment in segments])
-        text = correct_transcript(transcript, previous_transcript)
+        text = "".join([segment.text for segment in segments])
         segment_dicts = _segments_to_dicts(segments)
         segments_dump = json.dumps(segment_dicts, ensure_ascii=False).encode("utf-8").decode("utf-8")
     return text, segments_dump

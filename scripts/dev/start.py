@@ -38,7 +38,6 @@ _DEFAULT_NLP_MODEL_NAME = os.environ.get(f"{KEY_PREFIX}_NLP_MODEL_NAME", "nlp")
 _DEFAULT_NLP_MODEL_VERSION = int(os.environ.get(f"{KEY_PREFIX}_NLP_MODEL_VERSION", "1"))
 _DEFAULT_NLP_MODEL_REPO = os.environ.get(f"{KEY_PREFIX}_NLP_MODEL_REPO", "SamLowe/roberta-base-go_emotions-onnx")
 _DEFAULT_NLP_MODEL_FILE = os.environ.get(f"{KEY_PREFIX}_NLP_MODEL_FILE", "onnx/model_quantized.onnx")
-_DEFAULT_ASR_CORRECTION_MODEL = os.environ.get(f"{KEY_PREFIX}_ASR_CORRECTION_MODEL", "grammarly/coedit-large")
 
 
 def add_asr_cli_args(parser: argparse.ArgumentParser) -> None:
@@ -75,12 +74,6 @@ def add_asr_cli_args(parser: argparse.ArgumentParser) -> None:
         type=str,
         default=_DEFAULT_ASR_MODEL_SIZE,
         help=f"ASR model size, (default: {_DEFAULT_ASR_MODEL_SIZE}).",
-    )
-    asr_group.add_argument(
-        "--asr-correction-model",
-        type=str,
-        default=_DEFAULT_ASR_CORRECTION_MODEL,
-        help=f"ASR correction model, (default: {_DEFAULT_ASR_CORRECTION_MODEL}, use 'none' to skip).",
     )
 
 
@@ -371,7 +364,6 @@ def get_asr_env_args(args: argparse.Namespace) -> List[str]:
     asr_model_name = args.asr_model_name
     asr_model_version = args.asr_model_version
     asr_model_size = args.asr_model_size
-    asr_correction_model = args.asr_correction_model
     env_args = [
         "-e",
         f"{KEY_PREFIX}_ASR_MODEL_NAME={asr_model_name}",
@@ -379,8 +371,6 @@ def get_asr_env_args(args: argparse.Namespace) -> List[str]:
         f"{KEY_PREFIX}_ASR_MODEL_VERSION={asr_model_version}",
         "-e",
         f"{KEY_PREFIX}_ASR_MODEL_SIZE={asr_model_size}",
-        "-e",
-        f"{KEY_PREFIX}_ASR_CORRECTION_MODEL={asr_correction_model}",
     ]
     return env_args
 
