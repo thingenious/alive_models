@@ -18,4 +18,4 @@ tf-keras==2.16.0
 torch==2.3.0
 torchaudio==2.3.0
 transformers>=4.39.3
-ultralytics==8.2.27
+ultralytics==8.2.28
