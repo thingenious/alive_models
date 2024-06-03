@@ -17,7 +17,7 @@ A short capture of an example that uses all the models can be seen below:
 
 The models that are currently being served are:
 
-- ASR (Automatic Speech Recognition): [distil-large-v3](https://huggingface.co/distil-whisper/distil-large-v3) using [faster-whisper](https://github.com/SYSTRAN/faster-whisper), optionally with [grammarly/coedit-large](https://huggingface.co/grammarly/coedit-large) for post-processing (spell checking and grammar correction on the recognized text).
+- ASR (Automatic Speech Recognition): [distil-large-v3](https://huggingface.co/distil-whisper/distil-large-v3) using [faster-whisper](https://github.com/SYSTRAN/faster-whisper).
 - SER (Speech Emotion Recognition): [hughlan1214/Speech_Emotion_Recognition_wav2vec2-large-xlsr-53_240304_SER_fine-tuned2.0](https://huggingface.co/hughlan1214/Speech_Emotion_Recognition_wav2vec2-large-xlsr-53_240304_SER_fine-tuned2.0)
 - FER (Facial Emotion Recognition): [deepface](https://github.com/serengil/deepface) with [yolov8](https://github.com/ultralytics/ultralytics) for face detection.
 - NLP (Natural Language Processing): [SamLowe/roberta-base-go_emotions-onnx](https://huggingface.co/SamLowe/roberta-base-go_emotions-onnx)
