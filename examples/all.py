@@ -8,6 +8,7 @@ import platform
 import secrets
 import subprocess  # nosemgrep # nosec
 import tempfile
+import threading
 from io import BytesIO
 from typing import Any, Dict, List
 
@@ -149,7 +150,6 @@ def get_asr_prediction(base_url: str, audio_data: str) -> str:
     """
     input_data = [
         {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [audio_data]},
-        {"name": "previous_transcript", "shape": [1, 1], "datatype": "BYTES", "data": [""]},
     ]
     response_data = make_request(base_url, "asr", 1, input_data)
     prediction_dicts = []
@@ -278,7 +278,8 @@ def open_video(video_file: str) -> None:
 def main() -> None:
     """Run the main function."""
     args = cli().parse_args()
-    open_video(args.video.name)
+    preview_thread = threading.Thread(target=open_video, args=(args.video.name,))
+    preview_thread.start()
     audio_data = base64.b64encode(to_mono_16k_pcm(args.video.name)).decode("utf-8")
     _port = f":{args.port}" if args.port not in {80, 443} else ""
     base_url = f"{args.scheme}://{args.host}{_port}"

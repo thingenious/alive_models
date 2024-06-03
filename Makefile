@@ -78,7 +78,7 @@ start:
 	python scripts/dev/start.py
 
 .PHONY: start-debug
-start-debug: build
+start-debug:
 	python scripts/dev/start.py --debug
 
 .PHONY: stop

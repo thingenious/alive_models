@@ -1,13 +1,22 @@
 """Models, names, versions, inputs and outputs configuration."""
 
-import logging
 import os
 import sys
 from pathlib import Path
 
 import torch
 
-DEBUG = os.getenv("DEBUG", "false").lower() == "true"
+DEBUG = os.getenv("DEBUG", "false").lower() in (
+    "true",
+    "1",
+    "on",
+    "yes",
+    "y",
+    "t",
+)
+if not DEBUG and "--debug" in sys.argv or "--log-verbose" in sys.argv:
+    DEBUG = True
+
 ROOT_DIR = Path(__file__).parent.parent.resolve()
 _have_cuda = torch.cuda.is_available()
 DEVICE = "cuda" if _have_cuda else "cpu"
@@ -26,7 +35,6 @@ __all__ = [
     "ASR_MODEL_NAME",
     "ASR_MODEL_VERSION",
     "ASR_MODEL_SIZE",
-    "ASR_CORRECTION_MODEL",
     "SER_MODEL_NAME",
     "SER_MODEL_VERSION",
     "SER_MODEL_REPO",
@@ -36,8 +44,6 @@ __all__ = [
     "NLP_MODEL_FILE",
     "USE_FLASH_ATTENTION",
 ]
-
-logging.basicConfig(stream=sys.stdout, level=logging.WARNING if not DEBUG else logging.DEBUG)
 
 
 def _set_cache_dir() -> None:
@@ -96,8 +102,6 @@ _ASR_MODEL_SIZE = "large-v3"
 ASR_MODEL_SIZE = os.getenv(f"{ENV_PREFIX}_ASR_MODEL_SIZE", "")
 if not ASR_MODEL_SIZE:
     ASR_MODEL_SIZE = _ASR_MODEL_SIZE
-# ASR post proc to try correcting the transcript
-ASR_CORRECTION_MODEL = os.getenv(f"{ENV_PREFIX}_ASR_CORRECTION_MODEL", "grammarly/coedit-large")
 
 # FER
 FER_MODEL_DETECTOR_BACKEND = os.getenv(f"{ENV_PREFIX}_FER_MODEL_DETECTOR_BACKEND", "yolov8")
