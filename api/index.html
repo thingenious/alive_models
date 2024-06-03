@@ -1125,7 +1125,6 @@
 Input Names:</p>
 <ul>
 <li><code>data</code>: Base64 encoded audio data (of wav in 16-bit PCM format)</li>
-<li><code>previous_transcript</code>: Previous transcription (can be an empty string)</li>
 </ul>
 <p>Output Names:</p>
 <ul>
@@ -1137,15 +1136,13 @@ Input Names:</p>
 <span class="kn">import</span> <span class="nn">httpx</span>
 
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">}</span>
-<span class="n">previous_transcript</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-<span class="n">audio_data</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;path/to/audio.wav&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">audio_data</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;path/to/chunk.wav&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <span class="n">b64_audio_data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">audio_data</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
 <span class="n">request_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
     <span class="p">{</span>
         <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
         <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;datatype&quot;</span><span class="p">:</span> <span class="s2">&quot;BYTES&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">b64_audio_data</span><span class="p">]},</span>
-            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;previous_transcript&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;datatype&quot;</span><span class="p">:</span> <span class="s2">&quot;BYTES&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">previous_transcript</span><span class="p">]},</span>
         <span class="p">],</span>
     <span class="p">}</span>
 <span class="p">)</span>
