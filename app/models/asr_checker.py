@@ -35,8 +35,8 @@ def correct_transcript(transcript: str, previous_transcript: str) -> str:
     """
     if not corrector or not transcript or not previous_transcript:
         return transcript
-    LOG.debug("Transcript: #%s#", transcript)
-    LOG.debug("Previous transcript: #%s#", previous_transcript)
+    LOG.info("Transcript: #%s#", transcript)
+    LOG.info("Previous transcript: #%s#", previous_transcript)
     input_text = previous_transcript + transcript
     instruction = "Fix grammatical errors in this text: "
     prompt = f"{instruction}{input_text}"
@@ -45,7 +45,7 @@ def correct_transcript(transcript: str, previous_transcript: str) -> str:
     except BaseException as error:  # pylint: disable=broad-except
         LOG.error("Error while correcting the transcript: %s", error)
         return transcript
-    LOG.debug("Updated text: #%s#", updated_text)
+    LOG.info("Updated text: #%s#", updated_text)
     if updated_text.startswith(instruction):
         updated_text = updated_text[len(instruction) :]
     text = updated_text[len(previous_transcript) :]

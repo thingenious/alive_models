@@ -33,6 +33,7 @@ request_data = json.dumps(
         "id": "1",
         "inputs": [
             {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [b64_audio_data]},
+            {"name": "previous_data", "shape": [1, 1], "datatype": "BYTES", "data": [""]},
             {"name": "previous_transcript", "shape": [1, 1], "datatype": "BYTES", "data": [previous_transcript]},
         ],
     }

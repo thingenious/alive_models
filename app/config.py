@@ -1,13 +1,22 @@
 """Models, names, versions, inputs and outputs configuration."""
 
-import logging
 import os
 import sys
 from pathlib import Path
 
 import torch
 
-DEBUG = os.getenv("DEBUG", "false").lower() == "true"
+DEBUG = os.getenv("DEBUG", "false").lower() in (
+    "true",
+    "1",
+    "on",
+    "yes",
+    "y",
+    "t",
+)
+if not DEBUG and "--debug" in sys.argv or "--log-verbose" in sys.argv:
+    DEBUG = True
+
 ROOT_DIR = Path(__file__).parent.parent.resolve()
 _have_cuda = torch.cuda.is_available()
 DEVICE = "cuda" if _have_cuda else "cpu"
@@ -36,8 +45,6 @@ __all__ = [
     "NLP_MODEL_FILE",
     "USE_FLASH_ATTENTION",
 ]
-
-logging.basicConfig(stream=sys.stdout, level=logging.WARNING if not DEBUG else logging.DEBUG)
 
 
 def _set_cache_dir() -> None:

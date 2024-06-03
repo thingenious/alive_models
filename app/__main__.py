@@ -1,5 +1,6 @@
 """Application entrypoint."""
 
+import logging
 import os
 import sys
 from pathlib import Path
@@ -100,6 +101,12 @@ def main() -> None:
     is_debug = os.environ.get("DEBUG", "false").lower() in ("true", "1", "yes", "on")
     if not is_debug and "--debug" in sys.argv or "--log-verbose" in sys.argv:
         is_debug = True
+    logging.basicConfig(
+        stream=sys.stdout,
+        level=logging.INFO if not is_debug else logging.DEBUG,
+        format="[%(asctime)s] %(levelname)s [%(filename)s.%(funcName)s:%(lineno)d] %(message)s",
+        datefmt="%a, %d %b %Y %H:%M:%S",
+    )
     serve(
         http_port=http_port,
         grpc_port=grpc_port,

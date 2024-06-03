@@ -46,6 +46,7 @@ def get_prediction(url: str, b64_data: str) -> None:
     previous_transcript = ""
     inputs = [
         {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [b64_data]},
+        {"name": "previous_data", "shape": [1, 1], "datatype": "BYTES", "data": [""]},
         {"name": "previous_transcript", "shape": [1, 1], "datatype": "BYTES", "data": [previous_transcript]},
     ]
     request_data = json.dumps(
