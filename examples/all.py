@@ -8,6 +8,7 @@ import platform
 import secrets
 import subprocess  # nosemgrep # nosec
 import tempfile
+import threading
 from io import BytesIO
 from typing import Any, Dict, List
 
@@ -278,7 +279,8 @@ def open_video(video_file: str) -> None:
 def main() -> None:
     """Run the main function."""
     args = cli().parse_args()
-    open_video(args.video.name)
+    preview_thread = threading.Thread(target=open_video, args=(args.video.name,))
+    preview_thread.start()
     audio_data = base64.b64encode(to_mono_16k_pcm(args.video.name)).decode("utf-8")
     _port = f":{args.port}" if args.port not in {80, 443} else ""
     base_url = f"{args.scheme}://{args.host}{_port}"
