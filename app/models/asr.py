@@ -19,7 +19,7 @@ from pytriton.model_config import Tensor  # type: ignore
 from pytriton.proxy.types import Request  # type: ignore
 
 from app.config import ASR_MODEL_SIZE, COMPUTE_TYPE, DEVICE, USE_FLASH_ATTENTION
-from app.models._common import concat_wav_data, to_string
+from app.models._common import concat_wav_data
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -27,7 +27,6 @@ LOG = logging.getLogger(__name__)
 ASR_INPUTS = [
     Tensor(name="data", dtype=bytes, shape=(1,)),
     Tensor(name="previous_data", dtype=bytes, shape=(1,)),
-    Tensor(name="previous_transcript", dtype=bytes, shape=(1,)),
 ]
 ASR_OUTPUTS = [
     Tensor(name="text", dtype=bytes, shape=(1,)),
@@ -65,7 +64,8 @@ def _segments_to_dicts(segments: List[Segment]) -> List[Dict[str, Any]]:
 
 
 def get_transcription(
-    audio_data: NDArray[Any], previous_chunk: NDArray[Any], previous_transcript: str
+    audio_data: NDArray[Any],
+    previous_chunk: NDArray[Any],
 ) -> Tuple[str, str]:
     """Transcribe audio data.
 
@@ -75,7 +75,6 @@ def get_transcription(
         The audio data.
     previous_chunk : NDArray[Any]
         The previous audio chunk.
-    previous_transcript : str
         The previous transcript.
 
     Returns
@@ -124,7 +123,6 @@ def asr_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.int_] | N
     """
     speech_data = [request.data["data"] for request in requests]
     previous_data = [request.data["previous_data"] for request in requests]
-    previous_transcripts = [request.data["previous_transcript"] for request in requests]
     total = len(speech_data)
     results = []
     for index in range(total):
@@ -132,10 +130,10 @@ def asr_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.int_] | N
         segments = "[]"
         audio_data = speech_data[index]
         previous_chunk = previous_data[index]
-        previous_transcript = previous_transcripts[index]
         try:
             transcription, segments = get_transcription(
-                audio_data, previous_chunk=previous_chunk, previous_transcript=to_string(previous_transcript)
+                audio_data,
+                previous_chunk=previous_chunk,
             )
         except BaseException as exc:
             LOG.error("Error transcribing audio: %s", exc)
