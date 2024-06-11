@@ -3,7 +3,6 @@ ctranslate2==4.2.1
 cython==3.0.10
 deepface==0.0.92
 faster-whisper==1.0.2
-librosa==0.10.2.post1
 nltk==3.8.1
 numpy
 nvidia-pytriton==0.5.5; platform_system == "Linux" and platform_machine == "x86_64"
@@ -11,8 +10,6 @@ onnx==1.16.1
 onnxruntime-gpu==1.18.0
 openai-whisper==20231117
 optimum==1.20.0
-pandas
-soundfile==0.12.1
 tensorflow==2.16.1
 tf-keras==2.16.0
 torch==2.3.1
