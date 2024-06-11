@@ -1,9 +1,10 @@
 """FER model inference callable."""
 
 import base64
+import json
 import logging
 import tempfile
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List
 
 import numpy as np
 
@@ -21,8 +22,7 @@ from app.config import FER_MODEL_DETECTOR_BACKEND, FER_MODEL_FACE_MIN_CONFIDENCE
 LOG = logging.getLogger(__name__)
 FER_INPUTS: List[Tensor] = [Tensor(name="data", dtype=bytes, shape=(1,))]
 FER_OUTPUTS: List[Tensor] = [
-    Tensor(name="label", dtype=bytes, shape=(1,)),
-    Tensor(name="score", dtype=np.float32, shape=(1,)),
+    Tensor(name="results", dtype=bytes, shape=(1,)),
 ]
 
 
@@ -42,7 +42,7 @@ _ensure_model()
 
 
 # pylint: disable=broad-except,too-many-try-statements
-def get_image_analysis(data_string: NDArray[Any]) -> Tuple[str, float]:
+def get_image_analysis(data_string: NDArray[Any]) -> List[Dict[str, str | float]]:
     """Analyze an image.
 
     Parameters
@@ -52,11 +52,9 @@ def get_image_analysis(data_string: NDArray[Any]) -> Tuple[str, float]:
 
     Returns
     -------
-    Tuple[str, float]
-        The label and score.
+    List[Dict[str, str | float]]
+        The predicted labels and scores.
     """
-    label = "unknown"
-    score = 0.0
     try:
         base64_data = np.char.decode(data_string.astype("bytes"), "utf-8")
         img_data = base64.b64decode(base64_data)
@@ -71,14 +69,16 @@ def get_image_analysis(data_string: NDArray[Any]) -> Tuple[str, float]:
             )
     except BaseException as exc:
         LOG.error("Error analyzing file: %s", exc)
-        return label, score
+        return []
     by_confidence = sorted(analysis_results, key=lambda x: x["face_confidence"], reverse=True)
     first_result = by_confidence[0]
     face_confidence = float(first_result["face_confidence"])
+    emotions = []
     if face_confidence > FER_MODEL_FACE_MIN_CONFIDENCE:
-        label = first_result["dominant_emotion"]
-        score = first_result["emotion"][label]
-    return label, score
+        emotions_dict = first_result["emotion"]
+        for emotion, score in emotions_dict.items():
+            emotions.append({"label": emotion, "score": score})
+    return emotions
 
 
 def fer_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.int_] | NDArray[np.float_]]]:
@@ -99,10 +99,9 @@ def fer_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.int_] | N
     results = []
     for index in range(total):
         data_string = infer_inputs[index]
-        label, score = get_image_analysis(data_string)
+        analysis_results = get_image_analysis(data_string)
         result = {
-            "label": np.char.encode(label, "utf-8"),
-            "score": np.array([score], dtype=np.float32),
+            "results": np.array(json.dumps(analysis_results), dtype=bytes),
         }
         results.append(result)
     return results

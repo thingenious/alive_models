@@ -22,7 +22,7 @@ def get_prediction(url: str, text: str) -> None:
     headers = {"Content-Type": "application/json"}
     request_id = secrets.randbits(8)
     inputs = [
-        {"name": "text", "shape": [1, 1], "datatype": "BYTES", "data": [text]},
+        {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [text]},
     ]
     request_data = json.dumps(
         {
@@ -37,7 +37,10 @@ def get_prediction(url: str, text: str) -> None:
         response = client.post(url, headers=headers, content=request_data, timeout=30)
         response.raise_for_status()
         response_data = response.json()
-        print(json.dumps(response_data))
+        response_dicts = json.loads(response_data["outputs"][0]["data"][0])
+        print(json.dumps(response_dicts, indent=2))
+        most_probable = max(response_dicts, key=lambda item: item["score"])
+        print(f"Most probable sentiment: {most_probable}")
     except BaseException as exc:
         print(f"Error: {exc}")
         if response is not None:

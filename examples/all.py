@@ -146,30 +146,21 @@ def get_asr_prediction(base_url: str, audio_data: str) -> str:
     Returns
     -------
     str
-        The transcription.
+        The transcript.
     """
     input_data = [
         {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [audio_data]},
     ]
     response_data = make_request(base_url, "asr", 1, input_data)
-    prediction_dicts = []
-    outputs = response_data["outputs"]
-    transcription = None
-    for entry in outputs:
-        if "name" in entry and entry["name"] == "text":
-            transcription = entry["data"][0]
-            prediction_dicts.append(entry)
-        elif "name" in entry and entry["name"] == "segments":
-            _entry = dict(entry)
-            # the data is a json dict, parse it (for better display)
-            segments = json.loads(entry["data"][0])
-            _entry["data"][0] = segments
-            prediction_dicts.append(_entry)
-    if not transcription:
-        transcription = "No transcription available"
-    prediction = {"outputs": prediction_dicts}
-    print(f"ASR prediction:\n{json.dumps(prediction)}\n")
-    return transcription
+    response_dicts = json.loads(response_data["outputs"][0]["data"][0])
+    transcript = ""
+    for entry in response_dicts:
+        text = entry.get("text", "")
+        if text:
+            transcript += text
+    print(f"ASR prediction:\n{json.dumps(response_dicts)}\n")
+    print(f"Transcript: \n{transcript}\n")
+    return transcript
 
 
 def get_ser_prediction(base_url: str, audio_data: str) -> Dict[str, Any]:
@@ -235,7 +226,7 @@ def get_nlp_prediction(base_url: str, transcription: str) -> Dict[str, Any]:
         The NLP prediction.
     """
     input_data = [
-        {"name": "text", "shape": [1, 1], "datatype": "BYTES", "data": [transcription]},
+        {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [transcription]},
     ]
     response_data = make_request(base_url, "nlp", 1, input_data)
     return response_data
@@ -286,11 +277,20 @@ def main() -> None:
     transcript = get_asr_prediction(base_url, audio_data)
     image = get_video_image_snapshot(args.video.name)
     fer_prediction = get_fer_prediction(base_url, image)
+    outputs: List[Dict[str, Any]] = json.loads(fer_prediction["outputs"][0]["data"][0])
     print(f"FER prediction:\n{json.dumps(fer_prediction)}\n")
+    most_probable = max(outputs, key=lambda item: item["score"])
+    print(f"Most probable FER sentiment: {most_probable}")
     nlp_prediction = get_nlp_prediction(base_url, transcript)
+    outputs = json.loads(nlp_prediction["outputs"][0]["data"][0])
     print(f"NLP prediction:\n{json.dumps(nlp_prediction)}\n")
+    most_probable = max(outputs, key=lambda item: item["score"])
+    print(f"Most probable NLP sentiment: {most_probable}")
     ser_prediction = get_ser_prediction(base_url, audio_data)
+    outputs = json.loads(ser_prediction["outputs"][0]["data"][0])
+    most_probable = max(outputs, key=lambda item: item["score"])
     print(f"SER prediction:\n{json.dumps(ser_prediction)}\n")
+    print(f"Most probable SER sentiment: {most_probable}")
 
 
 if __name__ == "__main__":
