@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../static/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
     
     
       
@@ -461,7 +461,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -1424,7 +1424,7 @@ Override it with <code>ALIVE_MODELS_ASR_MODEL_SIZE</code> environment variable.<
 
 
 <h2 id="app.models.asr.ASR_OUTPUTS" class="doc doc-heading">
-            <code class=" language-python"><span class="n">ASR_OUTPUTS</span> <span class="o">=</span> <span class="p">[</span><span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;segments&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span></code>
+            <code class=" language-python"><span class="n">ASR_OUTPUTS</span> <span class="o">=</span> <span class="p">[</span><span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
@@ -1444,7 +1444,7 @@ Override it with <code>ALIVE_MODELS_ASR_MODEL_SIZE</code> environment variable.<
 
 
 <h2 id="app.models.asr.asr_infer_fn" class="doc doc-heading">
-            <code class=" language-python"><span class="n">asr_infer_fn</span><span class="p">(</span><span class="n">requests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">]]]</span></code>
+            <code class=" language-python"><span class="n">asr_infer_fn</span><span class="p">(</span><span class="n">requests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">str_</span><span class="p">]]]</span></code>
 
 </h2>
 
@@ -1494,11 +1494,12 @@ Override it with <code>ALIVE_MODELS_ASR_MODEL_SIZE</code> environment variable.<
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.List">List</span>[<span title="typing.Dict">Dict</span>[str, <span title="numpy.typing.NDArray">NDArray</span>[<span title="numpy.int_">int_</span>] | <span title="numpy.typing.NDArray">NDArray</span>[<span title="numpy.float_">float_</span>]]]</code>
+                  <code><span title="typing.List">List</span>[<span title="typing.Dict">Dict</span>[str, <span title="numpy.typing.NDArray">NDArray</span>[<span title="numpy.str_">str_</span>]]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The inference results.</p>
+                <p>The inference results.
+The final text can be obtained by joining each segment's ["text"] field.</p>
               </div>
             </td>
           </tr>
@@ -1507,7 +1508,10 @@ Override it with <code>ALIVE_MODELS_ASR_MODEL_SIZE</code> environment variable.<
 
             <details class="quote">
               <summary>Source code in <code>app/models/asr.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
@@ -1533,10 +1537,7 @@ Override it with <code>ALIVE_MODELS_ASR_MODEL_SIZE</code> environment variable.<
 <span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">asr_infer_fn</span><span class="p">(</span><span class="n">requests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">]]]:</span>
+<span class="normal">134</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">asr_infer_fn</span><span class="p">(</span><span class="n">requests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">str_</span><span class="p">]]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Inference function for ASR model.</span>
 
 <span class="sd">    Parameters</span>
@@ -1546,23 +1547,23 @@ Override it with <code>ALIVE_MODELS_ASR_MODEL_SIZE</code> environment variable.<
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    List[Dict[str, NDArray[np.int_] | NDArray[np.float_]]]</span>
+<span class="sd">    List[Dict[str, NDArray[np.str_]]]</span>
 <span class="sd">        The inference results.</span>
+<span class="sd">        The final text can be obtained by joining each segment&#39;s [&quot;text&quot;] field.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">speech_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">request</span> <span class="ow">in</span> <span class="n">requests</span><span class="p">]</span>
     <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">speech_data</span><span class="p">)</span>
     <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total</span><span class="p">):</span>
-        <span class="n">transcription</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="n">segments</span> <span class="o">=</span> <span class="s2">&quot;[]&quot;</span>
+        <span class="n">segments</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">audio_data</span> <span class="o">=</span> <span class="n">speech_data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">transcription</span><span class="p">,</span> <span class="n">segments</span> <span class="o">=</span> <span class="n">get_transcription</span><span class="p">(</span><span class="n">audio_data</span><span class="p">)</span>
+            <span class="n">segments</span> <span class="o">=</span> <span class="n">get_transcription</span><span class="p">(</span><span class="n">audio_data</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error transcribing audio: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+        <span class="n">segments_dump</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">segments</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">transcription</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">),</span>
-            <span class="s2">&quot;segments&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">segments</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">),</span>
+            <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">segments_dump</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">),</span>
         <span class="p">}</span>
         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">results</span>
@@ -1576,7 +1577,7 @@ Override it with <code>ALIVE_MODELS_ASR_MODEL_SIZE</code> environment variable.<
 
 
 <h2 id="app.models.asr.get_transcription" class="doc doc-heading">
-            <code class=" language-python"><span class="n">get_transcription</span><span class="p">(</span><span class="n">audio_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span></code>
+            <code class=" language-python"><span class="n">get_transcription</span><span class="p">(</span><span class="n">audio_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span></code>
 
 </h2>
 
@@ -1626,7 +1627,7 @@ Override it with <code>ALIVE_MODELS_ASR_MODEL_SIZE</code> environment variable.<
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.Tuple">Tuple</span>[str, str]</code>
+                  <code>Tuple[str, <span title="typing.List">List</span>[<span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]]]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1639,7 +1640,8 @@ Override it with <code>ALIVE_MODELS_ASR_MODEL_SIZE</code> environment variable.<
 
             <details class="quote">
               <summary>Source code in <code>app/models/asr.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 65</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 64</span>
+<span class="normal"> 65</span>
 <span class="normal"> 66</span>
 <span class="normal"> 67</span>
 <span class="normal"> 68</span>
@@ -1676,12 +1678,9 @@ Override it with <code>ALIVE_MODELS_ASR_MODEL_SIZE</code> environment variable.<
 <span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_transcription</span><span class="p">(</span>
+<span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_transcription</span><span class="p">(</span>
     <span class="n">audio_data</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Transcribe audio data.</span>
 
 <span class="sd">    Parameters</span>
@@ -1691,16 +1690,16 @@ Override it with <code>ALIVE_MODELS_ASR_MODEL_SIZE</code> environment variable.<
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    Tuple[str, str]</span>
+<span class="sd">    Tuple[str, List[Dict[str, Any]]]</span>
 <span class="sd">        The text and segments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">base64_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">audio_data</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;bytes&quot;</span><span class="p">),</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">wav_data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">base64_data</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;[]&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">wav_data</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;[]&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
     <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.wav&quot;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">temp_file</span><span class="p">:</span>
         <span class="n">temp_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">wav_data</span><span class="p">)</span>
         <span class="n">temp_file</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
@@ -1716,10 +1715,8 @@ Override it with <code>ALIVE_MODELS_ASR_MODEL_SIZE</code> environment variable.<
             <span class="n">hallucination_silence_threshold</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">segments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">segments_iter</span><span class="p">)</span>
-        <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">segment</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">segment</span> <span class="ow">in</span> <span class="n">segments</span><span class="p">])</span>
         <span class="n">segment_dicts</span> <span class="o">=</span> <span class="n">_segments_to_dicts</span><span class="p">(</span><span class="n">segments</span><span class="p">)</span>
-        <span class="n">segments_dump</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">segment_dicts</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">text</span><span class="p">,</span> <span class="n">segments_dump</span>
+    <span class="k">return</span> <span class="n">segment_dicts</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -1781,7 +1778,7 @@ Override it with <code>ALIVE_MODELS_FER_MODEL_DETECTOR_BACKEND</code> environmen
 
 
 <h2 id="app.models.fer.FER_OUTPUTS" class="doc doc-heading">
-            <code class=" language-python"><span class="n">FER_OUTPUTS</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span></code>
+            <code class=" language-python"><span class="n">FER_OUTPUTS</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
@@ -1887,8 +1884,7 @@ Override it with <code>ALIVE_MODELS_FER_MODEL_DETECTOR_BACKEND</code> environmen
 <span class="normal">104</span>
 <span class="normal">105</span>
 <span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fer_infer_fn</span><span class="p">(</span><span class="n">requests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">]]]:</span>
+<span class="normal">107</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">fer_infer_fn</span><span class="p">(</span><span class="n">requests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">]]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Inference function for FER model.</span>
 
 <span class="sd">    Parameters</span>
@@ -1906,10 +1902,9 @@ Override it with <code>ALIVE_MODELS_FER_MODEL_DETECTOR_BACKEND</code> environmen
     <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total</span><span class="p">):</span>
         <span class="n">data_string</span> <span class="o">=</span> <span class="n">infer_inputs</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-        <span class="n">label</span><span class="p">,</span> <span class="n">score</span> <span class="o">=</span> <span class="n">get_image_analysis</span><span class="p">(</span><span class="n">data_string</span><span class="p">)</span>
+        <span class="n">analysis_results</span> <span class="o">=</span> <span class="n">get_image_analysis</span><span class="p">(</span><span class="n">data_string</span><span class="p">)</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
-            <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">score</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+            <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">analysis_results</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">),</span>
         <span class="p">}</span>
         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">results</span>
@@ -1923,7 +1918,7 @@ Override it with <code>ALIVE_MODELS_FER_MODEL_DETECTOR_BACKEND</code> environmen
 
 
 <h2 id="app.models.fer.get_image_analysis" class="doc doc-heading">
-            <code class=" language-python"><span class="n">get_image_analysis</span><span class="p">(</span><span class="n">data_string</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span></code>
+            <code class=" language-python"><span class="n">get_image_analysis</span><span class="p">(</span><span class="n">data_string</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]]</span></code>
 
 </h2>
 
@@ -1973,11 +1968,11 @@ Override it with <code>ALIVE_MODELS_FER_MODEL_DETECTOR_BACKEND</code> environmen
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.Tuple">Tuple</span>[str, float]</code>
+                  <code><span title="typing.List">List</span>[<span title="typing.Dict">Dict</span>[str, str | float]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The label and score.</p>
+                <p>The predicted labels and scores.</p>
               </div>
             </td>
           </tr>
@@ -2022,7 +2017,7 @@ Override it with <code>ALIVE_MODELS_FER_MODEL_DETECTOR_BACKEND</code> environmen
 <span class="normal">78</span>
 <span class="normal">79</span>
 <span class="normal">80</span>
-<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_image_analysis</span><span class="p">(</span><span class="n">data_string</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_image_analysis</span><span class="p">(</span><span class="n">data_string</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Analyze an image.</span>
 
 <span class="sd">    Parameters</span>
@@ -2032,11 +2027,9 @@ Override it with <code>ALIVE_MODELS_FER_MODEL_DETECTOR_BACKEND</code> environmen
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    Tuple[str, float]</span>
-<span class="sd">        The label and score.</span>
+<span class="sd">    List[Dict[str, str | float]]</span>
+<span class="sd">        The predicted labels and scores.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
-    <span class="n">score</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">base64_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">data_string</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;bytes&quot;</span><span class="p">),</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
         <span class="n">img_data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">base64_data</span><span class="p">)</span>
@@ -2051,14 +2044,16 @@ Override it with <code>ALIVE_MODELS_FER_MODEL_DETECTOR_BACKEND</code> environmen
             <span class="p">)</span>
     <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error analyzing file: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">label</span><span class="p">,</span> <span class="n">score</span>
+        <span class="k">return</span> <span class="p">[]</span>
     <span class="n">by_confidence</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">analysis_results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;face_confidence&quot;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">first_result</span> <span class="o">=</span> <span class="n">by_confidence</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">face_confidence</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">first_result</span><span class="p">[</span><span class="s2">&quot;face_confidence&quot;</span><span class="p">])</span>
+    <span class="n">emotions</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">face_confidence</span> <span class="o">&gt;</span> <span class="n">FER_MODEL_FACE_MIN_CONFIDENCE</span><span class="p">:</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="n">first_result</span><span class="p">[</span><span class="s2">&quot;dominant_emotion&quot;</span><span class="p">]</span>
-        <span class="n">score</span> <span class="o">=</span> <span class="n">first_result</span><span class="p">[</span><span class="s2">&quot;emotion&quot;</span><span class="p">][</span><span class="n">label</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">label</span><span class="p">,</span> <span class="n">score</span>
+        <span class="n">emotions_dict</span> <span class="o">=</span> <span class="n">first_result</span><span class="p">[</span><span class="s2">&quot;emotion&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">emotion</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">emotions_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">emotions</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">emotion</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">score</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">emotions</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -2101,7 +2096,7 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 
 
 <h2 id="app.models.nlp.NLP_INPUTS" class="doc doc-heading">
-            <code class=" language-python"><span class="n">NLP_INPUTS</span> <span class="o">=</span> <span class="p">[</span><span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span></code>
+            <code class=" language-python"><span class="n">NLP_INPUTS</span> <span class="o">=</span> <span class="p">[</span><span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
@@ -2120,7 +2115,7 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 
 
 <h2 id="app.models.nlp.NLP_OUTPUTS" class="doc doc-heading">
-            <code class=" language-python"><span class="n">NLP_OUTPUTS</span> <span class="o">=</span> <span class="p">[</span><span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span></code>
+            <code class=" language-python"><span class="n">NLP_OUTPUTS</span> <span class="o">=</span> <span class="p">[</span><span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
@@ -2203,7 +2198,9 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 
             <details class="quote">
               <summary>Source code in <code>app/models/nlp.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">67</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
@@ -2224,10 +2221,7 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 <span class="normal">85</span>
 <span class="normal">86</span>
 <span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">nlp_infer_fn</span><span class="p">(</span><span class="n">requests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">]]]:</span>
+<span class="normal">88</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">nlp_infer_fn</span><span class="p">(</span><span class="n">requests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">]]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Inference function for NLP model.</span>
 
 <span class="sd">    Parameters</span>
@@ -2240,15 +2234,14 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 <span class="sd">    List[Dict[str, NDArray[np.int_] | NDArray[np.float_]]]</span>
 <span class="sd">        The inference results.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">infer_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">request</span> <span class="ow">in</span> <span class="n">requests</span><span class="p">]</span>
+    <span class="n">infer_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">request</span> <span class="ow">in</span> <span class="n">requests</span><span class="p">]</span>
     <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">infer_inputs</span><span class="p">)</span>
     <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total</span><span class="p">):</span>
         <span class="n">input_text</span> <span class="o">=</span> <span class="n">infer_inputs</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-        <span class="n">label</span><span class="p">,</span> <span class="n">score</span> <span class="o">=</span> <span class="n">get_text_sentiment</span><span class="p">(</span><span class="n">to_string</span><span class="p">(</span><span class="n">input_text</span><span class="p">))</span>
+        <span class="n">analysis_results</span> <span class="o">=</span> <span class="n">get_text_sentiment</span><span class="p">(</span><span class="n">to_string</span><span class="p">(</span><span class="n">input_text</span><span class="p">))</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">label</span><span class="p">),</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
-            <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">score</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+            <span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">analysis_results</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">),</span>
         <span class="p">}</span>
         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">results</span>
@@ -2262,7 +2255,7 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 
 
 <h2 id="app.models.nlp.get_text_sentiment" class="doc doc-heading">
-            <code class=" language-python"><span class="n">get_text_sentiment</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span></code>
+            <code class=" language-python"><span class="n">get_text_sentiment</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]]</span></code>
 
 </h2>
 
@@ -2312,11 +2305,11 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.Tuple">Tuple</span>[str, float]</code>
+                  <code><span title="typing.List">List</span>[Tuple[str, float]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The label and score.</p>
+                <p>The sentiment labels and scores</p>
               </div>
             </td>
           </tr>
@@ -2347,9 +2340,7 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 <span class="normal">59</span>
 <span class="normal">60</span>
 <span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_text_sentiment</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="normal">62</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_text_sentiment</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the sentiment of a text.</span>
 
 <span class="sd">    Parameters</span>
@@ -2359,21 +2350,19 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    Tuple[str, float]</span>
-<span class="sd">        The label and score.</span>
+<span class="sd">    List[Tuple[str, float]]</span>
+<span class="sd">        The sentiment labels and scores</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
-    <span class="n">score</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="c1"># pylint: disable=broad-except,too-many-try-statements</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">outputs</span> <span class="o">=</span> <span class="n">classifier</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-        <span class="n">sorted_outputs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;score&quot;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">prediction</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">sorted_outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">prediction</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">])</span>
-        <span class="n">score</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">prediction</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">])</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Outputs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+        <span class="c1"># sorted_outputs = sorted(outputs, key=lambda x: x[0][&quot;score&quot;], reverse=True)</span>
+        <span class="c1"># prediction: Dict[str, str | float] = sorted_outputs[0][0]</span>
     <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error getting prediction: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">label</span><span class="p">,</span> <span class="n">score</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -2432,7 +2421,7 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 
 
 <h2 id="app.models.ser.SER_OUTPUTS" class="doc doc-heading">
-            <code class=" language-python"><span class="n">SER_OUTPUTS</span> <span class="o">=</span> <span class="p">[</span><span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span></code>
+            <code class=" language-python"><span class="n">SER_OUTPUTS</span> <span class="o">=</span> <span class="p">[</span><span class="n">Tensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">))]</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
@@ -2515,7 +2504,9 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 
             <details class="quote">
               <summary>Source code in <code>app/models/ser.py</code></summary>
-              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
+              <div class="codehilite"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
 <span class="normal">58</span>
@@ -2540,13 +2531,7 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 <span class="normal">77</span>
 <span class="normal">78</span>
 <span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">ser_infer_fn</span><span class="p">(</span><span class="n">requests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">]]]:</span>
+<span class="normal">80</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">ser_infer_fn</span><span class="p">(</span><span class="n">requests</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Request</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">int_</span><span class="p">]</span> <span class="o">|</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float_</span><span class="p">]]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Inference function for SER model.</span>
 
 <span class="sd">    Parameters</span>
@@ -2563,19 +2548,15 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
     <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">infer_inputs</span><span class="p">)</span>
     <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total</span><span class="p">):</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
-        <span class="n">score</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="n">data_string</span> <span class="o">=</span> <span class="n">infer_inputs</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">base64_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">data_string</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;bytes&quot;</span><span class="p">),</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
             <span class="n">wav_data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">base64_data</span><span class="p">)</span>
-            <span class="n">label</span><span class="p">,</span> <span class="n">score</span> <span class="o">=</span> <span class="n">get_audio_analysis</span><span class="p">(</span><span class="n">wav_data</span><span class="p">)</span>
+            <span class="n">analysis_results</span> <span class="o">=</span> <span class="n">get_audio_analysis</span><span class="p">(</span><span class="n">wav_data</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error analyzing file: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
-            <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">score</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
-        <span class="p">}</span>
+            <span class="n">analysis_results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;results&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">analysis_results</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bytes</span><span class="p">)}</span>
         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">results</span>
 </code></pre></div></td></tr></table></div>
@@ -2588,7 +2569,7 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 
 
 <h2 id="app.models.ser.get_audio_analysis" class="doc doc-heading">
-            <code class=" language-python"><span class="n">get_audio_analysis</span><span class="p">(</span><span class="n">audio_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span></code>
+            <code class=" language-python"><span class="n">get_audio_analysis</span><span class="p">(</span><span class="n">audio_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]]</span></code>
 
 </h2>
 
@@ -2638,11 +2619,11 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.Tuple">Tuple</span>[str, float]</code>
+                  <code><span title="typing.List">List</span>[<span title="typing.Dict">Dict</span>[str, str | float]]</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The label and score.</p>
+                <p>The predicted labels and scores.</p>
               </div>
             </td>
           </tr>
@@ -2669,9 +2650,7 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 <span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_audio_analysis</span><span class="p">(</span><span class="n">audio_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_audio_analysis</span><span class="p">(</span><span class="n">audio_data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the prediction from the model.</span>
 
 <span class="sd">    Parameters</span>
@@ -2681,17 +2660,15 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    Tuple[str, float]</span>
-<span class="sd">        The label and score.</span>
+<span class="sd">    List[Dict[str, str | float]]</span>
+<span class="sd">        The predicted labels and scores.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.wav&quot;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">temp_file</span><span class="p">:</span>
         <span class="n">temp_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">audio_data</span><span class="p">)</span>
         <span class="n">temp_file</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
         <span class="n">outputs</span> <span class="o">=</span> <span class="n">classifier</span><span class="p">(</span><span class="n">temp_file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
-    <span class="n">highest_score</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">])</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="n">highest_score</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span>
-    <span class="n">score</span> <span class="o">=</span> <span class="n">highest_score</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">label</span><span class="p">,</span> <span class="n">score</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Outputs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">outputs</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -2760,7 +2737,7 @@ Override it with <code>ALIVE_MODELS_NLP_MODEL_REPO</code> and/or <code>ALIVE_MOD
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.indexes"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.081f42fc.min.js"></script>
+      <script src="../assets/javascripts/bundle.ad660dcc.min.js"></script>
       
         <script src="../static/js/termynal.js"></script>
       

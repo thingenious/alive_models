@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../static/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
     
     
       
@@ -463,7 +463,7 @@
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -1128,8 +1128,7 @@ Input Names:</p>
 </ul>
 <p>Output Names:</p>
 <ul>
-<li><code>text</code>: Transcription of the audio</li>
-<li><code>segments</code>: Segments of the audio with timestamps and words</li>
+<li><code>results</code>: JSON dumped segments of the audio with their text, the timestamps and words</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">base64</span>
 <span class="kn">import</span> <span class="nn">json</span>
@@ -1156,22 +1155,16 @@ Input Names:</p>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 
-<span class="c1"># Example Output:</span>
+<span class="c1"># Example output:</span>
 <span class="c1"># {</span>
 <span class="c1">#     &quot;id&quot;: &quot;1&quot;,</span>
 <span class="c1">#     &quot;model_name&quot;: &quot;asr&quot;,</span>
 <span class="c1">#     &quot;model_version&quot;: &quot;1&quot;,</span>
 <span class="c1">#     &quot;outputs&quot;: [</span>
 <span class="c1">#         {</span>
-<span class="c1">#             &quot;name&quot;: &quot;text&quot;,</span>
+<span class="c1">#             &quot;name&quot;: &quot;results&quot;,</span>
 <span class="c1">#             &quot;datatype&quot;: &quot;BYTES&quot;,</span>
-<span class="c1">#             &quot;shape&quot;: [1],</span>
-<span class="c1">#             &quot;data&quot;: [&quot;hello world&quot;]</span>
-<span class="c1">#         },</span>
-<span class="c1">#         {</span>
-<span class="c1">#             &quot;name&quot;: &quot;segments&quot;,</span>
-<span class="c1">#             &quot;datatype&quot;: &quot;BYTES&quot;,</span>
-<span class="c1">#             &quot;shape&quot;: [1],</span>
+<span class="c1">#             &quot;shape&quot;: [],</span>
 <span class="c1">#             &quot;data&quot;: [&quot;[{\&quot;id\&quot;: 1, \&quot;seek\&quot;: 10, \&quot;start\&quot;: 0.0, \&quot;end\&quot;: 1.0, \&quot;text\&quot;: \&quot;hello\&quot;, \&quot;tokens\&quot;: [1, 2, 3, 4, 5], \&quot;temperature\&quot;: 0.0, \&quot;avg_logprob\&quot;: -0.1140624976158142, \&quot;compression_ratio\&quot;: 1.0, \&quot;no_speech_prob\&quot;: 0.0011053085327148438, \&quot;words\&quot;: [{\&quot;start\&quot;: 0.0, \&quot;end\&quot;: 0.6, \&quot;word\&quot;: \&quot;Hello\&quot;, \&quot;probability\&quot;: 0.96728515625}, {\&quot;start\&quot;: 0.7, \&quot;end\&quot;: 1.2, \&quot;word\&quot;: \&quot;World\&quot;, \&quot;probability\&quot;: 0.99755859375]&quot;]</span>
 <span class="c1">#         }</span>
 <span class="c1">#     ]</span>
@@ -1185,8 +1178,7 @@ Input Names:</p>
 </ul>
 <p>Output Names:</p>
 <ul>
-<li><code>label</code>: Emotion label</li>
-<li><code>score</code>: Confidence score</li>
+<li><code>results</code>: JSON dumped predictions with the <code>label</code> and <code>score</code> for each emotion</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="c1"># ...</span>
 <span class="n">request_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
@@ -1198,27 +1190,23 @@ Input Names:</p>
     <span class="p">}</span>
 <span class="p">)</span>
 <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000/v2/models/ser/versions/1/infer&quot;</span>
+
 <span class="c1"># ...</span>
-<span class="c1"># Example Output:</span>
-<span class="c1">#</span>
+<span class="c1"># Example output:</span>
 <span class="c1"># {</span>
-<span class="c1">#     &quot;id&quot;: &quot;16&quot;</span>
-<span class="c1">#     &quot;model_name&quot;: &quot;ser&quot;,</span>
-<span class="c1">#     &quot;model_version&quot;: &quot;1&quot;,</span>
-<span class="c1">#     &quot;outputs&quot;: [</span>
-<span class="c1">#         {</span>
-<span class="c1">#             &quot;name&quot;: &quot;label&quot;,</span>
-<span class="c1">#             &quot;datatype&quot;: &quot;BYTES&quot;,</span>
-<span class="c1">#             &quot;shape&quot;: [1],</span>
-<span class="c1">#             &quot;data&quot;: [&quot;happy&quot;]</span>
-<span class="c1">#         },</span>
-<span class="c1">#         {</span>
-<span class="c1">#             &quot;name&quot;: &quot;score&quot;,</span>
-<span class="c1">#             &quot;datatype&quot;: &quot;FP32&quot;,</span>
-<span class="c1">#             &quot;shape&quot;: [],</span>
-<span class="c1">#             &quot;data&quot;: [0.8824779987335205]</span>
-<span class="c1">#         }</span>
-<span class="c1">#     ]</span>
+<span class="c1">#   &quot;id&quot;: &quot;134&quot;,</span>
+<span class="c1">#   &quot;model_name&quot;: &quot;ser&quot;,</span>
+<span class="c1">#   &quot;model_version&quot;: &quot;1&quot;,</span>
+<span class="c1">#   &quot;outputs&quot;: [</span>
+<span class="c1">#     {</span>
+<span class="c1">#       &quot;name&quot;: &quot;results&quot;,</span>
+<span class="c1">#       &quot;datatype&quot;: &quot;BYTES&quot;,</span>
+<span class="c1">#       &quot;shape&quot;: [],</span>
+<span class="c1">#       &quot;data&quot;: [</span>
+<span class="c1">#         &quot;[{\&quot;score\&quot;: 0.9841493964195251, \&quot;label\&quot;: \&quot;happy\&quot;}, {\&quot;score\&quot;: 0.012710321694612503, \&quot;label\&quot;: \&quot;disgust\&quot;}, {\&quot;score\&quot;: 0.0015516174025833607, \&quot;label\&quot;: \&quot;angry\&quot;}, {\&quot;score\&quot;: 0.0011115961242467165, \&quot;label\&quot;: \&quot;fear\&quot;}, {\&quot;score\&quot;: 0.0002755543973762542, \&quot;label\&quot;: \&quot;surprise\&quot;}]&quot;</span>
+<span class="c1">#       ]</span>
+<span class="c1">#     }</span>
+<span class="c1">#   ]</span>
 <span class="c1"># }</span>
 </code></pre></div>
 <h3 id="fer-facial-emotion-recognition">FER (Facial Emotion Recognition)</h3>
@@ -1229,8 +1217,7 @@ Input Names:</p>
 </ul>
 <p>Output Names:</p>
 <ul>
-<li><code>label</code>: Emotion label</li>
-<li><code>score</code>: Confidence score</li>
+<li><code>results</code>: JSON dumped predictions with the <code>label</code> and <code>score</code> for each emotion</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="c1"># ...</span>
 <span class="n">image_data</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;path/to/image.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -1245,18 +1232,32 @@ Input Names:</p>
 <span class="p">)</span>
 <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000/v2/models/fer/versions/1/infer&quot;</span>
 <span class="c1"># ...</span>
-<span class="c1"># Same output format as above (label and score)</span>
+<span class="c1"># Example output:</span>
+<span class="c1"># {</span>
+<span class="c1">#   &quot;id&quot;: &quot;108&quot;,</span>
+<span class="c1">#   &quot;model_name&quot;: &quot;fer&quot;,</span>
+<span class="c1">#   &quot;model_version&quot;: &quot;1&quot;,</span>
+<span class="c1">#   &quot;outputs&quot;: [</span>
+<span class="c1">#     {</span>
+<span class="c1">#       &quot;name&quot;: &quot;results&quot;,</span>
+<span class="c1">#       &quot;datatype&quot;: &quot;BYTES&quot;,</span>
+<span class="c1">#       &quot;shape&quot;: [],</span>
+<span class="c1">#       &quot;data&quot;: [</span>
+<span class="c1">#         &quot;[{\&quot;label\&quot;: \&quot;angry\&quot;, \&quot;score\&quot;: 9.990368239735993e-07}, {\&quot;label\&quot;: \&quot;disgust\&quot;, \&quot;score\&quot;: 3.2478467246928735e-12}, {\&quot;label\&quot;: \&quot;fear\&quot;, \&quot;score\&quot;: 1.9463645189950467e-07}, {\&quot;label\&quot;: \&quot;happy\&quot;, \&quot;score\&quot;: 99.98987317024906}, {\&quot;label\&quot;: \&quot;sad\&quot;, \&quot;score\&quot;: 2.089022626165558e-05}, {\&quot;label\&quot;: \&quot;surprise\&quot;, \&quot;score\&quot;: 1.4230729443738787e-05}, {\&quot;label\&quot;: \&quot;neutral\&quot;, \&quot;score\&quot;: 0.010093500042319301}]&quot;</span>
+<span class="c1">#       ]</span>
+<span class="c1">#     }</span>
+<span class="c1">#   ]</span>
+<span class="c1"># }</span>
 </code></pre></div>
 <h3 id="nlp-natural-language-processing">NLP (Natural Language Processing)</h3>
 <p>URL: <code>/v2/models/nlp/versions/1/infer</code></p>
 <p>Input Names:</p>
 <ul>
-<li><code>text</code>: Text data</li>
+<li><code>data</code>: Text data</li>
 </ul>
 <p>Output Names:</p>
 <ul>
-<li><code>label</code>: Emotion label</li>
-<li><code>score</code>: Confidence score</li>
+<li><code>results</code>: JSON dumped predictions with the <code>label</code> and <code>score</code> for each emotion</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="c1"># ...</span>
 <span class="n">text_data</span> <span class="o">=</span> <span class="s2">&quot;I am very happy today!&quot;</span>
@@ -1264,13 +1265,28 @@ Input Names:</p>
     <span class="p">{</span>
         <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
         <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;datatype&quot;</span><span class="p">:</span> <span class="s2">&quot;BYTES&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">text_data</span><span class="p">]},</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;datatype&quot;</span><span class="p">:</span> <span class="s2">&quot;BYTES&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">text_data</span><span class="p">]},</span>
         <span class="p">],</span>
     <span class="p">}</span>
 <span class="p">)</span>
 <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000/v2/models/nlp/versions/1/infer&quot;</span>
 <span class="c1"># ...</span>
-<span class="c1"># Same output format as above (label and score)</span>
+<span class="c1"># Example output:</span>
+<span class="c1"># {</span>
+<span class="c1">#   &quot;id&quot;: &quot;193&quot;,</span>
+<span class="c1">#   &quot;model_name&quot;: &quot;nlp&quot;,</span>
+<span class="c1">#   &quot;model_version&quot;: &quot;1&quot;,</span>
+<span class="c1">#   &quot;outputs&quot;: [</span>
+<span class="c1">#     {</span>
+<span class="c1">#       &quot;name&quot;: &quot;results&quot;,</span>
+<span class="c1">#       &quot;datatype&quot;: &quot;BYTES&quot;,</span>
+<span class="c1">#       &quot;shape&quot;: [],</span>
+<span class="c1">#       &quot;data&quot;: [</span>
+<span class="c1">#         &quot;[{\&quot;label\&quot;: \&quot;joy\&quot;, \&quot;score\&quot;: 0.8967722058296204}, {\&quot;label\&quot;: \&quot;excitement\&quot;, \&quot;score\&quot;: 0.037859223783016205}, {\&quot;label\&quot;: \&quot;admiration\&quot;, \&quot;score\&quot;: 0.02824225090444088}, {\&quot;label\&quot;: \&quot;neutral\&quot;, \&quot;score\&quot;: 0.027330709621310234}, {\&quot;label\&quot;: \&quot;gratitude\&quot;, \&quot;score\&quot;: 0.02417466975748539}, {\&quot;label\&quot;: \&quot;relief\&quot;, \&quot;score\&quot;: 0.022464321926236153}, {\&quot;label\&quot;: \&quot;approval\&quot;, \&quot;score\&quot;: 0.021864689886569977}, {\&quot;label\&quot;: \&quot;love\&quot;, \&quot;score\&quot;: 0.014073355123400688}, {\&quot;label\&quot;: \&quot;caring\&quot;, \&quot;score\&quot;: 0.011970801278948784}, {\&quot;label\&quot;: \&quot;amusement\&quot;, \&quot;score\&quot;: 0.009650727733969688}, {\&quot;label\&quot;: \&quot;optimism\&quot;, \&quot;score\&quot;: 0.006543426308780909}, {\&quot;label\&quot;: \&quot;realization\&quot;, \&quot;score\&quot;: 0.006097565405070782}, {\&quot;label\&quot;: \&quot;pride\&quot;, \&quot;score\&quot;: 0.005770173855125904}, {\&quot;label\&quot;: \&quot;annoyance\&quot;, \&quot;score\&quot;: 0.005515581928193569}, {\&quot;label\&quot;: \&quot;disapproval\&quot;, \&quot;score\&quot;: 0.0043140980415046215}, {\&quot;label\&quot;: \&quot;confusion\&quot;, \&quot;score\&quot;: 0.0036673692520707846}, {\&quot;label\&quot;: \&quot;sadness\&quot;, \&quot;score\&quot;: 0.0036307028494775295}, {\&quot;label\&quot;: \&quot;anger\&quot;, \&quot;score\&quot;: 0.003237350843846798}, {\&quot;label\&quot;: \&quot;desire\&quot;, \&quot;score\&quot;: 0.0026491915341466665}, {\&quot;label\&quot;: \&quot;curiosity\&quot;, \&quot;score\&quot;: 0.0022887929808348417}, {\&quot;label\&quot;: \&quot;surprise\&quot;, \&quot;score\&quot;: 0.002227753633633256}, {\&quot;label\&quot;: \&quot;disappointment\&quot;, \&quot;score\&quot;: 0.0017585484310984612}, {\&quot;label\&quot;: \&quot;nervousness\&quot;, \&quot;score\&quot;: 0.0016981943044811487}, {\&quot;label\&quot;: \&quot;grief\&quot;, \&quot;score\&quot;: 0.0011259763268753886}, {\&quot;label\&quot;: \&quot;remorse\&quot;, \&quot;score\&quot;: 0.0009548053494654596}, {\&quot;label\&quot;: \&quot;fear\&quot;, \&quot;score\&quot;: 0.0009162503411062062}, {\&quot;label\&quot;: \&quot;embarrassment\&quot;, \&quot;score\&quot;: 0.0008813319727778435}, {\&quot;label\&quot;: \&quot;disgust\&quot;, \&quot;score\&quot;: 0.0006478808936662972}]&quot;</span>
+<span class="c1">#       ]</span>
+<span class="c1">#     }</span>
+<span class="c1">#   ]</span>
+<span class="c1"># }</span>
 </code></pre></div>
 
 
@@ -1327,7 +1343,7 @@ Input Names:</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.indexes"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.081f42fc.min.js"></script>
+      <script src="../assets/javascripts/bundle.ad660dcc.min.js"></script>
       
         <script src="../static/js/termynal.js"></script>
       
