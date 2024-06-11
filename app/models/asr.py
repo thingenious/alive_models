@@ -5,7 +5,7 @@ import json
 import logging
 import tempfile
 import warnings
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List
 
 import numpy as np
 
@@ -28,8 +28,7 @@ ASR_INPUTS = [
     Tensor(name="data", dtype=bytes, shape=(1,)),
 ]
 ASR_OUTPUTS = [
-    Tensor(name="text", dtype=bytes, shape=(1,)),
-    Tensor(name="segments", dtype=bytes, shape=(1,)),
+    Tensor(name="results", dtype=bytes, shape=(1,)),
 ]
 
 model = WhisperModel(
@@ -64,7 +63,7 @@ def _segments_to_dicts(segments: List[Segment]) -> List[Dict[str, Any]]:
 
 def get_transcription(
     audio_data: NDArray[Any],
-) -> Tuple[str, str]:
+) -> List[Dict[str, Any]]:
     """Transcribe audio data.
 
     Parameters
@@ -74,16 +73,16 @@ def get_transcription(
 
     Returns
     -------
-    Tuple[str, str]
+    Tuple[str, List[Dict[str, Any]]]
         The text and segments.
     """
     base64_data = np.char.decode(audio_data.astype("bytes"), "utf-8")
     try:
         wav_data = base64.b64decode(base64_data)
     except BaseException:
-        return "", "[]"
+        return []
     if not wav_data:
-        return "", "[]"
+        return []
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=True) as temp_file:
         temp_file.write(wav_data)
         temp_file.flush()
@@ -99,13 +98,11 @@ def get_transcription(
             hallucination_silence_threshold=0.3,
         )
         segments = list(segments_iter)
-        text = "".join([segment.text for segment in segments])
         segment_dicts = _segments_to_dicts(segments)
-        segments_dump = json.dumps(segment_dicts, ensure_ascii=False).encode("utf-8").decode("utf-8")
-    return text, segments_dump
+    return segment_dicts
 
 
-def asr_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.int_] | NDArray[np.float_]]]:
+def asr_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.str_]]]:
     """Inference function for ASR model.
 
     Parameters
@@ -115,23 +112,23 @@ def asr_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.int_] | N
 
     Returns
     -------
-    List[Dict[str, NDArray[np.int_] | NDArray[np.float_]]]
+    List[Dict[str, NDArray[np.str_]]]
         The inference results.
+        The final text can be obtained by joining each segment's ["text"] field.
     """
     speech_data = [request.data["data"] for request in requests]
     total = len(speech_data)
     results = []
     for index in range(total):
-        transcription = ""
-        segments = "[]"
+        segments: List[Dict[str, Any]] = []
         audio_data = speech_data[index]
         try:
-            transcription, segments = get_transcription(audio_data)
+            segments = get_transcription(audio_data)
         except BaseException as exc:
             LOG.error("Error transcribing audio: %s", exc)
+        segments_dump = json.dumps(segments, ensure_ascii=False).encode("utf-8").decode("utf-8")
         result = {
-            "text": np.array([transcription], dtype=bytes),
-            "segments": np.array([segments], dtype=bytes),
+            "results": np.array(segments_dump, dtype=bytes),
         }
         results.append(result)
     return results

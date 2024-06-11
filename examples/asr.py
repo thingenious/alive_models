@@ -7,6 +7,7 @@ import os
 import secrets
 import tempfile
 import threading
+import traceback
 
 import av
 import httpx
@@ -58,20 +59,10 @@ def get_prediction(url: str, b64_data: str) -> None:
         response = client.post(url, headers=headers, content=request_data, timeout=30)
         response.raise_for_status()
         response_data = response.json()
-        prediction_dicts = []
-        outputs = response_data["outputs"]
-        print(json.dumps(response_data))
-        for entry in outputs:
-            if "name" in entry and entry["name"] == "text":
-                prediction_dicts.append(entry)
-            elif "name" in entry and entry["name"] == "segments":
-                # the data is a json dict, parse it (just for for better display when we json.dump it)
-                _entry = dict(entry)
-                segments = json.loads(entry["data"][0])
-                _entry["data"][0] = segments
-                prediction_dicts.append(_entry)
-        print(json.dumps(prediction_dicts))
+        response_dicts = json.loads(response_data["outputs"][0]["data"][0])
+        print(json.dumps(response_dicts, indent=2))
     except BaseException as error:
+        traceback.print_exc()
         print(f"Error sending request: {error}")
 
 

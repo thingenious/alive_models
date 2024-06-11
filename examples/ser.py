@@ -59,7 +59,10 @@ def get_prediction(url: str, b64_data: str) -> None:
         response = client.post(url, headers=headers, content=request_data, timeout=60)
         response.raise_for_status()
         response_data = response.json()
-        print(json.dumps(response_data))
+        response_dicts = json.loads(response_data["outputs"][0]["data"][0])
+        print(json.dumps(response_dicts, indent=2))
+        most_probable = max(response_dicts, key=lambda item: item["score"])
+        print(f"Most probable sentiment: {most_probable}")
     except BaseException as exc:
         print(f"Error: {exc}")
     finally:

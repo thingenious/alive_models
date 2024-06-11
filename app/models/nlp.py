@@ -1,7 +1,8 @@
 """NLP model inference callable."""
 
+import json
 import logging
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 import numpy as np
 from numpy.typing import NDArray
@@ -17,10 +18,9 @@ from app.config import NLP_MODEL_FILE, NLP_MODEL_REPO
 from app.models._common import to_string
 
 LOG = logging.getLogger(__name__)
-NLP_INPUTS = [Tensor(name="text", dtype=bytes, shape=(1,))]
+NLP_INPUTS = [Tensor(name="data", dtype=bytes, shape=(1,))]
 NLP_OUTPUTS = [
-    Tensor(name="label", dtype=bytes, shape=(1,)),
-    Tensor(name="score", dtype=np.float32, shape=(1,)),
+    Tensor(name="results", dtype=bytes, shape=(1,)),
 ]
 
 model = ORTModelForSequenceClassification.from_pretrained(
@@ -37,7 +37,7 @@ classifier = pipeline(
 )
 
 
-def get_text_sentiment(text: str) -> Tuple[str, float]:
+def get_text_sentiment(text: str) -> List[Dict[str, str | float]]:
     """Get the sentiment of a text.
 
     Parameters
@@ -47,21 +47,19 @@ def get_text_sentiment(text: str) -> Tuple[str, float]:
 
     Returns
     -------
-    Tuple[str, float]
-        The label and score.
+    List[Tuple[str, float]]
+        The sentiment labels and scores
     """
-    label = "unknown"
-    score = 0.0
     # pylint: disable=broad-except,too-many-try-statements
     try:
         outputs = classifier(text)
-        sorted_outputs = sorted(outputs, key=lambda x: x[0]["score"], reverse=True)
-        prediction: Dict[str, str | float] = sorted_outputs[0][0]
-        label = str(prediction["label"])
-        score = float(prediction["score"])
+        LOG.debug("Outputs: %s", outputs)
+        # sorted_outputs = sorted(outputs, key=lambda x: x[0]["score"], reverse=True)
+        # prediction: Dict[str, str | float] = sorted_outputs[0][0]
     except BaseException as exc:
         LOG.error("Error getting prediction: %s", exc)
-    return label, score
+        outputs = []
+    return outputs[0]
 
 
 def nlp_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.int_] | NDArray[np.float_]]]:
@@ -77,15 +75,14 @@ def nlp_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.int_] | N
     List[Dict[str, NDArray[np.int_] | NDArray[np.float_]]]
         The inference results.
     """
-    infer_inputs = [request.data["text"] for request in requests]
+    infer_inputs = [request.data["data"] for request in requests]
     total = len(infer_inputs)
     results = []
     for index in range(total):
         input_text = infer_inputs[index]
-        label, score = get_text_sentiment(to_string(input_text))
+        analysis_results = get_text_sentiment(to_string(input_text))
         result = {
-            "label": np.char.encode(np.array(label), "utf-8"),
-            "score": np.array([score], dtype=np.float32),
+            "results": np.array(json.dumps(analysis_results), dtype=bytes),
         }
         results.append(result)
     return results

@@ -21,6 +21,7 @@ classifiers = [
     'Topic :: Scientific/Engineering :: Web Services',
 ]
 dependencies = [
+    # additional: MAX_JOBS=4 pip install flash-attn --no-build-isolation
     'accelerate==0.31.0',
     'ctranslate2==4.2.1',
     'cython==3.0.10',
