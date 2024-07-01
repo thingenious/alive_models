@@ -126,9 +126,11 @@ def asr_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.str_]]]:
             segments = get_transcription(audio_data)
         except BaseException as exc:
             LOG.error("Error transcribing audio: %s", exc)
+            results.append({"results": np.array([], dtype=bytes)})
+            continue
         segments_dump = json.dumps(segments, ensure_ascii=False).encode("utf-8").decode("utf-8")
         result = {
-            "results": np.array(segments_dump, dtype=bytes),
+            "results": np.array([segments_dump], dtype=bytes),
         }
         results.append(result)
     return results

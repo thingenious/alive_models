@@ -75,6 +75,6 @@ def ser_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.int_] | N
         except BaseException as exc:
             LOG.error("Error analyzing file: %s", exc)
             analysis_results = []
-        result = {"results": np.array(json.dumps(analysis_results), dtype=bytes)}
+        result = {"results": np.array([json.dumps(analysis_results)], dtype=bytes)}
         results.append(result)
     return results

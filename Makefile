@@ -90,7 +90,7 @@ restart: stop start
 
 .PHONY: dev
 dev:
-	python -m app --debug
+	python scripts/dev/start.py --debug --dev
 
 # deployment
 .PHONY: compose-up

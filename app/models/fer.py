@@ -101,7 +101,7 @@ def fer_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.int_] | N
         data_string = infer_inputs[index]
         analysis_results = get_image_analysis(data_string)
         result = {
-            "results": np.array(json.dumps(analysis_results), dtype=bytes),
+            "results": np.array([json.dumps(analysis_results)], dtype=bytes),
         }
         results.append(result)
     return results

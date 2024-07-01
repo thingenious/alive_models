@@ -9,6 +9,7 @@ import secrets
 import subprocess  # nosemgrep # nosec
 import tempfile
 import threading
+import wave
 from io import BytesIO
 from typing import Any, Dict, List
 
@@ -232,6 +233,28 @@ def get_nlp_prediction(base_url: str, transcription: str) -> Dict[str, Any]:
     return response_data
 
 
+def get_tts_output(base_url: str, text: str) -> Dict[str, Any]:
+    """Get the TTS prediction from the server.
+
+    Parameters
+    ----------
+    base_url : str
+        The base URL of the server.
+    text : str
+        The text.
+
+    Returns
+    -------
+    Dict[str, Any]
+        The TTS prediction.
+    """
+    input_data = [
+        {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [text]},
+    ]
+    response_data = make_request(base_url, "tts", 1, input_data)
+    return response_data
+
+
 def _open_native(video_file: str) -> None:
     """Open the video file on the default video player.
 
@@ -291,6 +314,16 @@ def main() -> None:
     most_probable = max(outputs, key=lambda item: item["score"])
     print(f"SER prediction:\n{json.dumps(ser_prediction)}\n")
     print(f"Most probable SER sentiment: {most_probable}")
+    tts_output = get_tts_output(base_url, transcript)
+    audio = base64.b64decode(tts_output["outputs"][0]["data"][0])
+    print("Playing TTS output...")
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=True) as temp_file:
+        wav_out = wave.open(temp_file.name, "wb")
+        wav_out.setnchannels(1)
+        wav_out.setsampwidth(2)
+        wav_out.setframerate(16000)
+        wav_out.writeframes(audio)
+        playsound(temp_file.name)
 
 
 if __name__ == "__main__":

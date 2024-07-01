@@ -82,7 +82,7 @@ def nlp_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.int_] | N
         input_text = infer_inputs[index]
         analysis_results = get_text_sentiment(to_string(input_text))
         result = {
-            "results": np.array(json.dumps(analysis_results), dtype=bytes),
+            "results": np.array([json.dumps(analysis_results)], dtype=bytes),
         }
         results.append(result)
     return results

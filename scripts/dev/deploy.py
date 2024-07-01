@@ -162,7 +162,7 @@ def get_helm_values() -> List[str]:
             if line.startswith("K8S_HELM_"):
                 key, value = line.strip().split("=", 1)
                 if str(value):
-                    values.extend(["--set", f"{key.replace('K8S_HELM_', '')}={value}"])
+                    values.extend(["--set", f"{key.replace('K8S_HELM_', '').replace("_", ".")}={value}"])
     return values
 
 

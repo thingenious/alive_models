@@ -24,24 +24,36 @@ COMPUTE_TYPE = "float16" if _have_cuda else "float32"
 TORCH_DTYPE = torch.float16 if _have_cuda else torch.float32
 USE_FLASH_ATTENTION = _have_cuda
 
+_ALL_MODELS = ["asr", "fer", "ser", "nlp", "tts", "lid"]
+
 __all__ = [
+    "CACHE_DIR",
     "DEBUG",
     "DEVICE",
     "ROOT_DIR",
     "COMPUTE_TYPE",
     "TORCH_DTYPE",
-    "FER_MODEL_NAME",
-    "FER_MODEL_VERSION",
     "ASR_MODEL_NAME",
     "ASR_MODEL_VERSION",
     "ASR_MODEL_SIZE",
-    "SER_MODEL_NAME",
-    "SER_MODEL_VERSION",
-    "SER_MODEL_REPO",
+    "FER_MODEL_NAME",
+    "FER_MODEL_VERSION",
+    "LID_MODEL_NAME",
+    "LID_MODEL_VERSION",
+    "LID_MODEL_REPO",
+    "LID_MODEL_FILE",
     "NLP_MODEL_NAME",
     "NLP_MODEL_VERSION",
     "NLP_MODEL_REPO",
     "NLP_MODEL_FILE",
+    "SER_MODEL_NAME",
+    "SER_MODEL_VERSION",
+    "SER_MODEL_REPO",
+    "TTS_MODEL_NAME",
+    "TTS_MODEL_VERSION",
+    "TTS_MODEL_REPO",
+    "TTS_MODEL_VOCODER",
+    "TTS_MODEL_SAMPLE_RATE",
     "USE_FLASH_ATTENTION",
 ]
 
@@ -76,23 +88,32 @@ def _set_deepface_home() -> None:
     os.environ["DEEPFACE_HOME"] = str(deepface_home)
 
 
+def _set_nltk_path() -> None:
+    """Set the NLTK path."""
+    nltk_path = ROOT_DIR / "data" / ".cache" / "nltk_data"
+    nltk_path.mkdir(parents=True, exist_ok=True)
+    os.environ["NLTK_DATA"] = str(nltk_path)
+
+
 _set_cache_dir()
 _set_hf_home()
 _set_torch_home()
 _set_deepface_home()
+_set_nltk_path()
 
 ENV_PREFIX = "ALIVE_MODELS"
+CACHE_DIR = ROOT_DIR / "data" / ".cache"
 
 MODELS_STR = os.getenv(ENV_PREFIX, "")
 if not MODELS_STR:
-    MODELS_STR = "asr,fer,ser,nlp"
+    MODELS_STR = ",".join(_ALL_MODELS)
 
 MODELS_TO_LOAD = MODELS_STR.split(",")
 if not MODELS_TO_LOAD:
-    MODELS_TO_LOAD = ["asr", "fer", "ser", "nlp"]
+    MODELS_TO_LOAD = _ALL_MODELS
 
 for model in MODELS_TO_LOAD:
-    if model not in ["asr", "fer", "ser", "nlp"]:
+    if model not in _ALL_MODELS:
         raise ValueError(f"Invalid model: {model}")
 
 # ASR
@@ -128,3 +149,26 @@ _NLP_MODEL_FILE = "onnx/model_quantized.onnx"
 NLP_MODEL_FILE = os.environ.get(f"{ENV_PREFIX}_NLP_MODEL_FILE", "")
 if not NLP_MODEL_FILE:
     NLP_MODEL_FILE = _NLP_MODEL_FILE
+
+
+# TTS
+TTS_MODEL_NAME = os.getenv(f"{ENV_PREFIX}_TTS_MODEL_NAME", "tts")
+TTS_MODEL_VERSION = int(os.getenv(f"{ENV_PREFIX}_TTS_MODEL_VERSION", "1"))
+_TTS_MODEL_REPO = "microsoft/speecht5_tts"
+TTS_MODEL_REPO = os.environ.get(f"{ENV_PREFIX}_TTS_MODEL_REPO", "")
+if not TTS_MODEL_REPO:
+    TTS_MODEL_REPO = _TTS_MODEL_REPO
+TTS_MODEL_VOCODER = os.getenv(f"{ENV_PREFIX}_TTS_VOCODER", "microsoft/speecht5_hifigan")
+TTS_MODEL_SAMPLE_RATE = int(os.getenv(f"{ENV_PREFIX}_TTS_SAMPLE_RATE", "16000"))
+
+# LID
+LID_MODEL_NAME = os.getenv(f"{ENV_PREFIX}_LID_MODEL_NAME", "lid")
+LID_MODEL_VERSION = int(os.getenv(f"{ENV_PREFIX}_LID_MODEL_VERSION", "1"))
+_LID_MODEL_REPO = "cis-lmu/glotlid"
+LID_MODEL_REPO = os.environ.get(f"{ENV_PREFIX}_LID_MODEL_REPO", "")
+if not LID_MODEL_REPO:
+    LID_MODEL_REPO = _LID_MODEL_REPO
+_LID_MODEL_FILE = "model.bin"
+LID_MODEL_FILE = os.environ.get(f"{ENV_PREFIX}_LID_MODEL_FILE", "")
+if not LID_MODEL_FILE:
+    LID_MODEL_FILE = _LID_MODEL_FILE
