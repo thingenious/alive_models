@@ -6,10 +6,26 @@ import sys
 from pathlib import Path
 
 try:
-    from dev._common import ROOT_DIR, add_common_args, get_container_cmd, get_tag, run_command
+    from dev._common import (
+        ROOT_DIR,
+        add_common_args,
+        get_container_cmd,
+        get_tag,
+        reset_container_base_image,
+        run_command,
+        set_container_base_image,
+    )
 except ImportError:
     sys.path.insert(0, str(Path(__file__).parent.parent))
-    from dev._common import ROOT_DIR, add_common_args, get_container_cmd, get_tag, run_command
+    from dev._common import (
+        ROOT_DIR,
+        add_common_args,
+        get_container_cmd,
+        get_tag,
+        reset_container_base_image,
+        run_command,
+        set_container_base_image,
+    )
 
 
 _DEFAULT_SQUASH = os.environ.get("ALIVE_MODELS_BUILD_SQUASH", "false").lower() == "true"
@@ -121,11 +137,14 @@ def build_image(
     if "base_image" not in " ".join(build_args):
         cmd.extend(["--build-arg", f"BASE_IMAGE={base_image}"])
     cmd.append(".")
+    set_container_base_image(base_image)
     try:
         run_command(cmd, cwd=cwd, allow_error=False, silent=False)
     except RuntimeError as e:
         print(e)
+        reset_container_base_image()
         sys.exit(1)
+    reset_container_base_image()
     if push is True:
         run_command([container_command, "push", f"{image}:{tag}"])
     return f"{image}:{tag}"

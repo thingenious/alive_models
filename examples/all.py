@@ -9,6 +9,7 @@ import secrets
 import subprocess  # nosemgrep # nosec
 import tempfile
 import threading
+import wave
 from io import BytesIO
 from typing import Any, Dict, List
 
@@ -39,6 +40,7 @@ def cli() -> argparse.ArgumentParser:
     parser.add_argument("--host", default="localhost", help="Host of the server")
     parser.add_argument("--port", default=8000, type=int, help="Port of the server")
     parser.add_argument("--scheme", default="http", help="Scheme of the server")
+    parser.add_argument("--speaker-index", type=int, help="Speaker index", default=7000)
     return parser
 
 
@@ -93,6 +95,7 @@ def make_request(
     model_name: str,
     model_version: int,
     input_data: List[Dict[str, Any]],
+    parameters: Dict[str, Any] | None = None,
 ) -> Dict[str, Any]:
     """Make a request to the server.
 
@@ -106,6 +109,8 @@ def make_request(
         The model version.
     input_data : List[Dict[str, Any]]
         The input data.
+    parameters : Dict[str, Any], optional
+        Extra parameters, by default None
 
     Returns
     -------
@@ -115,12 +120,13 @@ def make_request(
     headers = {"Content-Type": "application/json"}
     request_id = secrets.randbits(8)
     url = f"{base_url}/v2/models/{model_name}/versions/{model_version}/infer"
-    request_data = json.dumps(
-        {
-            "id": str(request_id),
-            "inputs": input_data,
-        }
-    )
+    request_dict: Dict[str, Any] = {
+        "id": str(request_id),
+        "inputs": input_data,
+    }
+    if parameters:
+        request_dict["parameters"] = parameters
+    request_data = json.dumps(request_dict)
     client = httpx.Client()
     # pylint: disable=broad-except,too-many-try-statements
     try:
@@ -182,6 +188,10 @@ def get_ser_prediction(base_url: str, audio_data: str) -> Dict[str, Any]:
         {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [audio_data]},
     ]
     response_data = make_request(base_url, "ser", 1, input_data)
+    print(f"SER prediction:\n{json.dumps(response_data)}\n")
+    outputs = json.loads(response_data["outputs"][0]["data"][0])
+    most_probable = max(outputs, key=lambda item: item["score"])
+    print(f"Most probable SER sentiment: {most_probable}")
     return response_data
 
 
@@ -207,6 +217,39 @@ def get_fer_prediction(base_url: str, image: Image) -> Dict[str, Any]:
         {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [image_data]},
     ]
     response_data = make_request(base_url, "fer", 1, input_data)
+    print(f"FER prediction:\n{json.dumps(response_data)}\n")
+    outputs: List[Dict[str, Any]] = json.loads(response_data["outputs"][0]["data"][0])
+    most_probable = max(outputs, key=lambda item: item["score"])
+    print(f"Most probable FER sentiment: {most_probable}")
+    return response_data
+
+
+def get_lid_prediction(base_url: str, text: str) -> Dict[str, Any]:
+    """Get the LID prediction from the server.
+
+    Parameters
+    ----------
+    base_url : str
+        The base URL of the server.
+    text : str
+        The text.
+
+    Returns
+    -------
+    Dict[str, Any]
+        The LID prediction.
+    """
+    input_data = [
+        {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [text]},
+    ]
+    response_data = make_request(base_url, "lid", 1, input_data)
+    print(f"LID prediction:\n{json.dumps(response_data)}\n")
+    outputs = json.loads(response_data["outputs"][0]["data"][0])
+    if not isinstance(outputs, list):
+        outputs = [outputs]
+    most_probable_dict = max(outputs, key=lambda item: item["score"])
+    most_probable = most_probable_dict["label"].replace("__label__", "").split("_")[0]
+    print(f"Most probable LID language: {most_probable}")
     return response_data
 
 
@@ -229,6 +272,38 @@ def get_nlp_prediction(base_url: str, transcription: str) -> Dict[str, Any]:
         {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [transcription]},
     ]
     response_data = make_request(base_url, "nlp", 1, input_data)
+    outputs = json.loads(response_data["outputs"][0]["data"][0])
+    print(f"NLP prediction:\n{json.dumps(response_data)}\n")
+    most_probable = max(outputs, key=lambda item: item["score"])
+    print(f"Most probable NLP sentiment: {most_probable}")
+    return response_data
+
+
+def get_tts_output(base_url: str, text: str, speaker_index: int | None) -> Dict[str, Any]:
+    """Get the TTS prediction from the server.
+
+    Parameters
+    ----------
+    base_url : str
+        The base URL of the server.
+    text : str
+        The text.
+    speaker_index : int | None
+        The speaker index.
+
+    Returns
+    -------
+    Dict[str, Any]
+        The TTS prediction.
+    """
+    input_data = [
+        {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [text]},
+    ]
+    if speaker_index is not None:
+        parameters = {"speaker_index": speaker_index}
+    else:
+        parameters = None
+    response_data = make_request(base_url, "tts", 1, input_data, parameters=parameters)
     return response_data
 
 
@@ -276,21 +351,20 @@ def main() -> None:
     base_url = f"{args.scheme}://{args.host}{_port}"
     transcript = get_asr_prediction(base_url, audio_data)
     image = get_video_image_snapshot(args.video.name)
-    fer_prediction = get_fer_prediction(base_url, image)
-    outputs: List[Dict[str, Any]] = json.loads(fer_prediction["outputs"][0]["data"][0])
-    print(f"FER prediction:\n{json.dumps(fer_prediction)}\n")
-    most_probable = max(outputs, key=lambda item: item["score"])
-    print(f"Most probable FER sentiment: {most_probable}")
-    nlp_prediction = get_nlp_prediction(base_url, transcript)
-    outputs = json.loads(nlp_prediction["outputs"][0]["data"][0])
-    print(f"NLP prediction:\n{json.dumps(nlp_prediction)}\n")
-    most_probable = max(outputs, key=lambda item: item["score"])
-    print(f"Most probable NLP sentiment: {most_probable}")
-    ser_prediction = get_ser_prediction(base_url, audio_data)
-    outputs = json.loads(ser_prediction["outputs"][0]["data"][0])
-    most_probable = max(outputs, key=lambda item: item["score"])
-    print(f"SER prediction:\n{json.dumps(ser_prediction)}\n")
-    print(f"Most probable SER sentiment: {most_probable}")
+    get_fer_prediction(base_url, image)
+    get_nlp_prediction(base_url, transcript)
+    get_ser_prediction(base_url, audio_data)
+    get_lid_prediction(base_url, transcript)
+    tts_output = get_tts_output(base_url, transcript, args.speaker_index)
+    audio = base64.b64decode(tts_output["outputs"][0]["data"][0])
+    print("Playing TTS output...")
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=True) as temp_file:
+        wav_out = wave.open(temp_file.name, "wb")
+        wav_out.setnchannels(1)
+        wav_out.setsampwidth(2)
+        wav_out.setframerate(16000)
+        wav_out.writeframes(audio)
+        playsound(temp_file.name)
 
 
 if __name__ == "__main__":

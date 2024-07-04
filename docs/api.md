@@ -188,3 +188,94 @@ url = "http://localhost:8000/v2/models/nlp/versions/1/infer"
 #   ]
 # }
 ```
+
+### LID (Language Identification)
+
+URL: `/v2/models/lid/versions/1/infer`
+
+Input Names:
+
+ - `data`: Text data
+  
+Output Names:
+
+ - `results`: JSON dumped predictions with the `label` and `score` for the detected language
+
+```python
+# ...
+text_data = "I am very happy today!"
+request_data = json.dumps(
+    {
+        "id": "1",
+        "inputs": [
+            {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [text_data]},
+        ],
+    }
+)
+url = "http://localhost:8000/v2/models/lid/versions/1/infer"
+# ...
+# Example output:
+# {
+#   "id": "193",
+#   "model_name": "lid",
+#   "model_version": "1",
+#   "outputs": [
+#     {
+#       "name": "results",
+#       "datatype": "BYTES",
+#       "shape": [1],
+#       "data": ["{\"label\": \"eng_Latn\", \"score\": 1.0}"]
+#     }
+#   ]
+# }
+```
+
+### TTS (Text-to-Speech)
+
+URL: `/v2/models/tts/versions/1/infer`
+
+Input Names:
+
+- `data`: Text data
+
+Optional Parameters:
+
+- `speaker_index`: Index of the speaker to use for the TTS model
+- `speaker_description`: Description of the speaker to use for the TTS model (if [parler_tts](https://github.com/huggingface/parler-tts) is used)
+
+Output Names:
+
+- `results`: Base64 encoded audio data (of wav in 16-bit PCM format)
+
+```python
+# ...
+text_data = "I am very happy today!"
+speaker_index = 0
+request_data = json.dumps(
+    {
+        "id": "1",
+        "inputs": [
+            {"name": "data", "shape": [1, 1], "datatype": "BYTES", "data": [text_data]},
+        ],
+        "parameters": {
+            "speaker_index": speaker_index,
+        },
+    }
+)
+url = "http://localhost:8000/v2/models/tts/versions/1/infer"
+# ...
+# Example output:
+# {
+#   "id": "193",
+#   "model_name": "tts",
+#   "model_version": "1",
+#   "outputs": [
+#     {
+#       "name": "results",
+#       "datatype": "BYTES",
+#       "shape": [1],
+#       "data": ["base64_encoded_audio_data"]
+#     }
+#   ]
+# }
+```

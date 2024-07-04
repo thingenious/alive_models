@@ -39,6 +39,11 @@ _DEFAULT_NLP_MODEL_VERSION = int(os.environ.get(f"{KEY_PREFIX}_NLP_MODEL_VERSION
 _DEFAULT_NLP_MODEL_REPO = os.environ.get(f"{KEY_PREFIX}_NLP_MODEL_REPO", "SamLowe/roberta-base-go_emotions-onnx")
 _DEFAULT_NLP_MODEL_FILE = os.environ.get(f"{KEY_PREFIX}_NLP_MODEL_FILE", "onnx/model_quantized.onnx")
 
+_DEFAULT_TTS_MODEL_NAME = os.environ.get(f"{KEY_PREFIX}_TTS_MODEL_NAME", "tts")
+_DEFAULT_TTS_MODEL_VERSION = int(os.environ.get(f"{KEY_PREFIX}_TTS_MODEL_VERSION", "1"))
+_DEFAULT_TTS_MODEL_REPO = os.environ.get(f"{KEY_PREFIX}_TTS_MODEL_REPO", "microsoft/speecht5_tts")
+_DEFAULT_TTS_MODEL_VOCODER = os.environ.get(f"{KEY_PREFIX}_TTS_VOCODER", "microsoft/speecht5_hifigan")
+
 
 def add_asr_cli_args(parser: argparse.ArgumentParser) -> None:
     """Add ASR model arguments to a parser.
@@ -199,6 +204,49 @@ def add_nlp_cli_args(parser: argparse.ArgumentParser) -> None:
     )
 
 
+def add_tts_cli_args(parser: argparse.ArgumentParser) -> None:
+    """Add TTS model arguments to a parser.
+
+    Parameters
+    ----------
+    parser : argparse.ArgumentParser
+        The parser to add the arguments to.
+
+    Notes
+    -----
+    The following arguments are added:
+    - `--tts-model-name`: TTS model name.
+    - `--tts-model-version`: TTS model version.
+    - `--tts-model-repo`: TTS model repo.
+    - `--tts-model-vocoder`: TTS vocoder.
+    """
+    tts_group = parser.add_argument_group("TTS model configuration")
+    tts_group.add_argument(
+        "--tts-model-name",
+        type=str,
+        default=_DEFAULT_TTS_MODEL_NAME,
+        help=f"TTS model name, (default: {_DEFAULT_TTS_MODEL_NAME}).",
+    )
+    tts_group.add_argument(
+        "--tts-model-version",
+        type=int,
+        default=_DEFAULT_TTS_MODEL_VERSION,
+        help=f"TTS model version, (default: {_DEFAULT_TTS_MODEL_VERSION}).",
+    )
+    tts_group.add_argument(
+        "--tts-model-repo",
+        type=str,
+        default=_DEFAULT_TTS_MODEL_REPO,
+        help=f"TTS model repo, (default: {_DEFAULT_TTS_MODEL_REPO}).",
+    )
+    tts_group.add_argument(
+        "--tts-model-vocoder",
+        type=str,
+        default=_DEFAULT_TTS_MODEL_VOCODER,
+        help=f"TTS vocoder, (default: {_DEFAULT_TTS_MODEL_VOCODER}).",
+    )
+
+
 def cli() -> argparse.ArgumentParser:
     """Get the CLI parser.
 
@@ -225,6 +273,7 @@ def cli() -> argparse.ArgumentParser:
     - Additional arguments added by `add_fer_cli_args`.
     - Additional arguments added by `add_ser_cli_args`.
     - Additional arguments added by `add_nlp_cli_args`.
+    - Additional arguments added by `add_tts_cli_args`.
     """
     parser = argparse.ArgumentParser(description="Start a docker/podman container.")
     add_common_args(parser)
@@ -262,6 +311,7 @@ def cli() -> argparse.ArgumentParser:
     add_fer_cli_args(parser)
     add_ser_cli_args(parser)
     add_nlp_cli_args(parser)
+    add_tts_cli_args(parser)
     parser.add_argument(
         "--debug",
         action="store_true",
@@ -460,6 +510,36 @@ def get_nlp_env_args(args: argparse.Namespace) -> List[str]:
     return env_args
 
 
+def get_tts_env_args(args: argparse.Namespace) -> List[str]:
+    """Get TTS environment arguments to include in the command.
+
+    Parameters
+    ----------
+    args : argparse.Namespace
+        The parsed arguments.
+
+    Returns
+    -------
+    List[str]
+        The list of environment arguments.
+    """
+    tts_model_name = args.tts_model_name
+    tts_model_version = args.tts_model_version
+    tts_model_repo = args.tts_model_repo
+    tts_model_vocoder = args.tts_model_vocoder
+    env_args = [
+        "-e",
+        f"{KEY_PREFIX}_TTS_MODEL_NAME={tts_model_name}",
+        "-e",
+        f"{KEY_PREFIX}_TTS_MODEL_VERSION={tts_model_version}",
+        "-e",
+        f"{KEY_PREFIX}_TTS_MODEL_REPO={tts_model_repo}",
+        "-e",
+        f"{KEY_PREFIX}_TTS_MODEL_VOCODER={tts_model_vocoder}",
+    ]
+    return env_args
+
+
 def get_environment_args(args: argparse.Namespace) -> List[str]:
     """Get environment arguments to include in the command.
 
@@ -477,6 +557,7 @@ def get_environment_args(args: argparse.Namespace) -> List[str]:
     grpc_port = args.grpc_port
     metrics_port = args.metrics_port
     sagemaker_port = args.sagemaker_port
+    prefix_models = os.environ.get(KEY_PREFIX, "")
     env_args = [
         "-e",
         "PYTHONUNBUFFERED=1",
@@ -495,6 +576,9 @@ def get_environment_args(args: argparse.Namespace) -> List[str]:
         "-e",
         "DEEPFACE_HOME=/opt/ml/data/.cache",
     ]
+    if prefix_models:
+        env_args.append("-e")
+        env_args.append(f"{KEY_PREFIX}={prefix_models}")
     if args.debug is True:
         env_args.append("-e")
         env_args.append("DEBUG=1")
@@ -502,6 +586,7 @@ def get_environment_args(args: argparse.Namespace) -> List[str]:
     env_args.extend(get_fer_env_args(args))
     env_args.extend(get_ser_env_args(args))
     env_args.extend(get_nlp_env_args(args))
+    env_args.extend(get_tts_env_args(args))
     return env_args
 
 
@@ -567,4 +652,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    if "--dev" in sys.argv:
+        run_command([sys.executable, "-m", "app", "--debug"])
+    else:
+        main()

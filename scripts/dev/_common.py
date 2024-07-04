@@ -45,6 +45,40 @@ _DEFAULT_BASE_IMAGE = os.environ.get(f"{KEY_PREFIX}_BASE_IMAGE", _IMAGE_CHOICES[
 _DEFAULT_PLATFORM = os.environ.get(f"{KEY_PREFIX}_PLATFORM", "linux/amd64")
 
 
+def set_container_base_image(base_image: str) -> None:
+    """Set the base image in the containerfile.
+
+    On podman this:
+        ARG BASE_IMAGE=nvcr.io/nvidia/cuda:12.4.1-devel-ubuntu22.04
+        FROM --platform=linux/amd64 $BASE_IMAGE
+    seems to not respect the --build-arg (when 'ARG' is before 'FROM')
+    """
+    if base_image not in _IMAGE_CHOICES:
+        raise ValueError(f"Invalid base image: {base_image}")
+    containerfile = ROOT_DIR / "Containerfile"
+    with containerfile.open("r") as f:
+        lines = f.readlines()
+    with containerfile.open("w") as f:
+        for line in lines:
+            if line.startswith("ARG BASE_IMAGE="):
+                f.write(f"ARG BASE_IMAGE={base_image}\n")
+            else:
+                f.write(line)
+
+
+def reset_container_base_image() -> None:
+    """Reset the base image in the containerfile."""
+    containerfile = ROOT_DIR / "Containerfile"
+    with containerfile.open("r") as f:
+        lines = f.readlines()
+    with containerfile.open("w") as f:
+        for line in lines:
+            if line.startswith("ARG BASE_IMAGE="):
+                f.write(f"ARG BASE_IMAGE={_IMAGE_CHOICES[0]}\n")
+            else:
+                f.write(line)
+
+
 def get_container_cmd() -> str:
     """Get the container command to use.
 

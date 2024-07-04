@@ -21,11 +21,15 @@ from app.config import (
     ASR_MODEL_VERSION,
     FER_MODEL_NAME,
     FER_MODEL_VERSION,
+    LID_MODEL_NAME,
+    LID_MODEL_VERSION,
     MODELS_TO_LOAD,
     NLP_MODEL_NAME,
     NLP_MODEL_VERSION,
     SER_MODEL_NAME,
     SER_MODEL_VERSION,
+    TTS_MODEL_NAME,
+    TTS_MODEL_VERSION,
 )
 
 
@@ -103,6 +107,33 @@ if "nlp" in MODELS_TO_LOAD:
             outputs=NLP_OUTPUTS,
         )
     )
+
+if "tts" in MODELS_TO_LOAD:
+    from .tts import TTS_INPUTS, TTS_OUTPUTS, tts_infer_fn
+
+    MODELS.append(
+        ModelToLoad(
+            name=TTS_MODEL_NAME,
+            version=TTS_MODEL_VERSION,
+            infer_fn=tts_infer_fn,
+            inputs=TTS_INPUTS,
+            outputs=TTS_OUTPUTS,
+        )
+    )
+
+if "lid" in MODELS_TO_LOAD:
+    from .lid import LID_INPUTS, LID_OUTPUTS, lid_infer_fn
+
+    MODELS.append(
+        ModelToLoad(
+            name=LID_MODEL_NAME,
+            version=LID_MODEL_VERSION,
+            infer_fn=lid_infer_fn,
+            inputs=LID_INPUTS,
+            outputs=LID_OUTPUTS,
+        )
+    )
+
 
 if not MODELS:
     raise ValueError("No models to load")

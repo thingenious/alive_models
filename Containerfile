@@ -54,7 +54,10 @@ RUN mkdir -p /opt/ml /root/.local/bin && \
 
 ENV PATH=/root/.local/bin:$PATH
 
-# python requirements
+RUN git clone https://github.com/omry/omegaconf -b v2.0.6 && \
+    sed -i 's/PyYAML>=5.1.*/PyYAML>=5.1/' omegaconf/requirements/base.txt && \
+    pip install ./omegaconf && \
+    rm -rf omegaconf
 COPY requirements/main.txt /tmp/requirements.txt
 RUN pip install --user -r /tmp/requirements.txt && \
     rm /tmp/requirements.txt
@@ -64,6 +67,10 @@ RUN pip uninstall -y opencv-python > /dev/null 2>&1 && \
 
 # install flash-attn
 RUN MAX_JOBS=4 pip install flash-attn --no-build-isolation
+
+RUN proto_version=$(python3 -c 'import importlib.metadata;print(importlib.metadata.version("protobuf"))') && \
+    pip install git+https://github.com/huggingface/parler-tts.git && \
+    pip install --upgrade protobuf==$proto_version
 
 # ports
 # the defauls that pytriton uses
