@@ -34,6 +34,7 @@ DEFAULT_CONTAINER_NAME = os.environ.get("CONTAINER_NAME", KEY_PREFIX.lower())
 #
 # https://catalog.ngc.nvidia.com/orgs/nvidia/containers/cuda/tags
 _IMAGE_CHOICES = (
+    "nvcr.io/nvidia/cuda:12.5.0-devel-ubuntu22.04",
     "nvcr.io/nvidia/cuda:12.4.1-devel-ubuntu22.04",
     "nvcr.io/nvidia/cuda:12.3.2-devel-ubuntu22.04",
     "nvcr.io/nvidia/cuda:12.2.2-devel-ubuntu22.04",

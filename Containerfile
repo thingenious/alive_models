@@ -2,14 +2,15 @@
 # depending on the cuda version (1x.y)
 # https://catalog.ngc.nvidia.com/orgs/nvidia/containers/cuda/tags
 
+# nvcr.io/nvidia/cuda:12.5.0-devel-ubuntu22.04
 # nvcr.io/nvidia/cuda:12.4.1-devel-ubuntu22.04
 # nvcr.io/nvidia/cuda:12.3.2-devel-ubuntu22.04
 # nvcr.io/nvidia/cuda:12.2.2-devel-ubuntu22.04
 # nvcr.io/nvidia/cuda:12.1.1-devel-ubuntu22.04
-ARG BASE_IMAGE=nvcr.io/nvidia/cuda:12.4.1-devel-ubuntu22.04
+ARG BASE_IMAGE=nvcr.io/nvidia/cuda:12.5.0-devel-ubuntu22.04
 FROM --platform=linux/amd64 $BASE_IMAGE
 
-ARG BASE_IMAGE=nvcr.io/nvidia/cuda:12.4.1-devel-ubuntu22.04
+ARG BASE_IMAGE=nvcr.io/nvidia/cuda:12.5.0-devel-ubuntu22.04
 ENV BASE_IMAGE=$BASE_IMAGE
 
 RUN echo "Building image with base image: $BASE_IMAGE"
