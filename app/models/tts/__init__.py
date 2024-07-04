@@ -38,7 +38,7 @@ LOG.info("TTS_MODEL_REPO: %s", TTS_MODEL_REPO)
 
 # pylint: disable=import-outside-toplevel,too-many-return-statements
 def get_runner() -> RunnerProtocol:
-    """Get the TTS model runner."""
+    """Get the TTS model runner based on the model repository."""
     if "speecht5" in TTS_MODEL_REPO:
         from ._speecht5 import SpeechT5Runner
 

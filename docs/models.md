@@ -52,6 +52,10 @@ Override it with `ALIVE_MODELS_NLP_MODEL_REPO` and/or `ALIVE_MODELS_NLP_MODEL_FI
 
 ## Speech Emotion Recognition (SER)
 
+Library: [huggingface/transformers](https://github.com/huggingface/transformers)  
+Default model: [hughlan1214/Speech_Emotion_Recognition_wav2vec2-large-xlsr-53_240304_SER_fine-tuned2.0](https://huggingface.co/hughlan1214/Speech_Emotion_Recognition_wav2vec2-large-xlsr-53_240304_SER_fine-tuned2.0)  
+Override it with `ALIVE_MODELS_SER_MODEL_REPO` environment variable.
+
 ::: app.models.ser
     options:
         show_root_toc_entry: false
@@ -60,3 +64,39 @@ Override it with `ALIVE_MODELS_NLP_MODEL_REPO` and/or `ALIVE_MODELS_NLP_MODEL_FI
             - SER_OUTPUTS
             - ser_infer_fn
             - get_audio_analysis
+
+## Language Identification (LID)
+
+Library: [huggingface/transformers](https://github.com/huggingface/transformers)
+Default model: [cis-lmu/glotlid](https://huggingface.co/cis-lmu/glotlid), model_file: `model.bin`
+Override it with `ALIVE_MODELS_LID_MODEL_REPO` and/or `ALIVE_MODELS_LID_MODEL_FILE` environment variables.
+
+::: app.models.lid
+    options:
+        show_root_toc_entry: false
+        members:
+            - LID_INPUTS
+            - LID_OUTPUTS
+            - lid_infer_fn
+
+::: app.models.lid
+    options:
+        show_root_toc_entry: false
+        members:
+            - LID_INPUTS
+            - LID_OUTPUTS
+            - lid_infer_fn
+
+## Text-to-Speech (TTS)
+
+Default model: [microsoft/speecht5_tts](https://huggingface.co/microsoft/speecht5_tts)
+Override it with `ALIVE_MODELS_TTS_MODEL_REPO` environment variable.
+
+::: app.models.tts
+    options:
+        show_root_toc_entry: false
+        members:
+            - TTS_INPUTS
+            - TTS_OUTPUTS
+            - tts_infer_fn
+            - get_runner

@@ -61,6 +61,10 @@ def get_prediction(url: str, b64_data: str) -> None:
         response_data = response.json()
         response_dicts = json.loads(response_data["outputs"][0]["data"][0])
         print(json.dumps(response_dicts, indent=2))
+        transcript = ""
+        for prediction in response_dicts:
+            transcript += " " + prediction["text"]
+        print(f"Transcript: {transcript.replace('  ', ' ')}")
     except BaseException as error:
         traceback.print_exc()
         print(f"Error sending request: {error}")

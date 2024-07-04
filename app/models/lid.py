@@ -49,7 +49,7 @@ def lid_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.str_]]]:
             label, score = model.predict(to_string(input_text))
             result = {
                 "label": label[0].replace("__label__", ""),
-                "score": score[0],
+                "score": min(score[0], 1.0),
             }
         except Exception as error:
             LOG.error("Error processing request: %s", error)

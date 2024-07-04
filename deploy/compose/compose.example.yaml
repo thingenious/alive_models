@@ -10,32 +10,40 @@ services:
     container_name: "${CONTAINER_NAME:-alive-models}-init"
     init: true
     environment: &alive-models-env
+      # models to load
       ALIVE_MODELS: "${ALIVE_MODELS:-asr,fer,ser,nlp,lid}"
-      ALIVE_MODELS_HTTP_PORT: "${ALIVE_MODELS_HTTP_PORT:-8000}"
-      ALIVE_MODELS_GRPC_PORT: "${ALIVE_MODELS_GRPC_PORT:-8001}"
-      ALIVE_MODELS_METRICS_PORT: "${ALIVE_MODELS_METRICS_PORT:-8002}"
-      ALIVE_MODELS_SAGEMAKER_PORT: "${ALIVE_MODELS_SAGEMAKER_PORT:-8080}"
-      ALIVE_MODELS_ASR_MODEL_SIZE: "${ALIVE_MODELS_ASR_MODEL_SIZE:-distil-large-v3}"
-      ALIVE_MODELS_SER_MODEL_REPO: "${ALIVE_MODELS_SER_MODEL_REPO:-hughlan1214/Speech_Emotion_Recognition_wav2vec2-large-xlsr-53_240304_SER_fine-tuned2.0}"
-      ALIVE_MODELS_NLP_MODEL_REPO: "${ALIVE_MODELS_NLP_MODEL_REPO:-SamLowe/roberta-base-go_emotions-onnx}"
-      ALIVE_MODELS_NLP_MODEL_FILE: "${ALIVE_MODELS_NLP_MODEL_FILE:-onnx/model_quantized.onnx}"
-      ALIVE_MODELS_TTS_MODEL_REPO: "${ALIVE_MODELS_TTS_MODEL_REPO:-microsoft/speecht5_tts}"
-      ALIVE_MODELS_LID_MODEL_REPO: "${ALIVE_MODELS_LID_MODEL_REPO:-cis-lmu/glotlid}"
-      ALIVE_MODELS_LID_MODEL_FILE: "${ALIVE_MODELS_LID_MODEL_FILE:-model.bin}"
+      # ASR
       ALIVE_MODELS_ASR_MODEL_NAME: "${ALIVE_MODELS_ASR_MODEL_NAME:-asr}"
       ALIVE_MODELS_ASR_MODEL_VERSION: "${ALIVE_MODELS_ASR_MODEL_VERSION:-1}"
+      ALIVE_MODELS_ASR_MODEL_SIZE: "${ALIVE_MODELS_ASR_MODEL_SIZE:-distil-large-v3}"
+      # FER
       ALIVE_MODELS_FER_MODEL_NAME: "${ALIVE_MODELS_FER_MODEL_NAME:-fer}"
       ALIVE_MODELS_FER_MODEL_VERSION: "${ALIVE_MODELS_FER_MODEL_VERSION:-1}"
       ALIVE_MODELS_FER_MODEL_DETECTOR_BACKEND: "${ALIVE_MODELS_FER_MODEL_DETECTOR_BACKEND:-yolov8}"
       ALIVE_MODELS_FER_MODEL_FACE_MIN_CONFIDENCE: "${ALIVE_MODELS_FER_MODEL_FACE_MIN_CONFIDENCE:-0.7}"
-      ALIVE_MODELS_SER_MODEL_NAME: "${ALIVE_MODELS_SER_MODEL_NAME:-ser}"
-      ALIVE_MODELS_SER_MODEL_VERSION: "${ALIVE_MODELS_SER_MODEL_VERSION:-1}"
-      ALIVE_MODELS_NLP_MODEL_NAME: "${ALIVE_MODELS_NLP_MODEL_NAME:-nlp}"
-      ALIVE_MODELS_NLP_MODEL_VERSION: "${ALIVE_MODELS_NLP_MODEL_VERSION:-1}"
-      ALIVE_MODELS_TTS_MODEL_NAME: "${ALIVE_MODELS_TTS_MODEL_NAME:-tts}"
-      ALIVE_MODELS_TTS_MODEL_VERSION: "${ALIVE_MODELS_TTS_MODEL_VERSION:-1}"
+      # LID
+      ALIVE_MODELS_LID_MODEL_REPO: "${ALIVE_MODELS_LID_MODEL_REPO:-cis-lmu/glotlid}"
+      ALIVE_MODELS_LID_MODEL_FILE: "${ALIVE_MODELS_LID_MODEL_FILE:-model.bin}"
       ALIVE_MODELS_LID_MODEL_NAME: "${ALIVE_MODELS_LID_MODEL_NAME:-lid}"
       ALIVE_MODELS_LID_MODEL_VERSION: "${ALIVE_MODELS_LID_MODEL_VERSION:-1}"
+      # NLP
+      ALIVE_MODELS_NLP_MODEL_NAME: "${ALIVE_MODELS_NLP_MODEL_NAME:-nlp}"
+      ALIVE_MODELS_NLP_MODEL_VERSION: "${ALIVE_MODELS_NLP_MODEL_VERSION:-1}"
+      ALIVE_MODELS_NLP_MODEL_REPO: "${ALIVE_MODELS_NLP_MODEL_REPO:-SamLowe/roberta-base-go_emotions-onnx}"
+      ALIVE_MODELS_NLP_MODEL_FILE: "${ALIVE_MODELS_NLP_MODEL_FILE:-onnx/model_quantized.onnx}"
+      # SER
+      ALIVE_MODELS_SER_MODEL_REPO: "${ALIVE_MODELS_SER_MODEL_REPO:-hughlan1214/Speech_Emotion_Recognition_wav2vec2-large-xlsr-53_240304_SER_fine-tuned2.0}"
+      ALIVE_MODELS_SER_MODEL_NAME: "${ALIVE_MODELS_SER_MODEL_NAME:-ser}"
+      ALIVE_MODELS_SER_MODEL_VERSION: "${ALIVE_MODELS_SER_MODEL_VERSION:-1}"
+      # TTS
+      ALIVE_MODELS_TTS_MODEL_REPO: "${ALIVE_MODELS_TTS_MODEL_REPO:-microsoft/speecht5_tts}"
+      ALIVE_MODELS_TTS_MODEL_NAME: "${ALIVE_MODELS_TTS_MODEL_NAME:-tts}"
+      ALIVE_MODELS_TTS_MODEL_VERSION: "${ALIVE_MODELS_TTS_MODEL_VERSION:-1}"
+      # Triton
+      ALIVE_MODELS_HTTP_PORT: "${ALIVE_MODELS_HTTP_PORT:-8000}"
+      ALIVE_MODELS_GRPC_PORT: "${ALIVE_MODELS_GRPC_PORT:-8001}"
+      ALIVE_MODELS_METRICS_PORT: "${ALIVE_MODELS_METRICS_PORT:-8002}"
+      ALIVE_MODELS_SAGEMAKER_PORT: "${ALIVE_MODELS_SAGEMAKER_PORT:-8080}"
       ALIVE_MODELS_ALLOW_HTTP: "${ALIVE_MODELS_ALLOW_HTTP:-true}"
       ALIVE_MODELS_ALLOW_GRPC: "${ALIVE_MODELS_ALLOW_GRPC:-true}"
       ALIVE_MODELS_ALLOW_METRICS: "${ALIVE_MODELS_ALLOW_METRICS:-true}"
@@ -45,6 +53,7 @@ services:
       ALIVE_MODELS_GRPC_ROOT_CERT: "${ALIVE_MODELS_GRPC_ROOT_CERT:-}"
       ALIVE_MODELS_GRPC_SERVER_CERT: "${ALIVE_MODELS_GRPC_SERVER_CERT:-}"
       ALIVE_MODELS_GRPC_SERVER_KEY: "${ALIVE_MODELS_GRPC_SERVER_KEY:-}"
+      # GPU
       NVIDIA_VISIBLE_DEVICES: nvidia.com/gpu=all
     volumes:
       - "data_cache:/opt/ml/data"
@@ -53,11 +62,11 @@ services:
     deploy: &alive-models-deploy
       resources:
         limits:
+          cpus: "8"
+          memory: "16G"
+        reservations:
           cpus: "4"
           memory: "8G"
-        reservations:
-          cpus: "2"
-          memory: "4G"
           ## for gpu:
           ## with docker-compose use:
           # devices:
@@ -86,8 +95,8 @@ services:
     shm_size: 8G
     deploy: *alive-models-deploy
     ## with podman-compose use:
-    devices:
-      - nvidia.com/gpu=all
+    # devices:
+    #   - nvidia.com/gpu=all
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:${ALIVE_MODELS_HTTP_PORT:-8000}/v2/health/ready"]
       interval: 30s

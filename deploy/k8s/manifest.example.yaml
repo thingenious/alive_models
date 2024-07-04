@@ -21,7 +21,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: alive-container
-          image: localhost:5000/alive_models:latest-cuda-12.4.1
+          image: localhost:5000/alive_models:0.0.1-cuda-12.4.1
           imagePullPolicy: Always
           ports:
             - name: http
@@ -65,7 +65,7 @@ spec:
               mountPath: /opt/ml/data
       initContainers:
         - name: alive-init-container
-          image: localhost:5000/alive_models:latest-cuda-12.4.1
+          image: localhost:5000/alive_models:0.0.1-cuda-12.4.1
           imagePullPolicy: Always
           args: ["/opt/ml/init.sh"]
           resources:
@@ -112,29 +112,29 @@ data:
   ALIVE_MODELS_FER_MODEL_FACE_MIN_CONFIDENCE: "0.7"
   ALIVE_MODELS_FER_MODEL_NAME: "fer"
   ALIVE_MODELS_FER_MODEL_VERSION: "1"
-  ALIVE_MODELS_NLP_MODEL_FILE: "onnx/model_quantized.onnx"
-  ALIVE_MODELS_NLP_MODEL_NAME: "nlp"
-  ALIVE_MODELS_NLP_MODEL_REPO: "SamLowe/roberta-base-go_emotions-onnx"
-  ALIVE_MODELS_NLP_MODEL_VERSION: "1"
-  ALIVE_MODELS_SER_MODEL_NAME: "ser"
-  ALIVE_MODELS_SER_MODEL_REPO: "hughlan1214/Speech_Emotion_Recognition_wav2vec2-large-xlsr-53_240304_SER_fine-tuned2.0"
-  ALIVE_MODELS_SER_MODEL_VERSION: "1"
-  ALIVE_MODELS_LID_MODEL_NAME: "lid"
-  ALIVE_MODELS_LID_MODEL_REPO: "cis-lmu/glotlid"
-  ALIVE_MODELS_LID_MODEL_FILE: "model.bin"
-  ALIVE_MODELS_LID_MODEL_VERSION: "1"
-  ALIVE_MODELS_TTS_MODEL_NAME: "tts"
-  ALIVE_MODELS_TTS_MODEL_VERSION: "1"
-  ALIVE_MODELS_TTS_MODEL_REPO: "microsoft/speecht5_tts"
+  ALIVE_MODELS_GRPC_PORT: "8001"
   ALIVE_MODELS_GRPC_ROOT_CERT: ""
   ALIVE_MODELS_GRPC_SERVER_CERT: ""
   ALIVE_MODELS_GRPC_SERVER_KEY: ""
   ALIVE_MODELS_GRPC_USE_SSL: "false"
   ALIVE_MODELS_GRPC_USE_SSL_MUTUAL: "false"
   ALIVE_MODELS_HTTP_PORT: "8000"
-  ALIVE_MODELS_GRPC_PORT: "8001"
+  ALIVE_MODELS_LID_MODEL_FILE: "model.bin"
+  ALIVE_MODELS_LID_MODEL_NAME: "lid"
+  ALIVE_MODELS_LID_MODEL_REPO: "cis-lmu/glotlid"
+  ALIVE_MODELS_LID_MODEL_VERSION: "1"
   ALIVE_MODELS_METRICS_PORT: "8002"
+  ALIVE_MODELS_NLP_MODEL_FILE: "onnx/model_quantized.onnx"
+  ALIVE_MODELS_NLP_MODEL_NAME: "nlp"
+  ALIVE_MODELS_NLP_MODEL_REPO: "SamLowe/roberta-base-go_emotions-onnx"
+  ALIVE_MODELS_NLP_MODEL_VERSION: "1"
   ALIVE_MODELS_SAGEMAKER_PORT: "8080"
+  ALIVE_MODELS_SER_MODEL_NAME: "ser"
+  ALIVE_MODELS_SER_MODEL_REPO: "hughlan1214/Speech_Emotion_Recognition_wav2vec2-large-xlsr-53_240304_SER_fine-tuned2.0"
+  ALIVE_MODELS_SER_MODEL_VERSION: "1"
+  ALIVE_MODELS_TTS_MODEL_NAME: "tts"
+  ALIVE_MODELS_TTS_MODEL_REPO: "microsoft/speecht5_tts"
+  ALIVE_MODELS_TTS_MODEL_VERSION: "1"
   NVIDIA_VISIBLE_DEVICES: "nvidia.com/gpu=all"
 ---
 # Source: alive-models/templates/pvc.yaml

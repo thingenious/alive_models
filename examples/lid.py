@@ -3,6 +3,7 @@
 import argparse
 import json
 import secrets
+from typing import Dict
 
 import httpx
 
@@ -15,6 +16,29 @@ def cli() -> argparse.ArgumentParser:
     parser.add_argument("--port", default=8000, type=int, help="Port of the server")
     parser.add_argument("--scheme", default="http", help="Scheme of the server")
     return parser
+
+
+def print_most_probable(most_probable_dict: Dict[str, str | float]) -> None:
+    """Print the most probable language."""
+    most_probable = str(most_probable_dict.get("label", "unknown")).split("_")[0]
+    if most_probable in ("en", "eng"):
+        print("Most probable language: English")
+    elif most_probable in ("es", "spa"):
+        print("Most probable language: Spanish")
+    elif most_probable in ("fr", "fra"):
+        print("Most probable language: French")
+    elif most_probable in ("de", "deu"):
+        print("Most probable language: German")
+    elif most_probable in ("it", "ita"):
+        print("Most probable language: Italian")
+    elif most_probable in ("ru", "rus"):
+        print("Most probable language: Russian")
+    elif most_probable in ("el", "gr", "ell"):
+        print("Most probable language: Greek")
+    elif most_probable in ("tr", "tur"):
+        print("Most probable language: Turkish")
+    else:
+        print(f"Most probable language: {most_probable}")
 
 
 def get_prediction(url: str, text: str) -> None:
@@ -41,8 +65,8 @@ def get_prediction(url: str, text: str) -> None:
         print(json.dumps(response_dicts, indent=2))
         if not isinstance(response_dicts, list):
             response_dicts = [response_dicts]
-        most_probable = max(response_dicts, key=lambda item: item["score"])
-        print(f"Most probable language: {most_probable}")
+        most_probable_dict = max(response_dicts, key=lambda item: item["score"])
+        print_most_probable(most_probable_dict)
     except BaseException as exc:
         print(f"Error: {exc}")
         if response is not None:
