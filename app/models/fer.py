@@ -26,7 +26,7 @@ FER_OUTPUTS: List[Tensor] = [
 ]
 
 
-def _ensure_model() -> None:
+def _ensure_model_load() -> None:
     """Ensure the FER model is loaded."""
     random_img_array = np.random.rand(48, 48, 3) * 255
     random_img = np.uint8(random_img_array)
@@ -38,7 +38,7 @@ def _ensure_model() -> None:
     )
 
 
-_ensure_model()
+_ensure_model_load()
 
 
 # pylint: disable=broad-except,too-many-try-statements

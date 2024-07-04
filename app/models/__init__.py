@@ -35,7 +35,7 @@ from app.config import (
 
 # pylint: disable=too-few-public-methods
 class ModelToLoad:
-    """Model configuration."""
+    """Model to load configuration."""
 
     def __init__(
         self,
