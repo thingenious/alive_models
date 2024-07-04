@@ -4,6 +4,9 @@ import argparse
 import os
 import sys
 from pathlib import Path
+from typing import Any, Dict
+
+import toml
 
 try:
     from dev._common import (
@@ -31,6 +34,54 @@ except ImportError:
 _DEFAULT_SQUASH = os.environ.get("ALIVE_MODELS_BUILD_SQUASH", "false").lower() == "true"
 _DEFAULT_PUSH = os.environ.get("ALIVE_MODELS_PUSH", "false").lower() == "true"
 _DEFAULT_NO_CACHE = os.environ.get("ALIVE_MODELS_NO_CACHE", "false").lower() == "true"
+_IMAGE_TITLE = "ALIVE Models"
+
+
+def get_image_repo(toml_dict: Dict[str, Any]) -> str:
+    """Get the image repository."""
+    urls = toml_dict.get("project", {}).get("urls", {})
+    repo_url = urls.get("repository", "http://localhost:5000/alive_models.git")
+    if repo_url.endswith(".git"):
+        repo_url = repo_url[:-4]
+    if repo_url.startswith("ssh://"):
+        repo_url = f"https://{repo_url[6:]}"
+    return repo_url
+
+
+def get_image_description(toml_dict: Dict[str, Any]) -> str:
+    """Get the image description."""
+    project = toml_dict.get("project", {})
+    description = project.get("description", "ALIVE Models")
+    return description
+
+
+def get_image_authors(toml_dict: Dict[str, Any]) -> str:
+    """Get the image authors."""
+    authors = toml_dict.get("project", {}).get("authors", [])
+    authors = [f"{author['name']} <{author['email']}>" for author in authors]
+    return ", ".join(authors)
+
+
+def get_image_licenses(toml_dict: Dict[str, Any]) -> str:
+    """Get the image licenses."""
+    licenses = toml_dict.get("project", {}).get("license", {}).get("text", "MIT")
+    return licenses
+
+
+def get_container_labels() -> Dict[str, str]:
+    """Get the container labels."""
+    toml_dict = toml.load(ROOT_DIR / "pyproject.toml")
+    repo = get_image_repo(toml_dict)
+    description = get_image_description(toml_dict)
+    authors = get_image_authors(toml_dict)
+    licenses = get_image_licenses(toml_dict)
+    return {
+        "org.opencontainers.image.licenses": licenses,
+        "org.opencontainers.image.source": repo,
+        "org.opencontainers.image.title": _IMAGE_TITLE,
+        "org.opencontainers.image.description": description,
+        "org.opencontainers.image.authors": authors,
+    }
 
 
 def cli() -> argparse.ArgumentParser:
@@ -138,6 +189,8 @@ def build_image(
         cmd.extend(["--build-arg", f"BASE_IMAGE={base_image}"])
     cmd.append(".")
     set_container_base_image(base_image)
+    for key, value in get_container_labels().items():
+        cmd.extend(["--label", f"{key}={value}"])
     try:
         run_command(cmd, cwd=cwd, allow_error=False, silent=False)
     except RuntimeError as e:

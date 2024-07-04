@@ -21,6 +21,7 @@ help:
 	@echo " stop            Stop the podman/docker container"
 	@echo " restart         Alias for 'make stop && make start'"
 	@echo " dev             Start the python server"
+	@echo " bump			Bump the version"
 	@echo " compose-up      Start the podman/docker-compose services"
 	@echo " compose-down    Stop the podman/docker-compose services"
 	@echo " k8s-template    Generate the k8s yaml files using helm"
@@ -91,6 +92,10 @@ restart: stop start
 .PHONY: dev
 dev:
 	python scripts/dev/start.py --debug --dev
+
+.PHONY: bump
+bump:
+	python scripts/dev/version_bump.py
 
 # deployment
 .PHONY: compose-up
