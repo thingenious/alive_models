@@ -9,7 +9,7 @@ from datasets import load_dataset
 from numpy.typing import NDArray
 from transformers import SpeechT5ForTextToSpeech, SpeechT5HifiGan, SpeechT5Processor
 
-from app.config import DEVICE
+from app.config import DEVICE, TTS_MODEL_EMBEDDINGS_DATASET, TTS_MODEL_REPO, TTS_MODEL_VOCODER
 
 _DEFAULT_SPEAKER_INDEX = 50
 
@@ -22,10 +22,10 @@ class SpeechT5Runner:
 
     def __init__(self) -> None:
         """Initialize the SpeechT5 model runner."""
-        self.embeddings_dataset = load_dataset("Matthijs/cmu-arctic-xvectors", split="validation")
-        self.processor = SpeechT5Processor.from_pretrained("microsoft/speecht5_tts")
-        self.model = SpeechT5ForTextToSpeech.from_pretrained("microsoft/speecht5_tts").to(DEVICE)
-        self.vocoder = SpeechT5HifiGan.from_pretrained("microsoft/speecht5_hifigan").to(DEVICE)
+        self.processor = SpeechT5Processor.from_pretrained(TTS_MODEL_REPO)
+        self.model = SpeechT5ForTextToSpeech.from_pretrained(TTS_MODEL_REPO).to(DEVICE)
+        self.embeddings_dataset = load_dataset(TTS_MODEL_EMBEDDINGS_DATASET, split="validation")
+        self.vocoder = SpeechT5HifiGan.from_pretrained(TTS_MODEL_VOCODER).to(DEVICE)
 
     def __call__(self, text: str, **kwargs: Any) -> NDArray[np.float_] | None:
         """Run the SpeechT5 model."""

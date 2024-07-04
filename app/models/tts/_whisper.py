@@ -10,6 +10,8 @@ from whisperspeech.pipeline import Pipeline
 
 from app.config import DEVICE, TTS_MODEL_REPO, TTS_MODEL_SAMPLE_RATE
 
+WHISPER_RATE = 24000  # site-packages/whisperspeech/a2wav.py
+
 LOG = logging.getLogger(__name__)
 
 
@@ -25,12 +27,11 @@ class WhisperRunner:
         """Run the Whisper model."""
         try:
             audio = self.model.generate(text, lang="en", cps=10, speaker=None)
-            rate = 24000
-            if rate != TTS_MODEL_SAMPLE_RATE:
-                sampler = T.Resample(orig_freq=rate, new_freq=TTS_MODEL_SAMPLE_RATE).to(DEVICE)
+            if WHISPER_RATE != TTS_MODEL_SAMPLE_RATE:
+                sampler = T.Resample(orig_freq=WHISPER_RATE, new_freq=TTS_MODEL_SAMPLE_RATE).to(DEVICE)
                 audio = sampler(audio.unsqueeze(0)).squeeze(0)
             with BytesIO() as buffer:
-                torchaudio.save(buffer, audio.cpu(), 16000, format="WAV")
+                torchaudio.save(buffer, audio.cpu(), TTS_MODEL_SAMPLE_RATE, format="WAV")
                 buffer.seek(0)
                 speech = buffer.read()
             return speech

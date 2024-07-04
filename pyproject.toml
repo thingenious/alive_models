@@ -24,13 +24,13 @@ dependencies = [
     # additional (in Containerfile):
     #  - MAX_JOBS=4 pip install flash-attn --no-build-isolation
     #  - pip install git+https://github.com/huggingface/parler-tts.git
-    #  - for omegaconf: PyYAML (>=5.1.*):
+    #  - for omegaconf: PyYAML (>=5.1.*) we get:
     #        .* suffix can only be used with `==` or `!=` operators.
-    # one can git clone, checkout to 2.0.6, change '>=5.1.*' to '>=5.1' and install it:
-    #   $> git clone https://github.com/omry/omegaconf -b v2.0.6
-    #   $> sed -i 's/PyYAML>=5.1.*/PyYAML>=5.1/' omegaconf/requirements/base.txt
-    #   $> pip install ./omegaconf
-    'accelerate==0.31.0',
+    #    one can git clone, checkout to 2.0.6, change '>=5.1.*' to '>=5.1' and install it:
+    #    $> git clone https://github.com/omry/omegaconf -b v2.0.6
+    #    $> sed -i 's/PyYAML>=5.1.*/PyYAML>=5.1/' omegaconf/requirements/base.txt
+    #    $> pip install ./omegaconf
+    'accelerate==0.32.1',
     'ctranslate2==4.3.1',
     'cython==3.0.10',
     'deepface==0.0.92',
@@ -39,20 +39,19 @@ dependencies = [
     'fasttext==0.9.3',
     'g2p-en==2.1.0',
     'numpy',
-    'nltk==3.8.1',
-    'orjson==3.10.5',
+    'orjson==3.10.6',
     'nvidia-pytriton==0.5.8; platform_system == "Linux" and platform_machine == "x86_64"',
     'omegaconf==2.0.6',
     'onnx==1.16.1',
     'onnxruntime-gpu==1.18.1',
     'openai-whisper==20231117',
-    'optimum==1.20.0',
+    'optimum==1.21.1',
     'soundfile==0.12.1',
     'tensorflow==2.16.2',
     'tf-keras==2.16.0',
     'torch==2.3.1',
     'torchaudio==2.3.1',
-    'ultralytics==8.2.48',
+    'ultralytics==8.2.49',
     'whisperspeech==0.8',
 ]
 [project.urls]

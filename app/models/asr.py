@@ -8,13 +8,11 @@ import warnings
 from typing import Any, Dict, List
 
 import numpy as np
-
-# pylint: disable=import-outside-toplevel,wrong-import-order,wrong-import-position
 from faster_whisper import WhisperModel
 from faster_whisper.transcribe import Segment
 from numpy.typing import NDArray
 
-# pylint: disable=import-error,broad-except,too-many-try-statements
+# pylint: disable=import-error
 # pyright: reportMissingImports=false
 from pytriton.model_config import Tensor  # type: ignore
 from pytriton.proxy.types import Request  # type: ignore
@@ -79,7 +77,7 @@ def get_transcription(
     base64_data = np.char.decode(audio_data.astype("bytes"), "utf-8")
     try:
         wav_data = base64.b64decode(base64_data)
-    except BaseException:
+    except BaseException:  # pylint: disable=broad-except
         return []
     if not wav_data:
         return []
@@ -124,7 +122,7 @@ def asr_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.str_]]]:
         audio_data = speech_data[index]
         try:
             segments = get_transcription(audio_data)
-        except BaseException as exc:
+        except BaseException as exc:  # pylint: disable=broad-except
             LOG.error("Error transcribing audio: %s", exc)
             results.append({"results": np.array([], dtype=bytes)})
             continue

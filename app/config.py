@@ -54,6 +54,7 @@ __all__ = [
     "TTS_MODEL_REPO",
     "TTS_MODEL_VOCODER",
     "TTS_MODEL_SAMPLE_RATE",
+    "TTS_MODEL_EMBEDDINGS_DATASET",
     "USE_FLASH_ATTENTION",
 ]
 
@@ -158,9 +159,9 @@ _TTS_MODEL_REPO = "microsoft/speecht5_tts"
 TTS_MODEL_REPO = os.environ.get(f"{ENV_PREFIX}_TTS_MODEL_REPO", "")
 if not TTS_MODEL_REPO:
     TTS_MODEL_REPO = _TTS_MODEL_REPO
-TTS_MODEL_VOCODER = os.getenv(f"{ENV_PREFIX}_TTS_VOCODER", "microsoft/speecht5_hifigan")
+TTS_MODEL_VOCODER = os.getenv(f"{ENV_PREFIX}_TTS_MODEL_VOCODER", "microsoft/speecht5_hifigan")
 TTS_MODEL_SAMPLE_RATE = int(os.getenv(f"{ENV_PREFIX}_TTS_SAMPLE_RATE", "16000"))
-
+TTS_MODEL_EMBEDDINGS_DATASET = os.getenv(f"{ENV_PREFIX}_TTS_EMBEDDINGS_DATASET", "Matthijs/cmu-arctic-xvectors")
 # LID
 LID_MODEL_NAME = os.getenv(f"{ENV_PREFIX}_LID_MODEL_NAME", "lid")
 LID_MODEL_VERSION = int(os.getenv(f"{ENV_PREFIX}_LID_MODEL_VERSION", "1"))

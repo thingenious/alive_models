@@ -50,15 +50,12 @@ def get_text_sentiment(text: str) -> List[Dict[str, str | float]]:
     List[Tuple[str, float]]
         The sentiment labels and scores
     """
-    # pylint: disable=broad-except,too-many-try-statements
     try:
         outputs = classifier(text)
-        LOG.debug("Outputs: %s", outputs)
-        # sorted_outputs = sorted(outputs, key=lambda x: x[0]["score"], reverse=True)
-        # prediction: Dict[str, str | float] = sorted_outputs[0][0]
-    except BaseException as exc:
+    except BaseException as exc:  # pylint: disable=broad-except
         LOG.error("Error getting prediction: %s", exc)
         outputs = []
+    LOG.debug("Outputs: %s", outputs)
     return outputs[0]
 
 
