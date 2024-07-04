@@ -82,7 +82,7 @@ docs = [
   'mdx_truly_sane_lists==1.3',
   'mkdocs==1.6.0',
   'mkdocs-include-markdown-plugin==6.2.1',
-  'mkdocs-material==9.5.27',
+  'mkdocs-material==9.5.28',
   'mkdocs-open-in-new-tab==1.0.3',
   'mkdocstrings[crystal,python]==0.25.1',
 ]
@@ -91,7 +91,8 @@ examples = [
   'httpx==0.27.0',
   'Pillow==10.4.0',
   'playsound==1.3.0',
-  'pygobject==3.48.2',
+  "pygobject==3.48.2; sys_platform == 'linux'",
+  "PyObjC==10.3.1; sys_platform == 'darwin'",
 ]
 # black
 [tool.black]
