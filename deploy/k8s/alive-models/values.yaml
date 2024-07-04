@@ -4,7 +4,7 @@ deployment:
   replicaCount: 1
   image:
     repository: localhost:5000/alive_models
-    tag: 0.0.1-cuda-12.4.1
+    tag: 0.0.1-cuda-12.5.0
     pullSecret: null
     pullPolicy: Always
   restartPolicy: Always

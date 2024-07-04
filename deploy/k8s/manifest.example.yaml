@@ -21,7 +21,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: alive-container
-          image: localhost:5000/alive_models:0.0.1-cuda-12.4.1
+          image: localhost:5000/alive_models:0.0.1-cuda-12.5.0
           imagePullPolicy: Always
           ports:
             - name: http
@@ -65,7 +65,7 @@ spec:
               mountPath: /opt/ml/data
       initContainers:
         - name: alive-init-container
-          image: localhost:5000/alive_models:0.0.1-cuda-12.4.1
+          image: localhost:5000/alive_models:0.0.1-cuda-12.5.0
           imagePullPolicy: Always
           args: ["/opt/ml/init.sh"]
           resources:
