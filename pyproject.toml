@@ -1,6 +1,6 @@
 [project]
 name = 'alive-models'
-description = 'ALIVE models deployment'
+description = 'PyTriton deployment of three-letter acronyms: ASR, NLP, SER, FER, LID, TTS.'
 authors = [
     {name= 'Panagiotis Kasnesis', email= 'pkasnesis@thingenious.io'},
     {name= 'Lazaros Toumanidis', email= 'laztoum@protonmail.com'}
