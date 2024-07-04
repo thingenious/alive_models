@@ -22,9 +22,9 @@ classifiers = [
 ]
 dependencies = [
     # additional (in Containerfile):
-    #  - MAX_JOBS=4 pip install flash-attn --no-build-isolation
-    #  - pip install git+https://github.com/huggingface/parler-tts.git
-    #  - for omegaconf: PyYAML (>=5.1.*) we get:
+    #  - flash-attn: MAX_JOBS=4 pip install flash-attn --no-build-isolation
+    #  - parler-tts: pip install git+https://github.com/huggingface/parler-tts.git
+    #  - for omegaconf (sub-dependency): PyYAML (>=5.1.*) we get:
     #        .* suffix can only be used with `==` or `!=` operators.
     #    one can git clone, checkout to 2.0.6, change '>=5.1.*' to '>=5.1' and install it:
     #    $> git clone https://github.com/omry/omegaconf -b v2.0.6
