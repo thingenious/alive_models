@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../static/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.27">
     
     
       
@@ -979,6 +979,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#lid-language-identification" class="md-nav__link">
+    <span class="md-ellipsis">
+      LID (Language Identification)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tts-text-to-speech" class="md-nav__link">
+    <span class="md-ellipsis">
+      TTS (Text-to-Speech)
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1088,6 +1106,24 @@
   <a href="#nlp-natural-language-processing" class="md-nav__link">
     <span class="md-ellipsis">
       NLP (Natural Language Processing)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lid-language-identification" class="md-nav__link">
+    <span class="md-ellipsis">
+      LID (Language Identification)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tts-text-to-speech" class="md-nav__link">
+    <span class="md-ellipsis">
+      TTS (Text-to-Speech)
     </span>
   </a>
   
@@ -1284,6 +1320,89 @@ Input Names:</p>
 <span class="c1">#       &quot;data&quot;: [</span>
 <span class="c1">#         &quot;[{\&quot;label\&quot;: \&quot;joy\&quot;, \&quot;score\&quot;: 0.8967722058296204}, {\&quot;label\&quot;: \&quot;excitement\&quot;, \&quot;score\&quot;: 0.037859223783016205}, {\&quot;label\&quot;: \&quot;admiration\&quot;, \&quot;score\&quot;: 0.02824225090444088}, {\&quot;label\&quot;: \&quot;neutral\&quot;, \&quot;score\&quot;: 0.027330709621310234}, {\&quot;label\&quot;: \&quot;gratitude\&quot;, \&quot;score\&quot;: 0.02417466975748539}, {\&quot;label\&quot;: \&quot;relief\&quot;, \&quot;score\&quot;: 0.022464321926236153}, {\&quot;label\&quot;: \&quot;approval\&quot;, \&quot;score\&quot;: 0.021864689886569977}, {\&quot;label\&quot;: \&quot;love\&quot;, \&quot;score\&quot;: 0.014073355123400688}, {\&quot;label\&quot;: \&quot;caring\&quot;, \&quot;score\&quot;: 0.011970801278948784}, {\&quot;label\&quot;: \&quot;amusement\&quot;, \&quot;score\&quot;: 0.009650727733969688}, {\&quot;label\&quot;: \&quot;optimism\&quot;, \&quot;score\&quot;: 0.006543426308780909}, {\&quot;label\&quot;: \&quot;realization\&quot;, \&quot;score\&quot;: 0.006097565405070782}, {\&quot;label\&quot;: \&quot;pride\&quot;, \&quot;score\&quot;: 0.005770173855125904}, {\&quot;label\&quot;: \&quot;annoyance\&quot;, \&quot;score\&quot;: 0.005515581928193569}, {\&quot;label\&quot;: \&quot;disapproval\&quot;, \&quot;score\&quot;: 0.0043140980415046215}, {\&quot;label\&quot;: \&quot;confusion\&quot;, \&quot;score\&quot;: 0.0036673692520707846}, {\&quot;label\&quot;: \&quot;sadness\&quot;, \&quot;score\&quot;: 0.0036307028494775295}, {\&quot;label\&quot;: \&quot;anger\&quot;, \&quot;score\&quot;: 0.003237350843846798}, {\&quot;label\&quot;: \&quot;desire\&quot;, \&quot;score\&quot;: 0.0026491915341466665}, {\&quot;label\&quot;: \&quot;curiosity\&quot;, \&quot;score\&quot;: 0.0022887929808348417}, {\&quot;label\&quot;: \&quot;surprise\&quot;, \&quot;score\&quot;: 0.002227753633633256}, {\&quot;label\&quot;: \&quot;disappointment\&quot;, \&quot;score\&quot;: 0.0017585484310984612}, {\&quot;label\&quot;: \&quot;nervousness\&quot;, \&quot;score\&quot;: 0.0016981943044811487}, {\&quot;label\&quot;: \&quot;grief\&quot;, \&quot;score\&quot;: 0.0011259763268753886}, {\&quot;label\&quot;: \&quot;remorse\&quot;, \&quot;score\&quot;: 0.0009548053494654596}, {\&quot;label\&quot;: \&quot;fear\&quot;, \&quot;score\&quot;: 0.0009162503411062062}, {\&quot;label\&quot;: \&quot;embarrassment\&quot;, \&quot;score\&quot;: 0.0008813319727778435}, {\&quot;label\&quot;: \&quot;disgust\&quot;, \&quot;score\&quot;: 0.0006478808936662972}]&quot;</span>
 <span class="c1">#       ]</span>
+<span class="c1">#     }</span>
+<span class="c1">#   ]</span>
+<span class="c1"># }</span>
+</code></pre></div>
+<h3 id="lid-language-identification">LID (Language Identification)</h3>
+<p>URL: <code>/v2/models/lid/versions/1/infer</code></p>
+<p>Input Names:</p>
+<ul>
+<li><code>data</code>: Text data</li>
+</ul>
+<p>Output Names:</p>
+<ul>
+<li><code>results</code>: JSON dumped predictions with the <code>label</code> and <code>score</code> for the detected language</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># ...</span>
+<span class="n">text_data</span> <span class="o">=</span> <span class="s2">&quot;I am very happy today!&quot;</span>
+<span class="n">request_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;datatype&quot;</span><span class="p">:</span> <span class="s2">&quot;BYTES&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">text_data</span><span class="p">]},</span>
+        <span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000/v2/models/lid/versions/1/infer&quot;</span>
+<span class="c1"># ...</span>
+<span class="c1"># Example output:</span>
+<span class="c1"># {</span>
+<span class="c1">#   &quot;id&quot;: &quot;193&quot;,</span>
+<span class="c1">#   &quot;model_name&quot;: &quot;lid&quot;,</span>
+<span class="c1">#   &quot;model_version&quot;: &quot;1&quot;,</span>
+<span class="c1">#   &quot;outputs&quot;: [</span>
+<span class="c1">#     {</span>
+<span class="c1">#       &quot;name&quot;: &quot;results&quot;,</span>
+<span class="c1">#       &quot;datatype&quot;: &quot;BYTES&quot;,</span>
+<span class="c1">#       &quot;shape&quot;: [1],</span>
+<span class="c1">#       &quot;data&quot;: [&quot;{\&quot;label\&quot;: \&quot;eng_Latn\&quot;, \&quot;score\&quot;: 1.0}&quot;]</span>
+<span class="c1">#     }</span>
+<span class="c1">#   ]</span>
+<span class="c1"># }</span>
+</code></pre></div>
+<h3 id="tts-text-to-speech">TTS (Text-to-Speech)</h3>
+<p>URL: <code>/v2/models/tts/versions/1/infer</code></p>
+<p>Input Names:</p>
+<ul>
+<li><code>data</code>: Text data</li>
+</ul>
+<p>Optional Parameters:</p>
+<ul>
+<li><code>speaker_index</code>: Index of the speaker to use for the TTS model</li>
+<li><code>speaker_description</code>: Description of the speaker to use for the TTS model (if <a href="https://github.com/huggingface/parler-tts">parler_tts</a> is used)</li>
+</ul>
+<p>Output Names:</p>
+<ul>
+<li><code>results</code>: Base64 encoded audio data (of wav in 16-bit PCM format)</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># ...</span>
+<span class="n">text_data</span> <span class="o">=</span> <span class="s2">&quot;I am very happy today!&quot;</span>
+<span class="n">speaker_index</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">request_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;datatype&quot;</span><span class="p">:</span> <span class="s2">&quot;BYTES&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">text_data</span><span class="p">]},</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;speaker_index&quot;</span><span class="p">:</span> <span class="n">speaker_index</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8000/v2/models/tts/versions/1/infer&quot;</span>
+<span class="c1"># ...</span>
+<span class="c1"># Example output:</span>
+<span class="c1"># {</span>
+<span class="c1">#   &quot;id&quot;: &quot;193&quot;,</span>
+<span class="c1">#   &quot;model_name&quot;: &quot;tts&quot;,</span>
+<span class="c1">#   &quot;model_version&quot;: &quot;1&quot;,</span>
+<span class="c1">#   &quot;outputs&quot;: [</span>
+<span class="c1">#     {</span>
+<span class="c1">#       &quot;name&quot;: &quot;results&quot;,</span>
+<span class="c1">#       &quot;datatype&quot;: &quot;BYTES&quot;,</span>
+<span class="c1">#       &quot;shape&quot;: [1],</span>
+<span class="c1">#       &quot;data&quot;: [&quot;base64_encoded_audio_data&quot;]</span>
 <span class="c1">#     }</span>
 <span class="c1">#   ]</span>
 <span class="c1"># }</span>
