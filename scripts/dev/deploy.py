@@ -184,11 +184,17 @@ def k8s_template() -> None:
     if template_name:
         cmd.append(f"--name-template={template_name}")
     cmd.extend(get_helm_values())
+    manifest_yaml = ROOT_DIR / "deploy" / "k8s" / "manifest.yaml"
+    if "--output-file" in sys.argv:
+        entry_index = sys.argv.index("--output-file")
+        if entry_index + 1 < len(sys.argv):
+            other_path = Path(sys.argv[entry_index + 1])
+            if other_path.parent.is_dir():
+                manifest_yaml = other_path
     with tempfile.TemporaryDirectory(delete=True) as tmp_folder:
         # cmd.append(tmp_folder)
         cmd.extend(["--output-dir", tmp_folder])
         run_command(cmd)
-        manifest_yaml = ROOT_DIR / "deploy" / "k8s" / "manifest.yaml"
         with open(manifest_yaml, "w", encoding="utf-8") as f_out:
             for file_path in Path(tmp_folder).rglob("*.yaml"):
                 with open(file_path, "r", encoding="utf-8") as f_in:

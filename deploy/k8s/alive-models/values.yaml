@@ -21,11 +21,11 @@ deployment:
       profile: mig-7g.40gb
     # modify if needed in helm arguments (e.g. --set deployment.resources.requests.memory=4G1)
     requests:
-      memory: 2Gi
-      cpu: 1
-    limits:
-      memory: 4Gi
+      memory: 8Gi
       cpu: 2
+    limits:
+      memory: 16Gi
+      cpu: 4
 service:
   type: LoadBalancer
   http:
@@ -45,7 +45,7 @@ service:
 pvc:
   enabled: true
   accessMode: ReadWriteOnce
-  size: 30Gi
+  size: 120Gi
 env:
   ALIVE_MODELS: "asr,fer,ser,nlp,tts,lid"
   ALIVE_MODELS_HTTP_PORT: 8000
