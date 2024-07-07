@@ -9,7 +9,7 @@ pydocstyle==6.3.0
 pylint-exit==1.2.0
 pylint==3.2.5
 python-dotenv==1.0.1
-ruff==0.5.0
+ruff==0.5.1
 toml==0.10.2
 types-PyYAML==6.0.12
 types-toml==0.10.8.20240310

@@ -12,12 +12,12 @@ omegaconf==2.0.6
 onnx==1.16.1
 onnxruntime-gpu==1.18.1
 openai-whisper==20231117
-optimum==1.21.1
+optimum==1.21.2
 orjson==3.10.6
 soundfile==0.12.1
 tensorflow==2.16.2
 tf-keras==2.16.0
 torch==2.3.1
 torchaudio==2.3.1
-ultralytics==8.2.49
+ultralytics==8.2.50
 whisperspeech==0.8
