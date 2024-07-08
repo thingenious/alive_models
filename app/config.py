@@ -55,6 +55,12 @@ __all__ = [
     "TTS_MODEL_VOCODER",
     "TTS_MODEL_SAMPLE_RATE",
     "TTS_MODEL_EMBEDDINGS_DATASET",
+    "TTS_MODEL_PITCH",
+    "TTS_MODEL_RATE",
+    "TTS_MODEL_VOLUME",
+    "TTS_MODEL_AZURE_KEY",
+    "TTS_MODEL_AZURE_REGION",
+    "TTS_MODEL_ORCA_KEY",
     "USE_FLASH_ATTENTION",
 ]
 
@@ -159,9 +165,25 @@ _TTS_MODEL_REPO = "microsoft/speecht5_tts"
 TTS_MODEL_REPO = os.environ.get(f"{ENV_PREFIX}_TTS_MODEL_REPO", "")
 if not TTS_MODEL_REPO:
     TTS_MODEL_REPO = _TTS_MODEL_REPO
+# speecht5
 TTS_MODEL_VOCODER = os.getenv(f"{ENV_PREFIX}_TTS_MODEL_VOCODER", "microsoft/speecht5_hifigan")
 TTS_MODEL_SAMPLE_RATE = int(os.getenv(f"{ENV_PREFIX}_TTS_SAMPLE_RATE", "16000"))
 TTS_MODEL_EMBEDDINGS_DATASET = os.getenv(f"{ENV_PREFIX}_TTS_EMBEDDINGS_DATASET", "Matthijs/cmu-arctic-xvectors")
+# orca
+TTS_MODEL_ORCA_KEY = os.getenv(
+    "ORCA_KEY", os.getenv(f"{ENV_PREFIX}_ORCA_KEY", os.getenv(f"{ENV_PREFIX}_TTS_ORCA_KEY", ""))
+)
+# edge_tts, azure
+TTS_MODEL_PITCH = os.getenv(f"{ENV_PREFIX}_TTS_MODEL_PITCH", "+0Hz")
+TTS_MODEL_RATE = os.getenv(f"{ENV_PREFIX}_TTS_MODEL_RATE", "+0%")
+TTS_MODEL_VOLUME = os.getenv(f"{ENV_PREFIX}_TTS_MODEL_VOLUME", "+0%")
+# azure speech-to-text
+TTS_MODEL_AZURE_KEY = os.getenv(
+    "AZURE_SPEECH_KEY", os.getenv(f"{ENV_PREFIX}_SPEECH_KEY", os.getenv(f"{ENV_PREFIX}_TTS_AZURE_KEY", ""))
+)
+TTS_MODEL_AZURE_REGION = os.getenv(
+    "AZURE_SPEECH_REGION", os.getenv(f"{ENV_PREFIX}_SPEECH_REGION", os.getenv(f"{ENV_PREFIX}_TTS_AZURE_REGION", ""))
+)
 # LID
 LID_MODEL_NAME = os.getenv(f"{ENV_PREFIX}_LID_MODEL_NAME", "lid")
 LID_MODEL_VERSION = int(os.getenv(f"{ENV_PREFIX}_LID_MODEL_VERSION", "1"))

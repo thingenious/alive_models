@@ -29,10 +29,15 @@ RUN apt update && \
     libpython3.10 \
     python3-pip \
     python3-dev \
+    python-is-python3 \
     curl \
+    wget \
     git \
     tzdata \
+    libasound2 \
     locales \
+    build-essential \
+    libssl-dev \
     ca-certificates \
     ffmpeg \
     openssl \

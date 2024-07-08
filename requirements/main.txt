@@ -1,7 +1,10 @@
 accelerate==0.32.1
+asgiref==3.8.1
+azure-cognitiveservices-speech==1.38.0
 ctranslate2==4.3.1
 cython==3.0.10
 deepface==0.0.92
+edge_tts==6.1.12
 fairseq==0.12.2
 faster-whisper==1.0.3
 fasttext==0.9.3
@@ -14,6 +17,7 @@ onnxruntime-gpu==1.18.1
 openai-whisper==20231117
 optimum==1.21.2
 orjson==3.10.6
+pvorca==0.2.3
 soundfile==0.12.1
 tensorflow==2.16.2
 tf-keras==2.16.0
