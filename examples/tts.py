@@ -7,6 +7,7 @@ import os
 import secrets
 import shutil
 import wave
+from datetime import datetime
 from typing import Any, Dict
 
 import httpx
@@ -21,12 +22,20 @@ def cli() -> argparse.ArgumentParser:
     parser.add_argument("--port", default=8000, type=int, help="Port of the server")
     parser.add_argument("--scheme", default="http", help="Scheme of the server")
     parser.add_argument("--speaker-index", type=int, help="Speaker index", default=None)
+    parser.add_argument("--speaker-description", type=str, help="Speaker description", default=None)
+    parser.add_argument("--speaker-name", type=str, help="Speaker name", default=None)
+    parser.add_argument("--speaker-gender", type=str, help="Speaker gender", default=None)
+    parser.add_argument("--speaker-language", type=str, help="Speaker language", default=None)
+    parser.add_argument("--speaker-locale", type=str, help="Speaker locale", default=None)
+    parser.add_argument("--speaker-pitch", type=str, help="Speaker pitch. (Default: +0Hz)", default=None)
+    parser.add_argument("--speaker-rate", type=str, help="Speaker rate. (Default: +0%)", default=None)
+    parser.add_argument("--speaker-volume", type=str, help="Speaker volume (Default: +0%)", default=None)
     parser.add_argument("--output-dir", type=str, help="Directory to store the speech", default=None)
     return parser
 
 
 # pylint: disable=too-many-locals
-def get_speech(url: str, text: str, speaker_index: int | None = None, output_dir: str | None = None) -> None:
+def get_speech(url: str, text: str, output_dir: str | None = None, **kwargs: Any) -> None:
     """Get the speech from the server."""
     with httpx.Client() as client:
         headers = {"Content-Type": "application/json"}
@@ -38,8 +47,11 @@ def get_speech(url: str, text: str, speaker_index: int | None = None, output_dir
             "id": str(request_id),
             "inputs": inputs,
         }
-        if speaker_index is not None:
-            request_data_dict["parameters"] = {"speaker_index": speaker_index}
+        parameters = {}
+        if kwargs:
+            parameters = {key: value for key, value in kwargs.items() if value}
+        if parameters:
+            request_data_dict["parameters"] = parameters
         request_data = json.dumps(request_data_dict)
         # pylint: disable=broad-except,too-many-try-statements
         try:
@@ -57,8 +69,8 @@ def get_speech(url: str, text: str, speaker_index: int | None = None, output_dir
         except BaseException as exc:
             print(f"Error: {exc}")
         else:
-            if speaker_index is not None and output_dir is not None and os.path.exists(output_dir):
-                filename = f"speaker_{speaker_index:06d}.wav"
+            if output_dir is not None and os.path.exists(output_dir):
+                filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}.wav"
                 dest = os.path.join(output_dir, filename)
                 shutil.copy("speech.wav", dest)
             playsound("speech.wav")
@@ -74,7 +86,20 @@ def main() -> None:
     model_name = "tts"
     model_version = 1
     url = f"{args.scheme}://{args.host}{_port}/v2/models/{model_name}/versions/{model_version}/infer"
-    get_speech(url, args.text, args.speaker_index, args.output_dir)
+    text = args.text
+    output_dir = args.output_dir
+    kwargs = {
+        "speaker_index": args.speaker_index,
+        "speaker_description": args.speaker_description,
+        "speaker_name": args.speaker_name,
+        "speaker_gender": args.speaker_gender,
+        "language": args.speaker_language,
+        "locale": args.speaker_locale,
+        "pitch": args.speaker_pitch,
+        "rate": args.speaker_rate,
+        "volume": args.speaker_volume,
+    }
+    get_speech(url, text, output_dir, **kwargs)
 
 
 if __name__ == "__main__":

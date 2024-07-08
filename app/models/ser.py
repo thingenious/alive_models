@@ -22,7 +22,7 @@ SER_OUTPUTS = [
     Tensor(name="results", dtype=bytes, shape=(1,)),
 ]
 
-# pylint: disable=wrong-import-position,wrong-import-order
+# pylint: disable=wrong-import-order,wrong-import-position  # after setting HF_HOME (in app.config)
 from transformers import pipeline  # noqa
 
 classifier = pipeline("audio-classification", model=SER_MODEL_REPO)

@@ -9,7 +9,7 @@ import numpy as np
 from huggingface_hub import hf_hub_download
 from numpy.typing import NDArray
 
-# pylint: disable=import-error,broad-except,too-many-try-statements
+# pylint: disable=import-error
 # pyright: reportMissingImports=false
 from pytriton.model_config import Tensor  # type: ignore
 from pytriton.proxy.types import Request  # type: ignore
@@ -45,13 +45,14 @@ def lid_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.str_]]]:
     results = []
     for index in range(total):
         input_text = speech_data[index]
+        # pylint: disable=broad-except,too-many-try-statements
         try:
             label, score = model.predict(to_string(input_text))
             result = {
                 "label": label[0].replace("__label__", ""),
                 "score": min(score[0], 1.0),
             }
-        except Exception as error:
+        except BaseException as error:
             LOG.error("Error processing request: %s", error)
             results.append({"results": np.array([], dtype=bytes)})
             continue

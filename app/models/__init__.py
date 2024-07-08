@@ -4,11 +4,12 @@ import sys
 from pathlib import Path
 from typing import Callable, Dict, List
 
-# pylint: disable=import-error,wrong-import-position,unused-import
+# pylint: disable=import-error
 # pyright: reportMissingImports=false
 from pytriton.model_config import Tensor  # type: ignore
 from pytriton.proxy.types import Request  # type: ignore
 
+# pylint: disable=unused-import
 # pyright: reportUnusedImport=false
 try:
     import app.config  # noqa
@@ -35,7 +36,7 @@ from app.config import (
 
 # pylint: disable=too-few-public-methods
 class ModelToLoad:
-    """Model configuration."""
+    """Model to load configuration."""
 
     def __init__(
         self,
@@ -55,6 +56,7 @@ class ModelToLoad:
 
 MODELS: List[ModelToLoad] = []
 
+# pylint: disable=import-outside-toplevel
 if "asr" in MODELS_TO_LOAD:
     from .asr import ASR_INPUTS, ASR_OUTPUTS, asr_infer_fn
 

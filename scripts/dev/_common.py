@@ -34,6 +34,7 @@ DEFAULT_CONTAINER_NAME = os.environ.get("CONTAINER_NAME", KEY_PREFIX.lower())
 #
 # https://catalog.ngc.nvidia.com/orgs/nvidia/containers/cuda/tags
 _IMAGE_CHOICES = (
+    "nvcr.io/nvidia/cuda:12.5.0-devel-ubuntu22.04",
     "nvcr.io/nvidia/cuda:12.4.1-devel-ubuntu22.04",
     "nvcr.io/nvidia/cuda:12.3.2-devel-ubuntu22.04",
     "nvcr.io/nvidia/cuda:12.2.2-devel-ubuntu22.04",
@@ -49,7 +50,7 @@ def set_container_base_image(base_image: str) -> None:
     """Set the base image in the containerfile.
 
     On podman this:
-        ARG BASE_IMAGE=nvcr.io/nvidia/cuda:12.4.1-devel-ubuntu22.04
+        ARG BASE_IMAGE=nvcr.io/nvidia/cuda:12.5.0-devel-ubuntu22.04
         FROM --platform=linux/amd64 $BASE_IMAGE
     seems to not respect the --build-arg (when 'ARG' is before 'FROM')
     """
@@ -207,7 +208,7 @@ def get_tag(base_image: str, tag: str | None) -> str:
         The tag to use, by default None.
     """
     if not tag:
-        # e.g. nvcr.io/nvidia/cuda:12.4.1-devel-ubuntu22.04
+        # base image e.g. nvcr.io/nvidia/cuda:12.5.0-devel-ubuntu22.04
         nv_tag = base_image.split(":")[-1]
         cuda_version = nv_tag.split("-")[0]
         return f"{get_version()}-cuda-{cuda_version}"

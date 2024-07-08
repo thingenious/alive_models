@@ -7,8 +7,6 @@ import tempfile
 from typing import Any, Dict, List
 
 import numpy as np
-
-# pylint: disable=wrong-import-position,wrong-import-order
 from deepface import DeepFace  # noqa
 from numpy.typing import NDArray
 
@@ -26,7 +24,7 @@ FER_OUTPUTS: List[Tensor] = [
 ]
 
 
-def _ensure_model() -> None:
+def _ensure_model_load() -> None:
     """Ensure the FER model is loaded."""
     random_img_array = np.random.rand(48, 48, 3) * 255
     random_img = np.uint8(random_img_array)
@@ -38,10 +36,9 @@ def _ensure_model() -> None:
     )
 
 
-_ensure_model()
+_ensure_model_load()
 
 
-# pylint: disable=broad-except,too-many-try-statements
 def get_image_analysis(data_string: NDArray[Any]) -> List[Dict[str, str | float]]:
     """Analyze an image.
 
@@ -55,6 +52,7 @@ def get_image_analysis(data_string: NDArray[Any]) -> List[Dict[str, str | float]
     List[Dict[str, str | float]]
         The predicted labels and scores.
     """
+    # pylint: disable=broad-except,too-many-try-statements
     try:
         base64_data = np.char.decode(data_string.astype("bytes"), "utf-8")
         img_data = base64.b64decode(base64_data)

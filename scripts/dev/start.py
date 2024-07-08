@@ -43,6 +43,14 @@ _DEFAULT_TTS_MODEL_NAME = os.environ.get(f"{KEY_PREFIX}_TTS_MODEL_NAME", "tts")
 _DEFAULT_TTS_MODEL_VERSION = int(os.environ.get(f"{KEY_PREFIX}_TTS_MODEL_VERSION", "1"))
 _DEFAULT_TTS_MODEL_REPO = os.environ.get(f"{KEY_PREFIX}_TTS_MODEL_REPO", "microsoft/speecht5_tts")
 _DEFAULT_TTS_MODEL_VOCODER = os.environ.get(f"{KEY_PREFIX}_TTS_VOCODER", "microsoft/speecht5_hifigan")
+_XVECTORS = "Matthijs/cmu-arctic-xvectors"
+_DEFAULT_TTS_MODEL_EMBEDDINGS_DATASET = os.environ.get(f"{KEY_PREFIX}_TTS_MODEL_EMBEDDINGS_DATASET", _XVECTORS)
+_DEFAULT_TTS_MODEL_RATE = os.environ.get(f"{KEY_PREFIX}_TTS_MODEL_RATE", "+0%")
+_DEFAULT_TTS_MODEL_PITCH = os.environ.get(f"{KEY_PREFIX}_TTS_MODEL_PITCH", "+0Hz")
+_DEFAULT_TTS_MODEL_VOLUME = os.environ.get(f"{KEY_PREFIX}_TTS_MODEL_VOLUME", "+0%")
+_DEFAULT_TTS_AZURE_REGION = os.environ.get(f"{KEY_PREFIX}_TTS_AZURE_REGION", "")
+_DEFAULT_TTS_AZURE_KEY = os.environ.get(f"{KEY_PREFIX}_TTS_AZURE_KEY", "")
+_DEFAULT_TTS_ORCA_KEY = os.environ.get(f"{KEY_PREFIX}_TTS_ORCA_KEY", "")
 
 
 def add_asr_cli_args(parser: argparse.ArgumentParser) -> None:
@@ -219,6 +227,13 @@ def add_tts_cli_args(parser: argparse.ArgumentParser) -> None:
     - `--tts-model-version`: TTS model version.
     - `--tts-model-repo`: TTS model repo.
     - `--tts-model-vocoder`: TTS vocoder.
+    - `--tts-model-embeddings-dataset`: TTS embeddings dataset.
+    - `--tts-model-rate`: TTS rate.
+    - `--tts-model-pitch`: TTS pitch.
+    - `--tts-model-volume`: TTS volume.
+    - `--tts-azure-region`: TTS Azure region.
+    - `--tts-azure-key`: TTS Azure key.
+    - `--tts-orca-key`: TTS Orca key.
     """
     tts_group = parser.add_argument_group("TTS model configuration")
     tts_group.add_argument(
@@ -244,6 +259,48 @@ def add_tts_cli_args(parser: argparse.ArgumentParser) -> None:
         type=str,
         default=_DEFAULT_TTS_MODEL_VOCODER,
         help=f"TTS vocoder, (default: {_DEFAULT_TTS_MODEL_VOCODER}).",
+    )
+    tts_group.add_argument(
+        "--tts-model-embeddings-dataset",
+        type=str,
+        default=_XVECTORS,
+        help=f"TTS embeddings dataset, (default: {_XVECTORS}).",
+    )
+    tts_group.add_argument(
+        "--tts-model-rate",
+        type=str,
+        default=_DEFAULT_TTS_MODEL_RATE,
+        help=f"TTS rate, (default: {_DEFAULT_TTS_MODEL_RATE}).",
+    )
+    tts_group.add_argument(
+        "--tts-model-pitch",
+        type=str,
+        default=_DEFAULT_TTS_MODEL_PITCH,
+        help=f"TTS pitch, (default: {_DEFAULT_TTS_MODEL_PITCH}).",
+    )
+    tts_group.add_argument(
+        "--tts-model-volume",
+        type=str,
+        default=_DEFAULT_TTS_MODEL_VOLUME,
+        help=f"TTS volume, (default: {_DEFAULT_TTS_MODEL_VOLUME}).",
+    )
+    tts_group.add_argument(
+        "--tts-azure-region",
+        type=str,
+        default=_DEFAULT_TTS_AZURE_REGION,
+        help=f"TTS Azure region, (default: {_DEFAULT_TTS_AZURE_REGION}).",
+    )
+    tts_group.add_argument(
+        "--tts-azure-key",
+        type=str,
+        default=_DEFAULT_TTS_AZURE_KEY,
+        help="TTS Azure key.",
+    )
+    tts_group.add_argument(
+        "--tts-orca-key",
+        type=str,
+        default=_DEFAULT_TTS_ORCA_KEY,
+        help="TTS Orca key.",
     )
 
 
@@ -523,20 +580,30 @@ def get_tts_env_args(args: argparse.Namespace) -> List[str]:
     List[str]
         The list of environment arguments.
     """
-    tts_model_name = args.tts_model_name
-    tts_model_version = args.tts_model_version
-    tts_model_repo = args.tts_model_repo
-    tts_model_vocoder = args.tts_model_vocoder
     env_args = [
         "-e",
-        f"{KEY_PREFIX}_TTS_MODEL_NAME={tts_model_name}",
+        f"{KEY_PREFIX}_TTS_MODEL_NAME={args.tts_model_name}",
         "-e",
-        f"{KEY_PREFIX}_TTS_MODEL_VERSION={tts_model_version}",
+        f"{KEY_PREFIX}_TTS_MODEL_VERSION={args.tts_model_version}",
         "-e",
-        f"{KEY_PREFIX}_TTS_MODEL_REPO={tts_model_repo}",
+        f"{KEY_PREFIX}_TTS_MODEL_REPO={args.tts_model_repo}",
         "-e",
-        f"{KEY_PREFIX}_TTS_MODEL_VOCODER={tts_model_vocoder}",
+        f"{KEY_PREFIX}_TTS_MODEL_VOCODER={args.tts_model_vocoder}",
+        "-e",
+        f"{KEY_PREFIX}_TTS_MODEL_EMBEDDINGS_DATASET={args.tts_model_embeddings_dataset}",
+        "-e",
+        f"{KEY_PREFIX}_TTS_MODEL_RATE={args.tts_model_rate}",
+        "-e",
+        f"{KEY_PREFIX}_TTS_MODEL_PITCH={args.tts_model_pitch}",
+        "-e",
+        f"{KEY_PREFIX}_TTS_MODEL_VOLUME={args.tts_model_volume}",
+        "-e",
+        f"{KEY_PREFIX}_TTS_AZURE_REGION={args.tts_azure_region}",
     ]
+    if args.tts_azure_key:
+        env_args.extend(["-e", f"{KEY_PREFIX}_TTS_AZURE_KEY={args.tts_azure_key}"])
+    if args.tts_orca_key:
+        env_args.extend(["-e", f"{KEY_PREFIX}_TTS_ORCA_KEY={args.tts_orca_key}"])
     return env_args
 
 

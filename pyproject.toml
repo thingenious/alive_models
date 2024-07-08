@@ -22,37 +22,40 @@ classifiers = [
 ]
 dependencies = [
     # additional (in Containerfile):
-    #  - MAX_JOBS=4 pip install flash-attn --no-build-isolation
-    #  - pip install git+https://github.com/huggingface/parler-tts.git
-    #  - for omegaconf: PyYAML (>=5.1.*):
+    #  - flash-attn: MAX_JOBS=4 pip install flash-attn --no-build-isolation
+    #  - parler-tts: pip install git+https://github.com/huggingface/parler-tts.git
+    #  - for omegaconf (sub-dependency): PyYAML (>=5.1.*) we get:
     #        .* suffix can only be used with `==` or `!=` operators.
-    # one can git clone, checkout to 2.0.6, change '>=5.1.*' to '>=5.1' and install it:
-    #   $> git clone https://github.com/omry/omegaconf -b v2.0.6
-    #   $> sed -i 's/PyYAML>=5.1.*/PyYAML>=5.1/' omegaconf/requirements/base.txt
-    #   $> pip install ./omegaconf
-    'accelerate==0.31.0',
+    #    one can git clone, checkout to 2.0.6, change '>=5.1.*' to '>=5.1' and install it:
+    #    $> git clone https://github.com/omry/omegaconf -b v2.0.6
+    #    $> sed -i 's/PyYAML>=5.1.*/PyYAML>=5.1/' omegaconf/requirements/base.txt
+    #    $> pip install ./omegaconf
+    'accelerate==0.32.1',
+    'asgiref==3.8.1',
+    'azure-cognitiveservices-speech==1.38.0',
     'ctranslate2==4.3.1',
     'cython==3.0.10',
     'deepface==0.0.92',
+    'edge_tts==6.1.12',
     'fairseq==0.12.2',
     'faster-whisper==1.0.3',
     'fasttext==0.9.3',
     'g2p-en==2.1.0',
     'numpy',
-    'nltk==3.8.1',
-    'orjson==3.10.5',
+    'orjson==3.10.6',
     'nvidia-pytriton==0.5.8; platform_system == "Linux" and platform_machine == "x86_64"',
     'omegaconf==2.0.6',
     'onnx==1.16.1',
     'onnxruntime-gpu==1.18.1',
     'openai-whisper==20231117',
-    'optimum==1.20.0',
+    'optimum==1.21.2',
+    'pvorca==0.2.3',
     'soundfile==0.12.1',
     'tensorflow==2.16.2',
     'tf-keras==2.16.0',
     'torch==2.3.1',
     'torchaudio==2.3.1',
-    'ultralytics==8.2.48',
+    'ultralytics==8.2.50',
     'whisperspeech==0.8',
 ]
 [project.urls]
@@ -71,7 +74,7 @@ dev = [
     'pylint==3.2.5',
     'pylint-exit==1.2.0',
     'python-dotenv==1.0.1',
-    'ruff==0.5.0',
+    'ruff==0.5.1',
     'toml==0.10.2',
     'types-PyYAML==6.0.12',
     'types-toml==0.10.8.20240310',

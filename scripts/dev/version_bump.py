@@ -30,12 +30,12 @@ FILES_TO_UPDATE = [
     ".env",
 ]
 # we might also need to re-generate the manifest.example.yaml in ./deploy/k8s
-# e.g.: image: localhost:5000/alive_models:1.0.1-cuda-12.4.1
+# e.g.: image: localhost:5000/alive_models:1.0.1-cuda-12.5.0
 
 PREFIXES_TO_LOOKUP = [
-    # e.g.: K8S_HELM_deployment_image_tag=1.0.1-cuda-12.4.1
+    # e.g.: K8S_HELM_deployment_image_tag=1.0.1-cuda-12.5.0
     "K8S_HELM_deployment_image_tag=",
-    # e.g.: CONTAINER_TAG=1.0.1-cuda-12.4.1
+    # e.g.: CONTAINER_TAG=1.0.1-cuda-12.5.0
     "CONTAINER_TAG=",
     # in chart.yaml:
     # version: 2.0.1
@@ -43,7 +43,7 @@ PREFIXES_TO_LOOKUP = [
     "version: ",
     "appVersion: ",
     # in deploy/k8s/alive-models/values.yaml:"
-    #     tag: 1.0.1-cuda-12.4.1"
+    #     tag: 1.0.1-cuda-12.5.0"
     "    tag: ",
 ]
 
@@ -64,7 +64,7 @@ def update_version_py(to: str) -> None:
 
 def update_tag(file_path: Path, tag: str) -> None:
     """Update tag in file."""
-    # e.g. old tag: 0.1.1-cuda-12.4.1 -> new tag: 0.1.2-cuda-12.4.1
+    # e.g. old tag: 0.1.1-cuda-12.5.0 -> new tag: 0.1.2-cuda-12.5.0
     with open(file_path, "r", encoding="utf-8") as file:
         lines = file.readlines()
 
@@ -72,8 +72,8 @@ def update_tag(file_path: Path, tag: str) -> None:
         for line in lines:
             for prefix in PREFIXES_TO_LOOKUP:
                 if line.startswith(prefix) and line.strip() != prefix:  # no empty values
-                    # keep the part after the tag e.g. (cuda-12.4.1):
-                    # CONTAINER_TAG=1.0.1-cuda-12.4.1 => CONTAINER_TAG=1.0.2-cuda-12.4.1
+                    # keep the part after the tag e.g. (cuda-12.5.0):
+                    # CONTAINER_TAG=1.0.1-cuda-12.5.0 => CONTAINER_TAG=1.0.2-cuda-12.5.0
                     without_prefix = line.split(prefix)[1]
                     old_tag = without_prefix.split("-")[0]
                     if old_tag.endswith("\n"):
@@ -114,13 +114,8 @@ def get_new_version(existing_version: str) -> str:
 
 
 def get_cuda_version() -> str:
-    """Get CUDA version from the BAE_IMAGE."""
-    # nvcr.io/nvidia/cuda:12.4.1-devel-ubuntu22.04
-    # nvcr.io/nvidia/cuda:12.3.2-devel-ubuntu22.04
-    # nvcr.io/nvidia/cuda:12.2.2-devel-ubuntu22.04
-    # nvcr.io/nvidia/cuda:12.1.1-devel-ubuntu22.04
-    # ALIVE_MODELS_BASE_IMAGE=nvcr.io/nvidia/cuda:12.4.1-devel-ubuntu22.04
-    base_image = os.environ.get("ALIVE_MODELS_BASE_IMAGE", "nvcr.io/nvidia/cuda:12.4.1-devel-ubuntu22.04")
+    """Get CUDA version from the BASE_IMAGE."""
+    base_image = os.environ.get("ALIVE_MODELS_BASE_IMAGE", "nvcr.io/nvidia/cuda:12.5.0-devel-ubuntu22.04")
     cuda_version = base_image.split(":")[1].split("-")[0]
     return cuda_version
 

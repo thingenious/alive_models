@@ -21,7 +21,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: alive-container
-          image: localhost:5000/alive_models:0.0.1-cuda-12.4.1
+          image: localhost:5000/alive_models:0.0.1-cuda-12.5.0
           imagePullPolicy: Always
           ports:
             - name: http
@@ -65,7 +65,7 @@ spec:
               mountPath: /opt/ml/data
       initContainers:
         - name: alive-init-container
-          image: localhost:5000/alive_models:0.0.1-cuda-12.4.1
+          image: localhost:5000/alive_models:0.0.1-cuda-12.5.0
           imagePullPolicy: Always
           args: ["/opt/ml/init.sh"]
           resources:
@@ -135,6 +135,14 @@ data:
   ALIVE_MODELS_TTS_MODEL_NAME: "tts"
   ALIVE_MODELS_TTS_MODEL_REPO: "microsoft/speecht5_tts"
   ALIVE_MODELS_TTS_MODEL_VERSION: "1"
+  ALIVE_MODELS_TTS_MODEL_VOCODER: microsoft/speecht5_hifigan
+  ALIVE_MODELS_TTS_MODEL_EMBEDDINGS_DATASET: Matthijs/cmu-arctic-xvectors
+  ALIVE_MODELS_TTS_MODEL_RATE: +0%
+  ALIVE_MODELS_TTS_MODEL_PITCH: +0Hz
+  ALIVE_MODELS_TTS_MODEL_VOLUME: +0%
+  ALIVE_MODELS_TTS_AZURE_REGION: ""
+  ALIVE_MODELS_TTS_AZURE_KEY: ""
+  ALIVE_MODELS_TTS_ORCA_KEY: ""
   NVIDIA_VISIBLE_DEVICES: "nvidia.com/gpu=all"
 ---
 # Source: alive-models/templates/pvc.yaml

@@ -240,8 +240,15 @@ Input Names:
 
 Optional Parameters:
 
-- `speaker_index`: Index of the speaker to use for the TTS model
+- `speaker_index`: Index of the speaker to use for the TTS model (if the backend supports it)
 - `speaker_description`: Description of the speaker to use for the TTS model (if [parler_tts](https://github.com/huggingface/parler-tts) is used)
+- `speaker_name`: Name of the speaker to use for the TTS model (if the backend supports it)
+- `speaker_gender`: Gender of the speaker to use for the TTS model (if the backend supports it)
+- `language`: Language of the speaker to use for the TTS model (if the backend supports it)
+- `locale`: Locale of the speaker to use for the TTS model (if the backend supports it)
+- `rate`: Rate of the speaker to use for the TTS model (if the backend supports it)
+- `pitch`: Pitch of the speaker to use for the TTS model (if the backend supports it)
+- `volume`: Volume of the speaker to use for the TTS model (if the backend supports it)
 
 Output Names:
 

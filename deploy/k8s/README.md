@@ -88,7 +88,7 @@ ${CONTAINER_COMMAND} run --rm -it --network=host \
 CONTAINER_COMMAND=podman
 ## tag if necessary to point to localhost:5000
 ## for example:
-# ${CONTAINER_COMMAND} tag alive_models:latest-cuda-12.4.1 localhost:5000/alive_models:latest-cuda-12.4.1
+# ${CONTAINER_COMMAND} tag alive_models:latest-cuda-12.5.0 localhost:5000/alive_models:latest-cuda-12.5.0
 ## push the image
-${CONTAINER_COMMAND} push localhost:5000/alive_models:latest-cuda-12.4.1
+${CONTAINER_COMMAND} push localhost:5000/alive_models:latest-cuda-12.5.0
 ```

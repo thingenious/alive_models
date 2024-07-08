@@ -29,8 +29,8 @@ class ParlerRunner:
         speaker_description = kwargs.get("speaker_description", "")
         if not speaker_description or not isinstance(speaker_description, str):
             speaker_description = (
-                "A male speaker with a slightly low-pitched voice delivers his words quite expressively, "
-                "in a very confined sounding environment with very clear audio quality. He speaks fast."
+                "A female speaker with a slightly low-pitched voice delivers her words quite expressively, "
+                "in a very confined sounding environment with very clear audio quality. She speaks fast."
             )
         try:
             input_ids = self.tokenizer(speaker_description, return_tensors="pt").input_ids.to(DEVICE)

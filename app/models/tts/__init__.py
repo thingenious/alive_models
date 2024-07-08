@@ -6,7 +6,7 @@ import logging
 import tempfile
 import wave
 from io import BytesIO
-from typing import Dict, List
+from typing import Any, Dict, List
 
 import numpy as np
 import soundfile as sf
@@ -34,6 +34,18 @@ TTS_OUTPUTS = [
 ]
 LOG = logging.getLogger(__name__)
 LOG.info("TTS_MODEL_REPO: %s", TTS_MODEL_REPO)
+
+TTS_PARAMS = {
+    "speaker_index": int,  # several backends
+    "speaker_description": str,  # parler
+    "speaker_name": str,  # azure, other?
+    "speaker_gender": str,  # azure, edge_tts, orca
+    "language": str,  # azure, edge_tts
+    "locale": str,  # azure, edge_tts
+    "rate": str,  # edge_tts
+    "pitch": str,  # edge_tts
+    "volume": str,  # edge_tts
+}
 
 
 # pylint: disable=import-outside-toplevel,too-many-return-statements
@@ -63,10 +75,90 @@ def get_runner() -> RunnerProtocol:
         from ._whisper import WhisperRunner
 
         return WhisperRunner()
+
+    if "edge" in TTS_MODEL_REPO:
+        from ._edge_tts import EdgeTTSRunner
+
+        return EdgeTTSRunner()
+
+    if "azure" in TTS_MODEL_REPO:
+        from ._azure import AzureTTSRunner
+
+        return AzureTTSRunner()
+
+    if "orca" in TTS_MODEL_REPO:
+        from ._orca import OrcaTTSRunner
+
+        return OrcaTTSRunner()
+
     raise ValueError(f"Unsupported TTS model repository: {TTS_MODEL_REPO}")
 
 
 runner: RunnerProtocol = get_runner()
+
+
+def get_parameters(request: Request) -> Dict[str, Any]:
+    """Get the speaker index and description from the request.
+
+    Parameters
+    ----------
+    request : Request
+        The request.
+
+    Returns
+    -------
+    Tuple[int | None, str | None]
+        The speaker index and description.
+    """
+    if not hasattr(request, "parameters"):
+        return {}
+    params = {}
+    for key, value_type in TTS_PARAMS.items():
+        if key in request.parameters:
+            try:
+                value = request.parameters[key]
+                if value is not None:
+                    params[key] = value_type(value)
+            except (ValueError, TypeError) as error:
+                LOG.debug("Invalid %s parameter: %s", key, error)
+    return params
+
+
+def get_speech(text: str, **kwargs: Any) -> Dict[str, NDArray[np.str_]]:
+    """Get the speech from the model.
+
+    Parameters
+    ----------
+    text : str
+        The text to synthesize.
+    **kwargs : Any
+        Additional keyword arguments.
+    Returns
+    -------
+    Dict[str, NDArray[np.str_]]
+        The speech as a base64 encoded string.
+    """
+    speech = runner(text, **kwargs)
+    if speech is None:
+        return {"results": np.array([""], dtype=bytes)}
+    if isinstance(speech, bytes):
+        with BytesIO(speech) as buffer:
+            with wave.open(buffer, "rb") as wav_file:
+                speech = wav_file.readframes(wav_file.getnframes())
+        speech_dump = base64.b64encode(speech)
+        result = {
+            "results": np.array([speech_dump], dtype=bytes),
+        }
+        return result
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=True) as temp_file:
+        sf.write(file=temp_file.name, data=speech, samplerate=TTS_MODEL_SAMPLE_RATE)
+        with wave.open(temp_file.name, "rb") as wav_file:
+            speech = wav_file.readframes(wav_file.getnframes())
+    speech_dump = base64.b64encode(speech)
+    result = {
+        "results": np.array([speech_dump], dtype=bytes),
+    }
+    return result
 
 
 def tts_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.str_]]]:
@@ -84,42 +176,14 @@ def tts_infer_fn(requests: List[Request]) -> List[Dict[str, NDArray[np.str_]]]:
     """
     text_data = [request.data["data"] for request in requests]
     results = []
-    for index, _ in enumerate(text_data):
+    for index, entry in enumerate(text_data):
+        text = to_string(entry)
         request = requests[index]
-        speaker_index = None
-        speaker_description = None
-        if hasattr(request, "parameters") and "speaker_index" in request.parameters:
-            try:
-                speaker_index = int(request.parameters["speaker_index"])
-            except (ValueError, TypeError) as error:
-                LOG.error("Invalid speaker_index parameter: %s", error)
-                speaker_index = None
-        if hasattr(request, "parameters") and "speaker_description" in request.parameters:
-            speaker_description = request.parameters["speaker_description"]
-            if not isinstance(speaker_description, str):
-                speaker_description = None
-        text = to_string(text_data[index])
-        speech = runner(text, speaker_index=speaker_index, speaker_description=speaker_description)
-        if speech is None:
-            results.append({"results": np.array([""], dtype=bytes)})
-            continue
-        if isinstance(speech, bytes):
-            with BytesIO(speech) as buffer:
-                with wave.open(buffer, "rb") as wav_file:
-                    speech = wav_file.readframes(wav_file.getnframes())
-            speech_dump = base64.b64encode(speech)
-            result = {
-                "results": np.array([speech_dump], dtype=bytes),
-            }
-            results.append(result)
-            continue
-        with tempfile.NamedTemporaryFile(suffix=".wav", delete=True) as temp_file:
-            sf.write(file=temp_file.name, data=speech, samplerate=TTS_MODEL_SAMPLE_RATE)
-            with wave.open(temp_file.name, "rb") as wav_file:
-                speech = wav_file.readframes(wav_file.getnframes())
-        speech_dump = base64.b64encode(speech)
-        result = {
-            "results": np.array([speech_dump], dtype=bytes),
-        }
+        request_params = get_parameters(request)
+        try:
+            result = get_speech(text=text, **request_params)
+        except BaseException as error:
+            LOG.error("Error synthesizing speech: %s", error)
+            result = {"results": np.array([""], dtype=bytes)}
         results.append(result)
     return results
