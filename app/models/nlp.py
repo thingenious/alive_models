@@ -54,7 +54,7 @@ def get_text_sentiment(text: str) -> List[Dict[str, str | float]]:
         outputs = classifier(text)
     except BaseException as exc:  # pylint: disable=broad-except
         LOG.error("Error getting prediction: %s", exc)
-        outputs = []
+        outputs = [[]]
     LOG.debug("Outputs: %s", outputs)
     return outputs[0]
 
