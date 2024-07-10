@@ -71,7 +71,7 @@ class EdgeTTSRunner:
     ) -> bytes | NDArray[np.float_] | None:
         """Get the speech using the Edge-tts model."""
         communicate: edge_tts.Communicate = edge_tts.Communicate(
-            text=text, voice=voice, rate=rate, pitch=pitch, volume=volume
+            text=text, voice=voice["Name"], rate=rate, pitch=pitch, volume=volume
         )
         with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as temp_file:
             mp3_path = temp_file.name
