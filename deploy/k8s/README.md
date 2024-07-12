@@ -1,7 +1,7 @@
 # K8s deployment
 
 A helm chart for the deployment of the project is provided in the root's `deploy/k8s/alive-models` directory.  
-You can override any of the values in the [values.yaml](./models/values.yaml) file with the `--set` flag.  
+You can override any of the values in the [values.yaml](./alive-models/values.yaml) file with the `--set` flag.  
 A generated example manifest yaml is also available in the `deploy/k8s/manifest.example.yaml` file: [./manifest.example.yaml](./manifest.example.yaml).  
 The values are also available in the `.env.example` file in the root of the project.  
 They (a copy of them in `.env`) can be used if using the short commands provided in the [Makefile](../../Makefile).  
