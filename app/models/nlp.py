@@ -50,8 +50,10 @@ def get_text_sentiment(text: str) -> List[Dict[str, str | float]]:
     List[Tuple[str, float]]
         The sentiment labels and scores
     """
+    if not text:
+        return []
     try:
-        outputs = classifier(text)
+        outputs = classifier([text])
     except BaseException as exc:  # pylint: disable=broad-except
         LOG.error("Error getting prediction: %s", exc)
         outputs = [[]]
