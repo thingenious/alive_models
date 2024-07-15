@@ -101,6 +101,7 @@ metadata:
   namespace: alive
 data:
   ALIVE_MODELS: "asr,fer,ser,nlp,tts,lid"
+  USE_FLASH_ATTENTION: "true"
   ALIVE_MODELS_ALLOW_GRPC: "true"
   ALIVE_MODELS_ALLOW_HTTP: "true"
   ALIVE_MODELS_ALLOW_METRICS: "true"

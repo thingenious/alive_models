@@ -625,9 +625,12 @@ def get_environment_args(args: argparse.Namespace) -> List[str]:
     metrics_port = args.metrics_port
     sagemaker_port = args.sagemaker_port
     prefix_models = os.environ.get(KEY_PREFIX, "")
+    use_flash_attention = os.environ.get("USE_FLASH_ATTENTION", "true").lower() != "false"
     env_args = [
         "-e",
         "PYTHONUNBUFFERED=1",
+        "-e",
+        f"USE_FLASH_ATTENTION={str(use_flash_attention).lower()}",
         "-e",
         f"{KEY_PREFIX}_HTTP_PORT={http_port}",
         "-e",
